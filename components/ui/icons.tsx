@@ -153,7 +153,7 @@ export const UserIcon = (p: IconProps) => (
   </Svg>
 );
 
-/* ---- Social (filled, currentColor) ------------------------------------- */
+/* ---- Social & Solid icons (filled, currentColor) ---------------------- */
 
 function SolidSvg({ size = 20, children, ...props }: IconProps & { children: React.ReactNode }) {
   return (
@@ -170,6 +170,51 @@ function SolidSvg({ size = 20, children, ...props }: IconProps & { children: Rea
     </svg>
   );
 }
+
+export const SolidMapPinIcon = (p: IconProps) => (
+  <SolidSvg {...p}>
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" />
+  </SolidSvg>
+);
+
+export const SolidPhoneIcon = (p: IconProps) => (
+  <SolidSvg {...p}>
+    <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1.003 1.003 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+  </SolidSvg>
+);
+
+export const SolidMailIcon = (p: IconProps) => (
+  <SolidSvg {...p}>
+    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+  </SolidSvg>
+);
+
+export const SolidClockIcon = ({ size = 20, ...props }: IconProps) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+    {...props}
+  >
+    <circle cx="12" cy="12" r="10" fill="currentColor" />
+    <path
+      d="M12 7v5.5h4"
+      stroke="#FAF6F0"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const XIcon = (p: IconProps) => (
+  <SolidSvg {...p}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </SolidSvg>
+);
 
 export const FacebookIcon = (p: IconProps) => (
   <SolidSvg {...p}>

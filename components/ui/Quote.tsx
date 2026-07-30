@@ -1,22 +1,24 @@
 /**
- * Decorative pull-quote used between sections on the Home page.
+ * Decorative pull-quote used in Hero and between sections.
  */
 export function Quote({
   text,
   author,
   className,
 }: {
-  text: string;
-  author: string;
+  text?: string;
+  author?: string;
   className?: string;
 }) {
   return (
     <figure className={`flex flex-col items-center text-center ${className ?? ""}`}>
-      <blockquote className="w-full max-w-2xl text-quote text-green-700">
-        &ldquo;{text}&rdquo;
+      <blockquote className="w-full max-w-lg font-heading text-[20px] sm:text-[22px] text-[#485b50] tracking-[0.11em] leading-relaxed">
+        &ldquo;We don&apos;t have to do all of it alone.
+        <br />
+        We were never meant to.&rdquo;
       </blockquote>
-      <figcaption className="mt-3 text-body-base text-green-600">
-        &mdash; {author}
+      <figcaption className="w-full max-w-lg pt-4 font-heading text-[20px] sm:text-[22px] text-[#485b50] tracking-[0.11em] leading-relaxed">
+        -Bren&eacute; Brown
       </figcaption>
     </figure>
   );

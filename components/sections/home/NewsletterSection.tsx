@@ -41,7 +41,7 @@ export function NewsletterSection() {
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
 
         {/* ── Inner card ── */}
-        <div className="relative overflow-hidden rounded-[28px] bg-[#faf6f0] shadow-ds3">
+        <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#ffffff] via-[#faf6f0] to-[#f4efe6] border border-camel-400/60 shadow-ds3">
 
           {/* stayConnected2 — botanical branch, bottom-left INSIDE the card */}
           <Image
@@ -53,42 +53,20 @@ export function NewsletterSection() {
             className="pointer-events-none absolute bottom-0 left-0 z-0 hidden opacity-70 lg:block"
           />
 
-          {/* Card content — above the branch illustration */}
-          <div className="relative z-10 grid gap-10 p-10 lg:grid-cols-2 lg:items-center lg:gap-16 lg:p-14">
+          {/* Card content — aligned to top (lg:items-start) */}
+          <div className="relative z-10 grid gap-10 p-10 lg:grid-cols-2 lg:items-start lg:gap-16 lg:p-14">
 
-            {/* Left: heading + description + socials */}
+            {/* Left: heading + description starting from top */}
             <div className="flex flex-col items-start gap-4">
               <h2 className="font-heading text-h2 text-green-950">
                 {newsletter.heading}
               </h2>
-              <p className="max-w-[340px] text-body-base text-green-700/80">
+              <p className="max-w-[360px] text-body-base text-green-700/80 leading-relaxed">
                 {newsletter.description}
               </p>
-
-              {/* Social icons */}
-              <div className="mt-2 flex items-center gap-4">
-                <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook"
-                  className="flex size-8 items-center justify-center rounded-full text-green-800 transition-colors hover:text-green-950"
-                >
-                  <FacebookIcon size={20} />
-                </a>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                  className="flex size-8 items-center justify-center rounded-full text-green-800 transition-colors hover:text-green-950"
-                >
-                  <InstagramIcon size={20} />
-                </a>
-              </div>
             </div>
 
-            {/* Right: form */}
+            {/* Right: form + note + social icons at bottom */}
             {submitted ? (
               <p
                 role="status"
@@ -108,7 +86,7 @@ export function NewsletterSection() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={newsletter.emailLabel}
                     aria-invalid={!!error}
-                    className="w-full rounded-xl border border-camel-600/30 bg-white px-5 py-3.5 text-body-base text-green-950 outline-none placeholder:text-green-700/40 focus:border-green-400 focus:ring-2 focus:ring-green-400/20"
+                    className="w-full rounded-xl border border-camel-500/30 bg-[#faf6f0]/70 px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-green-700/40 focus:border-green-400 focus:ring-2 focus:ring-green-400/20"
                   />
                 </label>
 
@@ -120,7 +98,7 @@ export function NewsletterSection() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={newsletter.nameLabel}
-                    className="w-full rounded-xl border border-camel-600/30 bg-white px-5 py-3.5 text-body-base text-green-950 outline-none placeholder:text-green-700/40 focus:border-green-400 focus:ring-2 focus:ring-green-400/20"
+                    className="w-full rounded-xl border border-camel-500/30 bg-[#faf6f0]/70 px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-green-700/40 focus:border-green-400 focus:ring-2 focus:ring-green-400/20"
                   />
                 </label>
 
@@ -133,15 +111,37 @@ export function NewsletterSection() {
                   type="submit"
                   variant="primary"
                   size="lg"
-                  className="w-fit !bg-green-900 hover:!bg-green-950"
+                  className="w-fit !bg-[#34483d] hover:!bg-green-950 text-white font-semibold rounded-xl px-7 py-3 mt-1"
                 >
                   {newsletter.ctaLabel}
                 </Button>
 
-                {/* Note */}
-                <p className="max-w-[340px] text-body-sm text-green-700/70">
+                {/* Privacy note */}
+                <p className="max-w-[360px] text-body-sm text-green-700/70 leading-normal mt-1">
                   {newsletter.note}
                 </p>
+
+                {/* Social icons — ON RIGHT SECTION BELOW PRIVACY NOTE */}
+                <div className="mt-3 flex items-center gap-3">
+                  <a
+                    href="https://facebook.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    className="flex size-7 items-center justify-center rounded-full bg-[#efe8de] text-green-950 transition-colors hover:bg-camel-300"
+                  >
+                    <FacebookIcon size={16} />
+                  </a>
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    className="flex size-7 items-center justify-center rounded-full bg-[#efe8de] text-green-950 transition-colors hover:bg-camel-300"
+                  >
+                    <InstagramIcon size={16} />
+                  </a>
+                </div>
               </form>
             )}
           </div>

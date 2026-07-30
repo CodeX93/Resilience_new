@@ -5,8 +5,8 @@ import Image from "next/image";
 import { journalCategories, journalPosts } from "@/data/journal";
 import { BlogCard } from "@/components/ui/BlogCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
-import offerLeafLeft from "@/public/images/decor/offer-leaf-left.svg";
-import offerLeaves from "@/public/images/decor/offer-leaves.svg";
+import journalSprigA from "@/public/images/decor/journal-sprig-a.svg";
+import journalSprigB from "@/public/images/decor/journal-sprig-b.svg";
 
 export function JournalPostsGridSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -20,20 +20,24 @@ export function JournalPostsGridSection() {
 
   return (
     <section className="relative overflow-hidden bg-[#f7f0e7] py-12 lg:py-20">
-      {/* Decorative leaf branch left */}
+      {/* Decorative sprig left (Group (1).svg) */}
       <Image
-        src={offerLeafLeft}
+        src={journalSprigA}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute left-0 top-4 z-0 hidden w-[160px] opacity-70 lg:block"
+        width={184}
+        height={300}
+        className="pointer-events-none absolute left-0 top-0 z-0 hidden w-[180px] opacity-70 lg:block"
       />
 
-      {/* Decorative leaf branch right */}
+      {/* Decorative sprig right (Group (2).svg) */}
       <Image
-        src={offerLeaves}
+        src={journalSprigB}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute right-0 top-12 z-0 hidden w-[200px] opacity-60 lg:block"
+        width={197}
+        height={300}
+        className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[190px] opacity-70 lg:block"
       />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
@@ -69,82 +73,62 @@ export function JournalPostsGridSection() {
           ))}
         </div>
 
-        {/* Pagination Bar */}
-        <div className="mt-14 flex items-center justify-center gap-2">
-          {/* Previous Page Arrow */}
-          <button
-            type="button"
-            aria-label="Previous page"
-            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-            className="flex size-9 items-center justify-center rounded-full border border-camel-300 bg-white/90 text-green-800 transition hover:bg-camel-200/80"
-          >
-            <ChevronLeftIcon size={16} />
-          </button>
+        {/* ── Pagination Bar Container ── */}
+        <div className="mt-14 flex justify-center">
+          <div className="inline-flex items-center gap-4 rounded-[20px] border border-camel-400/50 bg-[#faf6f0]/90 px-4 py-2 shadow-ds1">
+            {/* Previous Page Arrow */}
+            <button
+              type="button"
+              aria-label="Previous page"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              className="flex size-9 items-center justify-center rounded-full bg-[#efe8de] text-green-950/40 transition disabled:opacity-70"
+            >
+              <ChevronLeftIcon size={16} />
+            </button>
 
-          {/* Page Number 1 */}
-          <button
-            type="button"
-            onClick={() => setCurrentPage(1)}
-            className={`flex size-9 items-center justify-center rounded-full text-body-sm font-bold transition ${
-              currentPage === 1
-                ? "bg-green-950 text-white shadow-ds1"
-                : "bg-white/80 text-green-950 hover:bg-camel-200"
-            }`}
-          >
-            1
-          </button>
+            {/* Page Numbers 1, 2, 3 */}
+            {[1, 2, 3].map((page) => (
+              <button
+                key={page}
+                type="button"
+                onClick={() => setCurrentPage(page)}
+                className={`font-heading text-body-base transition-all ${
+                  currentPage === page
+                    ? "flex size-9 items-center justify-center rounded-full bg-green-950 text-white font-semibold shadow-ds1"
+                    : "px-2.5 text-green-950 hover:text-green-700 font-medium"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
 
-          {/* Page Number 2 */}
-          <button
-            type="button"
-            onClick={() => setCurrentPage(2)}
-            className={`flex size-9 items-center justify-center rounded-full text-body-sm font-bold transition ${
-              currentPage === 2
-                ? "bg-green-950 text-white shadow-ds1"
-                : "bg-white/80 text-green-950 hover:bg-camel-200"
-            }`}
-          >
-            2
-          </button>
+            {/* Ellipsis */}
+            <span className="font-heading text-body-base text-green-950 px-1 font-medium">...</span>
 
-          {/* Page Number 3 */}
-          <button
-            type="button"
-            onClick={() => setCurrentPage(3)}
-            className={`flex size-9 items-center justify-center rounded-full text-body-sm font-bold transition ${
-              currentPage === 3
-                ? "bg-green-950 text-white shadow-ds1"
-                : "bg-white/80 text-green-950 hover:bg-camel-200"
-            }`}
-          >
-            3
-          </button>
+            {/* Page Number 9 */}
+            <button
+              type="button"
+              onClick={() => setCurrentPage(9)}
+              className={`font-heading text-body-base transition-all ${
+                currentPage === 9
+                  ? "flex size-9 items-center justify-center rounded-full bg-green-950 text-white font-semibold shadow-ds1"
+                  : "px-2.5 text-green-950 hover:text-green-700 font-medium"
+              }`}
+            >
+              9
+            </button>
 
-          {/* Ellipsis */}
-          <span className="px-1 text-body-sm text-green-700/60 font-bold">...</span>
-
-          {/* Page Number 9 */}
-          <button
-            type="button"
-            onClick={() => setCurrentPage(9)}
-            className={`flex size-9 items-center justify-center rounded-full text-body-sm font-bold transition ${
-              currentPage === 9
-                ? "bg-green-950 text-white shadow-ds1"
-                : "bg-white/80 text-green-950 hover:bg-camel-200"
-            }`}
-          >
-            9
-          </button>
-
-          {/* Next Page Arrow */}
-          <button
-            type="button"
-            aria-label="Next page"
-            onClick={() => setCurrentPage((p) => Math.min(p + 1, 9))}
-            className="flex size-9 items-center justify-center rounded-full border border-camel-300 bg-white/90 text-green-800 transition hover:bg-camel-200/80"
-          >
-            <ChevronRightIcon size={16} />
-          </button>
+            {/* Next Page Arrow */}
+            <button
+              type="button"
+              aria-label="Next page"
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, 9))}
+              className="flex size-9 items-center justify-center rounded-full bg-mint-300/80 text-green-950 transition hover:bg-mint-300"
+            >
+              <ChevronRightIcon size={16} />
+            </button>
+          </div>
         </div>
 
       </div>

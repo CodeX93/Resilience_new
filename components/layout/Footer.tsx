@@ -1,146 +1,184 @@
 import Link from "next/link";
 import Image from "next/image";
-import {
-  socialLinks,
-  footerContact,
-  legalLinks,
-  copyright,
-  type SocialPlatform,
-} from "@/data/navigation";
+import { footerContact } from "@/data/navigation";
 import {
   FacebookIcon,
-  InstagramIcon,
+  XIcon,
   LinkedinIcon,
-  YoutubeIcon,
+  InstagramIcon,
 } from "@/components/ui/icons";
 import footerLogo from "@/public/images/brand/logo-footer.png";
+import stayConnected1 from "@/public/images/decor/stayConnected1.svg";
 
-const socialIcon: Record<SocialPlatform, typeof FacebookIcon> = {
-  facebook: FacebookIcon,
-  instagram: InstagramIcon,
-  linkedin: LinkedinIcon,
-  youtube: YoutubeIcon,
-};
-
-/** Small accent bar shown before a footer column heading. */
+/** Column Heading with white vertical accent bar */
 function ColumnHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-end gap-3">
-      <span className="mb-1 block h-5 w-px bg-white/60" aria-hidden />
-      <h2 className="text-body-sm-bold text-white">{children}</h2>
+    <div className="flex items-center gap-2.5">
+      <span className="block h-4 w-[2px] rounded-full bg-white" aria-hidden />
+      <h2 className="font-heading text-body-base font-bold text-white tracking-wide">
+        {children}
+      </h2>
     </div>
   );
 }
 
-/**
- * Site footer — rendered ONCE from app/layout.tsx.
- * Source: Figma Home Footer (1724:3434).
- */
 export function Footer() {
   return (
-    <footer className="bg-green-700 text-white">
-      <div className="mx-auto max-w-[1440px] px-6 py-14 sm:px-10 lg:px-20 lg:py-20">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[305px_1fr_1fr] lg:gap-16">
-          {/* Brand + social card */}
-          <div className="flex flex-col gap-10 rounded-[20px] bg-white-5 p-5">
-            <Link href="/" aria-label="Resilience Counselling — home">
+    <footer className="relative overflow-hidden bg-[#2d4236] text-white pt-14 pb-10 lg:pt-16 lg:pb-12">
+      {/* Botanical leaves watermark overlay at far right */}
+      <Image
+        src={stayConnected1}
+        alt=""
+        aria-hidden
+        width={360}
+        height={320}
+        className="pointer-events-none absolute right-0 bottom-0 z-0 hidden w-[360px] opacity-20 mix-blend-soft-light lg:block"
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-16">
+        
+        {/* Main Footer Grid */}
+        <div className="grid gap-10 lg:grid-cols-[260px_1fr_1.3fr] lg:gap-14 lg:items-start">
+          
+          {/* Column 1: Rounded Card Container with Brand Logo & Social Badges */}
+          <div className="flex flex-col justify-between rounded-[20px] bg-[#385042] border border-white/10 p-6 h-[210px] shadow-sm">
+            {/* Logo */}
+            <Link href="/" aria-label="Resilience Counselling — Home" className="block text-left">
               <Image
                 src={footerLogo}
                 alt="Resilience Counselling"
-                width={163}
-                height={133}
-                className="h-auto w-[130px]"
+                width={130}
+                height={100}
+                className="h-auto w-[125px] object-contain"
               />
             </Link>
-            <ul className="flex items-center gap-4">
-              {socialLinks.map((s) => {
-                const Icon = socialIcon[s.platform];
-                return (
-                  <li key={s.platform}>
-                    <Link
-                      href={s.href}
-                      aria-label={s.label}
-                      className="flex h-[30px] w-[30px] items-center justify-center text-white transition-opacity hover:opacity-80"
-                    >
-                      <Icon size={28} />
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+
+            {/* Social Icon Badges (Facebook, X, LinkedIn, Instagram) */}
+            <div className="flex items-center gap-2.5">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="flex size-8 items-center justify-center rounded-full bg-white/15 text-white/90 transition-all hover:bg-white/30 hover:text-white"
+              >
+                <FacebookIcon size={14} />
+              </a>
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X (Twitter)"
+                className="flex size-8 items-center justify-center rounded-full bg-white/15 text-white/90 transition-all hover:bg-white/30 hover:text-white"
+              >
+                <XIcon size={13} />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="flex size-8 items-center justify-center rounded-full bg-white/15 text-white/90 transition-all hover:bg-white/30 hover:text-white"
+              >
+                <LinkedinIcon size={13} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="flex size-8 items-center justify-center rounded-full bg-white/15 text-white/90 transition-all hover:bg-white/30 hover:text-white"
+              >
+                <InstagramIcon size={14} />
+              </a>
+            </div>
           </div>
 
-          {/* Location & Timing */}
-          <div>
-            <ColumnHeading>Location &amp; Timing</ColumnHeading>
-            <dl className="mt-8 flex flex-col gap-7 text-body-sm">
-              <div className="flex flex-col gap-1">
-                <dt className="text-body-sm-bold text-white">Office Hours:</dt>
-                <dd className="text-white-60">{footerContact.officeHours}</dd>
+          {/* Column 2: Location & Timing */}
+          <div className="flex flex-col pt-1">
+            <ColumnHeading>Location &amp; TIMing</ColumnHeading>
+
+            <dl className="mt-6 flex flex-col gap-5 font-heading text-body-sm">
+              <div>
+                <dt className="font-bold text-white">Office Hours:</dt>
+                <dd className="mt-1 text-white/75 leading-relaxed">
+                  Monday to Friday, 10:00 AM to 6:00 PM
+                </dd>
               </div>
-              <div className="flex flex-col gap-1">
-                <dt className="text-body-sm-bold text-white">Address:</dt>
-                <dd className="max-w-[272px] text-white-60">
-                  {footerContact.address}
+
+              <div>
+                <dt className="font-bold text-white">Address:</dt>
+                <dd className="mt-1 text-white/75 leading-relaxed max-w-[280px]">
+                  111 Waterloo St Unit 406 London, Ontario, Canada N6B 2M4
                 </dd>
               </div>
             </dl>
           </div>
 
-          {/* Contact */}
-          <div>
+          {/* Column 3: Contact */}
+          <div className="flex flex-col pt-1">
             <ColumnHeading>Contact</ColumnHeading>
-            <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-7 text-body-sm">
-              <div className="flex flex-col gap-1">
-                <dt className="text-body-sm-bold text-white">Email:</dt>
-                <dd>
-                  <a href={footerContact.emailHref} className="text-white-60 hover:text-white">
-                    {footerContact.email}
+
+            <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 font-heading text-body-sm">
+              <div>
+                <dt className="font-bold text-white">Email:</dt>
+                <dd className="mt-1">
+                  <a href={footerContact.emailHref} className="text-white/75 hover:text-white transition-colors">
+                    mail@resiliencec.com
                   </a>
                 </dd>
               </div>
-              <div className="flex flex-col gap-1">
-                <dt className="text-body-sm-bold text-white">Phone:</dt>
-                <dd>
-                  <a href={footerContact.phoneHref} className="text-white-60 hover:text-white">
-                    {footerContact.phone}
+
+              <div>
+                <dt className="font-bold text-white">Phone:</dt>
+                <dd className="mt-1">
+                  <a href={footerContact.phoneHref} className="text-white/75 hover:text-white transition-colors">
+                    +1 (548) 866-0366
                   </a>
                 </dd>
               </div>
-              <div className="flex flex-col gap-1">
-                <dt className="text-body-sm-bold text-white">Cell:</dt>
-                <dd>
-                  <a href={footerContact.cellHref} className="text-white-60 hover:text-white">
-                    {footerContact.cell}
+
+              <div>
+                <dt className="font-bold text-white">Cell:</dt>
+                <dd className="mt-1">
+                  <a href={footerContact.cellHref} className="text-white/75 hover:text-white transition-colors">
+                    +1 (226) 210-4170
                   </a>
                 </dd>
               </div>
-              <div className="flex flex-col gap-1">
-                <dt className="text-body-sm-bold text-white">Fax:</dt>
-                <dd className="text-white-60">{footerContact.fax}</dd>
+
+              <div>
+                <dt className="font-bold text-white">Fax:</dt>
+                <dd className="mt-1 text-white/75">
+                  +1 (226) 916-0283
+                </dd>
               </div>
             </dl>
           </div>
+
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-14 border-t border-white-20 pt-6">
-          <div className="flex flex-col gap-4 text-body-sm text-white-60 sm:flex-row sm:items-center sm:justify-between">
-            <p>{copyright}</p>
-            <ul className="flex items-center gap-5">
-              {legalLinks.map((link, i) => (
-                <li key={link.href} className="flex items-center gap-5">
-                  {i > 0 && (
-                    <span className="h-1 w-1 rounded-full bg-white-60" aria-hidden />
-                  )}
-                  <Link href={link.href} className="hover:text-white">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+        {/* Sub-footer Bottom Bar */}
+        <div className="mt-14 border-t border-white/10 pt-6">
+          <div className="flex flex-col gap-4 font-heading text-body-xs text-white/70 sm:flex-row sm:items-center sm:justify-between">
+            <p>© 2026 Resilience Counseling-London. All Rights Reserved.</p>
+
+            <ul className="flex items-center gap-4">
+              <li>
+                <Link href="/terms-and-conditions" className="hover:text-white transition-colors">
+                  Terms &amp; conditions
+                </Link>
+              </li>
+              <li aria-hidden="true">•</li>
+              <li>
+                <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                  Privacy policy
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
+
       </div>
     </footer>
   );

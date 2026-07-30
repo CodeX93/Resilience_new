@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { teamRoleCategories, teamMembersList, type TeamMemberDetail } from "@/data/team";
-import { ArrowUpRightIcon } from "@/components/ui/icons";
+import { teamRoleCategories, teamMembersList } from "@/data/team";
+import { TeamCard } from "@/components/ui/TeamCard";
 import offerLeaves from "@/public/images/decor/offer-leaves.svg";
 import offerLeafLeft from "@/public/images/decor/offer-leaf-left.svg";
 import heroBranch from "@/public/images/decor/hero-branch.svg";
@@ -53,7 +52,7 @@ export function TherapistsGridSection() {
         </h1>
 
         {/* Role Filter Pills Bar */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 max-w-5xl mx-auto mb-14">
+        <div className="flex flex-wrap items-center justify-center gap-3 max-w-5xl mx-auto mb-14">
           {teamRoleCategories.map((role) => {
             const isActive = role === selectedRole;
             return (
@@ -61,10 +60,10 @@ export function TherapistsGridSection() {
                 key={role}
                 type="button"
                 onClick={() => setSelectedRole(role)}
-                className={`rounded-full px-5 py-2.5 text-body-sm font-semibold transition-all duration-200 ${
+                className={`font-heading text-body-sm transition-all duration-200 ${
                   isActive
-                    ? "bg-green-950 text-white shadow-ds2"
-                    : "border border-camel-400/60 bg-white/80 text-green-950 hover:bg-camel-200/80"
+                    ? "rounded-full bg-[#34483d] text-white px-6 py-2.5 shadow-ds2 font-medium"
+                    : "rounded-xl border border-[#e4dacb] bg-black/[0.04] text-green-950 px-5 py-2.5 hover:bg-black/[0.08] font-medium"
                 }`}
               >
                 {role}
@@ -76,50 +75,7 @@ export function TherapistsGridSection() {
         {/* Grid of Therapists */}
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
           {filteredMembers.map((member) => (
-            <article
-              key={member.slug}
-              className="group flex flex-col items-center text-center"
-            >
-              {/* Circular Photo */}
-              <Link
-                href={`/team/${member.slug}`}
-                className="relative size-[220px] overflow-hidden rounded-full bg-[#ede8df] shadow-ds3 transition-transform duration-300 group-hover:-translate-y-1.5"
-              >
-                <Image
-                  src={member.photo}
-                  alt={`Portrait of ${member.name}`}
-                  fill
-                  sizes="220px"
-                  className="object-cover object-top"
-                />
-              </Link>
-
-              {/* Name */}
-              <h3 className="mt-5 font-body font-bold text-body-base-bold text-green-950">
-                <Link href={`/team/${member.slug}`} className="hover:text-green-800 transition-colors">
-                  {member.name}
-                </Link>
-              </h3>
-
-              {/* Title */}
-              <p className="mt-1 text-body-sm text-green-700/80 font-medium">
-                {member.title}
-              </p>
-
-              {/* Focus / Description */}
-              <p className="mt-2 text-body-sm text-green-700/70 leading-relaxed max-w-[250px] line-clamp-3">
-                {member.focus}
-              </p>
-
-              {/* Link CTA */}
-              <Link
-                href={`/team/${member.slug}`}
-                className="mt-4 inline-flex items-center gap-1 text-body-sm font-bold text-green-800 transition-colors hover:text-green-950"
-              >
-                View Profile
-                <ArrowUpRightIcon size={14} />
-              </Link>
-            </article>
+            <TeamCard key={member.slug} member={member} />
           ))}
         </div>
       </div>

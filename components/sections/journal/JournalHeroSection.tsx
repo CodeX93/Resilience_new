@@ -3,35 +3,37 @@ import { featuredPost } from "@/data/journal";
 import { ButtonLink } from "@/components/ui/Button";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
 import leaf from "@/public/images/icons/leaf.svg";
-import journalWave from "@/public/images/decor/journal-wave-top-right.svg";
-import journalBranch from "@/public/images/decor/journal-branch-right.svg";
+import journalBgWave from "@/public/images/decor/journal-bg-wave.svg";
+import journalSprigHero from "@/public/images/decor/journal-sprig-hero.svg";
 
 export function JournalHeroSection() {
   const post = featuredPost;
 
   return (
     <section className="relative overflow-hidden bg-[#f7f0e7] pt-12 pb-16 lg:pt-16 lg:pb-20">
-      {/* ── Vector 34: large cream wave sweeping from top-right ── */}
+      {/* ── Vector 34: large cream wave background sweep (lowest layer) ── */}
       <Image
-        src={journalWave}
+        src={journalBgWave}
         alt=""
         aria-hidden
         width={1103}
         height={539}
-        className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[68%] max-w-[860px] lg:block"
+        className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[72%] max-w-[960px] lg:block opacity-90"
       />
 
-      {/* ── Botanical branch illustration top-right ── */}
+      {/* ── Group 1597881382: botanical sprig illustration top-right ──
+          Positioned above top-right of image card, extending left toward title
+          and passing behind the top-right rounded edge of the image card.  ── */}
       <Image
-        src={journalBranch}
+        src={journalSprigHero}
         alt=""
         aria-hidden
-        width={354}
-        height={622}
-        className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[200px] opacity-60 lg:block"
+        width={215}
+        height={200}
+        className="pointer-events-none absolute right-[30px] top-[-10px] z-[1] hidden w-[360px] lg:w-[440px] max-w-none opacity-85 lg:block"
       />
 
-      {/* ── Main Content ── */}
+      {/* ── Main Content (z-10 ensures card is in front of sprig & wave) ── */}
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
         {/* Page Title */}
         <h1 className="font-heading text-h1 text-center text-green-950">
@@ -39,11 +41,12 @@ export function JournalHeroSection() {
         </h1>
 
         {/* Featured Article Card */}
-        <article className="mt-10 grid overflow-hidden rounded-3xl border border-camel-400/80 bg-gradient-to-br from-[#ffffff] to-[#faf6f0] shadow-ds3 lg:grid-cols-[1fr_1.45fr]">
-          {/* Left: Content */}
-          <div className="flex flex-col items-start justify-center gap-5 p-8 sm:p-10 lg:p-12">
+        <article className="mt-10 grid overflow-hidden rounded-3xl border border-camel-400/70 shadow-ds4 lg:grid-cols-[1fr_1.45fr]">
+          
+          {/* Left Column: Warm cream gradient background (NOT white) */}
+          <div className="flex flex-col items-start justify-center gap-5 bg-gradient-to-br from-[#FAF6F0] via-[#F6EFE5] to-[#EFE7D8] p-8 sm:p-10 lg:p-12">
             {post.tag && (
-              <span className="inline-flex items-center gap-2 rounded-full bg-mint-300/70 px-4 py-1.5 text-body-sm text-green-700">
+              <span className="inline-flex items-center gap-2 rounded-full border border-camel-400/50 bg-white/70 px-4 py-1.5 text-body-sm text-green-800 shadow-ds1 font-medium">
                 <Image src={leaf} alt="" width={13} height={13} aria-hidden />
                 {post.tag}
               </span>
@@ -68,7 +71,7 @@ export function JournalHeroSection() {
             </ButtonLink>
           </div>
 
-          {/* Right: Featured Image */}
+          {/* Right Column: Featured Image */}
           <div className="relative min-h-[280px] w-full bg-[#2e2e2e] lg:min-h-[400px]">
             <Image
               src={post.image}
