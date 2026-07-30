@@ -1,26 +1,384 @@
+/* ==========================================================================
+   Resilience — Global Styles
+   Design tokens transcribed from the Figma "Styles Guide" page.
+   Source: Resilience New (Copy) · node 1163-9571
+   ========================================================================== */
+
+/* Fonts are self-hosted via next/font/google in app/layout.tsx, which exposes
+   these CSS variables on <html>:
+     --font-lancelot         → headings (H1–H3)
+     --font-inria-serif      → body copy
+     --font-josefin-slab     → quotes
+     --font-instrument-sans  → UI / sans (buttons, navigation, controls)
+   The semantic --font-* tokens below map onto them. */
+
 @import "tailwindcss";
 
+/* --------------------------------------------------------------------------
+   Design tokens exposed to Tailwind v4 utilities
+   (bg-green-700, text-camel-500, shadow-ds3, font-heading, p-lg, text-h1, …)
+   -------------------------------------------------------------------------- */
+@theme {
+  /* ---- Primary · Green -------------------------------------------------- */
+  --color-green-50: #f6f8f6;
+  --color-green-100: #deeae5;
+  --color-green-200: #dbdcce;
+  --color-green-300: #90b8a7;
+  --color-green-400: #699886;
+  --color-green-500: #507d6c;
+  --color-green-600: #3f6357;
+  --color-green-700: #314c43; /* (P) Primary brand green */
+  --color-green-800: #2e433c;
+  --color-green-900: #283934;
+  --color-green-950: #131f1c;
+
+  /* ---- Secondary · Camel ------------------------------------------------ */
+  --color-camel-100: #fefdfc;
+  --color-camel-200: #fdf9f5;
+  --color-camel-300: #f6ebe5;
+  --color-camel-400: #f1e4d9;
+  --color-camel-500: #ecd9ca;
+  --color-camel-600: #e6cdb7;
+  --color-camel-700: #debb9f;
+  --color-camel-800: #d0a37c;
+
+  /* ---- Secondary · Mint ------------------------------------------------- */
+  --color-mint-100: #fcfdfc;
+  --color-mint-200: #f7faf7;
+  --color-mint-300: #eaf4ea;
+  --color-mint-400: #ddeede;
+  --color-mint-500: #d1e6d2;
+  --color-mint-600: #c4dbc5;
+  --color-mint-700: #b3cdb4;
+  --color-mint-800: #9ab99c;
+  --color-mint-900: #3e5640;
+  --color-mint-950: #2f4631;
+
+  /* ---- Secondary · Mute Green (opacity ramp of #8d9576) ----------------- */
+  --color-mute-green-5: #8d95760d;
+  --color-mute-green-10: #8d95761a;
+  --color-mute-green-20: #8d957633;
+  --color-mute-green-40: #8d957666;
+  --color-mute-green-60: #8d957699;
+  --color-mute-green-80: #8d9576cc;
+  --color-mute-green-100: #8d9576;
+
+  /* ---- Neutrals · Dark (opacity ramp of #0d0d0d) ------------------------ */
+  --color-dark-5: #0d0d0d0d;
+  --color-dark-10: #0d0d0d1a;
+  --color-dark-20: #0d0d0d33;
+  --color-dark-40: #0d0d0d66;
+  --color-dark-60: #0d0d0d99;
+  --color-dark-80: #0d0d0dcc;
+  --color-dark-100: #0d0d0d;
+
+  /* ---- Neutrals · White (opacity ramp of #ffffff) ---------------------- */
+  --color-white-5: #ffffff0d;
+  --color-white-10: #ffffff1a;
+  --color-white-20: #ffffff33;
+  --color-white-40: #ffffff66;
+  --color-white-60: #ffffff99;
+  --color-white-80: #ffffffcc;
+  --color-white-100: #ffffff;
+
+  /* ---- Semantic aliases ------------------------------------------------- */
+  --color-background: #ffffff;
+  --color-foreground: #131f1c; /* green-950 */
+  --color-primary: #314c43; /* green-700 */
+  --color-primary-foreground: #ffffff;
+
+  /* ---- Font families (backed by next/font variables) -------------------- */
+  --font-heading: var(--font-lancelot), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-inria-serif), Georgia, "Times New Roman", serif;
+  --font-quote: var(--font-josefin-slab), Georgia, serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-inria-serif), Georgia, serif;
+
+  /* ---- Spacing scale · "Numbers" ---------------------------------------
+     Exposed as plain CSS vars in :root below (var(--space-*)) rather than as
+     Tailwind --spacing-* tokens, because names like sm/lg/xl/2xl collide with
+     Tailwind's built-in width/radius/text scales (e.g. max-w-2xl). Use the
+     built-in numeric spacing utilities (p-6, gap-8) or var(--space-*). */
+
+  /* ---- Type sizes (desktop) — pair with font-* + text style classes ---- */
+  --text-h1: 36px;
+  --text-h1--line-height: 44px;
+  --text-h2: 36px;
+  --text-h2--line-height: 44px;
+  --text-h3: 28px;
+  --text-h3--line-height: 36px;
+  --text-body-xl: 24px;
+  --text-body-xl--line-height: 36px;
+  --text-body-lg: 20px;
+  --text-body-lg--line-height: 30px;
+  --text-body-base: 16px;
+  --text-body-base--line-height: 24px;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 22px;
+  --text-quote: 28px;
+  --text-quote--line-height: 28px;
+
+  /* ---- Drop shadows ----------------------------------------------------- */
+  --shadow-ds1: 0 2px 2px 0 #3e56401a;
+  --shadow-ds2: 0 4px 4px 0 #8d957666;
+  --shadow-ds3: 0 4px 20.1px 0 #b07d491a;
+  --shadow-ds4: 0 16px 45.3px 0 #1055091a;
+  --shadow-ds5: 0 10px 34px 0 #341a1024;
+}
+
+/* --------------------------------------------------------------------------
+   Plain CSS custom properties (for use outside Tailwind utilities)
+   -------------------------------------------------------------------------- */
 :root {
+  /* Primary · Green */
+  --green-50: #f6f8f6;
+  --green-100: #deeae5;
+  --green-200: #dbdcce;
+  --green-300: #90b8a7;
+  --green-400: #699886;
+  --green-500: #507d6c;
+  --green-600: #3f6357;
+  --green-700: #314c43;
+  --green-800: #2e433c;
+  --green-900: #283934;
+  --green-950: #131f1c;
+
+  /* Secondary · Camel */
+  --camel-100: #fefdfc;
+  --camel-200: #fdf9f5;
+  --camel-300: #f6ebe5;
+  --camel-400: #f1e4d9;
+  --camel-500: #ecd9ca;
+  --camel-600: #e6cdb7;
+  --camel-700: #debb9f;
+  --camel-800: #d0a37c;
+
+  /* Secondary · Mint */
+  --mint-100: #fcfdfc;
+  --mint-200: #f7faf7;
+  --mint-300: #eaf4ea;
+  --mint-400: #ddeede;
+  --mint-500: #d1e6d2;
+  --mint-600: #c4dbc5;
+  --mint-700: #b3cdb4;
+  --mint-800: #9ab99c;
+  --mint-900: #3e5640;
+  --mint-950: #2f4631;
+
+  /* Secondary · Mute Green */
+  --mute-green: #8d9576;
+  --mute-green-5: #8d95760d;
+  --mute-green-10: #8d95761a;
+  --mute-green-20: #8d957633;
+  --mute-green-40: #8d957666;
+  --mute-green-60: #8d957699;
+  --mute-green-80: #8d9576cc;
+  --mute-green-100: #8d9576;
+
+  /* Neutrals · Dark */
+  --dark: #0d0d0d;
+  --dark-5: #0d0d0d0d;
+  --dark-10: #0d0d0d1a;
+  --dark-20: #0d0d0d33;
+  --dark-40: #0d0d0d66;
+  --dark-60: #0d0d0d99;
+  --dark-80: #0d0d0dcc;
+  --dark-100: #0d0d0d;
+
+  /* Neutrals · White */
+  --white: #ffffff;
+  --white-5: #ffffff0d;
+  --white-10: #ffffff1a;
+  --white-20: #ffffff33;
+  --white-40: #ffffff66;
+  --white-60: #ffffff99;
+  --white-80: #ffffffcc;
+  --white-100: #ffffff;
+
+  /* Semantic */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #131f1c;
+  --primary: #314c43;
+  --primary-foreground: #ffffff;
+
+  /* Spacing · "Numbers" */
+  --space-xxs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-base: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+  --space-4xl: 40px;
+  --space-5xl: 48px;
+  --space-6xl: 60px;
+  --space-7xl: 120px;
+
+  /* Drop shadows */
+  --ds-1: 0 2px 2px 0 #3e56401a;
+  --ds-2: 0 4px 4px 0 #8d957666;
+  --ds-3: 0 4px 20.1px 0 #b07d491a;
+  --ds-4: 0 16px 45.3px 0 #1055091a;
+  --ds-5: 0 10px 34px 0 #341a1024;
+
+  /* Font families (backed by next/font variables set in app/layout.tsx) */
+  --font-heading: var(--font-lancelot), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-inria-serif), Georgia, "Times New Roman", serif;
+  --font-quote: var(--font-josefin-slab), Georgia, serif;
+  --font-ui: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* --------------------------------------------------------------------------
+   Base element defaults
+   -------------------------------------------------------------------------- */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: var(--green-950);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-ui);
+}
+
+/* --------------------------------------------------------------------------
+   Typography styles — desktop values, with mobile overrides at ≤768px.
+   Names mirror the Figma text styles.
+   -------------------------------------------------------------------------- */
+.text-h1,
+.text-h2 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 44px;
+}
+
+.text-h3 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 36px;
+}
+
+.text-body-xl {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 36px;
+}
+.text-body-xl-bold {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.text-body-lg {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+}
+.text-body-lg-bold {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.text-body-base {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+.text-body-base-bold {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.text-body-sm {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+.text-body-sm-bold {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.text-quote {
+  font-family: var(--font-quote);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 28px;
+}
+
+@media (max-width: 768px) {
+  .text-h1,
+  .text-h2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .text-h3 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .text-body-xl,
+  .text-body-xl-bold {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .text-body-lg,
+  .text-body-lg-bold {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .text-body-base,
+  .text-body-base-bold {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  .text-body-sm,
+  .text-body-sm-bold {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .text-quote {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Drop shadow helpers
+   -------------------------------------------------------------------------- */
+.shadow-ds1 { box-shadow: var(--ds-1); }
+.shadow-ds2 { box-shadow: var(--ds-2); }
+.shadow-ds3 { box-shadow: var(--ds-3); }
+.shadow-ds4 { box-shadow: var(--ds-4); }
+.shadow-ds5 { box-shadow: var(--ds-5); }

@@ -1,65 +1,57 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { buildMetadata, webPageJsonLd } from "@/lib/seo";
+import { siteConfig, absoluteUrl } from "@/lib/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { HeroSection } from "@/components/sections/home/HeroSection";
+import { WhatWeOfferSection } from "@/components/sections/home/WhatWeOfferSection";
+import { WhoWeAreSection } from "@/components/sections/home/WhoWeAreSection";
+import { MeetOurTeamSection } from "@/components/sections/home/MeetOurTeamSection";
+import { JournalSection } from "@/components/sections/home/JournalSection";
+import { NewsletterSection } from "@/components/sections/home/NewsletterSection";
+import { footerContact } from "@/data/navigation";
 
-export default function Home() {
+export const metadata: Metadata = buildMetadata({
+  title: "Therapy that respects your journey, heritage, and rhythm",
+  description:
+    "Resilience Counselling offers trauma-informed therapy for individuals, couples, and families in London, ON and virtually across Ontario — with care for refugees and newcomers in six languages.",
+  path: "/",
+});
+
+/** LocalBusiness / medical practice structured data for the home page. */
+function homeJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    name: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    image: absoluteUrl(siteConfig.ogImage),
+    telephone: footerContact.phone,
+    email: footerContact.email,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "111 Waterloo St Unit 406",
+      addressLocality: "London",
+      addressRegion: "ON",
+      postalCode: "N6B 2M4",
+      addressCountry: "CA",
+    },
+    openingHours: "Mo-Fr 10:00-18:00",
+    areaServed: "Ontario, Canada",
+    availableLanguage: ["English", "Turkish", "Arabic", "Spanish", "Kurmanji", "Urdu"],
+  };
+}
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <JsonLd data={[webPageJsonLd({ title: `${siteConfig.name} — Home`, path: "/" }), homeJsonLd()]} />
+      <HeroSection />
+      <WhatWeOfferSection />
+      <WhoWeAreSection />
+      <MeetOurTeamSection />
+      <JournalSection />
+      <NewsletterSection />
+    </>
   );
 }
