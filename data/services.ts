@@ -7,13 +7,6 @@ export interface ServiceCategory {
   title: string;
   icon: string;
   description: string;
-  therapists: {
-    name: string;
-    title: string;
-    focus: string;
-    photo: string;
-    href: string;
-  }[];
 }
 
 export const servicesPageData = {
@@ -34,29 +27,6 @@ export const servicesPageData = {
       icon: "user",
       description:
         "Support for individuals of all ages to explore personal challenges, strengthen self-awareness, and nurture overall mental health and well-being through one-on-one therapy.",
-      therapists: [
-        {
-          name: "Mahnoor Ahmed, RP",
-          title: "Registered Psychotherapist",
-          focus: "Focuses in anxiety, self-esteem, and life transitions.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-        {
-          name: "Jessica Bateman, RP",
-          title: "Registered Psychotherapist",
-          focus: "Focuses in relationships, stress management, and personal growth.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-        {
-          name: "Ingi ElAkary",
-          title: "Registered Psychotherapist",
-          focus: "Specializes in trauma-informed care, anxiety, and emotional support.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "family",
@@ -64,22 +34,6 @@ export const servicesPageData = {
       icon: "family",
       description:
         "Guidance for families seeking to improve communication, resolve conflicts, and strengthen bonds during challenging life stages or transitions.",
-      therapists: [
-        {
-          name: "Seniha Yildiz, RP",
-          title: "Registered Psychotherapist",
-          focus: "Focuses on family dynamics, cultural integration, and relational healing.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-        {
-          name: "Jessica Bateman, RP",
-          title: "Registered Psychotherapist",
-          focus: "Focuses in family communication and conflict resolution.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "couples",
@@ -87,22 +41,6 @@ export const servicesPageData = {
       icon: "users",
       description:
         "Therapeutic support for couples aiming to deepen intimacy, navigate relationship hurdles, rebuild trust, and enhance constructive communication.",
-      therapists: [
-        {
-          name: "Jessica Bateman, RP",
-          title: "Registered Psychotherapist",
-          focus: "Focuses in couples therapy, emotional intimacy, and communication.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-        {
-          name: "Mahnoor Ahmed, RP",
-          title: "Registered Psychotherapist",
-          focus: "Supports couples working through relationship transitions and stress.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "child",
@@ -110,15 +48,6 @@ export const servicesPageData = {
       icon: "child",
       description:
         "Gentle, developmentally appropriate therapy for children to express feelings, manage anxiety, and navigate emotional or behavioral challenges.",
-      therapists: [
-        {
-          name: "Ingi ElAkary",
-          title: "Registered Psychotherapist (Qualifying)",
-          focus: "Specializes in child emotional regulation and play-informed techniques.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "adolescent",
@@ -126,15 +55,6 @@ export const servicesPageData = {
       icon: "teen",
       description:
         "A safe, non-judgmental space for teens to navigate peer pressure, academic stress, identity formation, and mood challenges.",
-      therapists: [
-        {
-          name: "Mahnoor Ahmed, RP",
-          title: "Registered Psychotherapist",
-          focus: "Specializes in adolescent mental health and self-esteem building.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "student",
@@ -142,15 +62,6 @@ export const servicesPageData = {
       icon: "graduation",
       description:
         "Targeted therapy for post-secondary students coping with academic burnout, career uncertainty, independence, and social adjustments.",
-      therapists: [
-        {
-          name: "Jessica Bateman, RP",
-          title: "Registered Psychotherapist",
-          focus: "Supports students with stress, perfectionism, and life transitions.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "mva",
@@ -158,15 +69,6 @@ export const servicesPageData = {
       icon: "car",
       description:
         "Specialized therapeutic care to help individuals recover from driving trauma, PTSD, chronic pain, and anxiety following a motor vehicle collision.",
-      therapists: [
-        {
-          name: "Seniha Yildiz, RP",
-          title: "Registered Psychotherapist",
-          focus: "Experienced in trauma recovery, accident rehabilitation, and pain management.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "anger",
@@ -174,15 +76,6 @@ export const servicesPageData = {
       icon: "shield",
       description:
         "Practical strategies and self-regulation techniques to understand triggers, communicate emotions constructively, and foster healthy responses.",
-      therapists: [
-        {
-          name: "Mahnoor Ahmed, RP",
-          title: "Registered Psychotherapist",
-          focus: "Guides clients in emotional regulation and healthy communication.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "refugee",
@@ -190,22 +83,6 @@ export const servicesPageData = {
       icon: "globe",
       description:
         "Trauma-informed, culturally sensitive mental health support for refugees, newcomers, and asylum seekers covered under IFHP.",
-      therapists: [
-        {
-          name: "Seniha Yildiz, RP",
-          title: "Registered Psychotherapist",
-          focus: "Specializes in newcomer transition, war trauma, and culturally adapted care.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-        {
-          name: "Ingi ElAkary",
-          title: "Registered Psychotherapist (Qualifying)",
-          focus: "Provides multilingual care in Arabic and English for newcomers.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "faith",
@@ -213,15 +90,6 @@ export const servicesPageData = {
       icon: "heart",
       description:
         "Holistic counseling that respects and incorporates your spiritual or religious beliefs into the healing process.",
-      therapists: [
-        {
-          name: "Seniha Yildiz, RP",
-          title: "Registered Psychotherapist",
-          focus: "Integrates faith-sensitive perspectives with evidence-based psychotherapy.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "transitions",
@@ -229,15 +97,6 @@ export const servicesPageData = {
       icon: "compass",
       description:
         "Support during major life changes such as career shifts, relocation, retirement, parenthood, or divorce.",
-      therapists: [
-        {
-          name: "Jessica Bateman, RP",
-          title: "Registered Psychotherapist",
-          focus: "Helps clients navigate identity shifts and life milestones.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "grief",
@@ -245,15 +104,6 @@ export const servicesPageData = {
       icon: "feather",
       description:
         "Compassionate support to help you process loss, honor your feelings, and find path forward through bereavement.",
-      therapists: [
-        {
-          name: "Mahnoor Ahmed, RP",
-          title: "Registered Psychotherapist",
-          focus: "Provides gentle guidance through bereavement and complicated grief.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "adhd",
@@ -261,15 +111,6 @@ export const servicesPageData = {
       icon: "sparkles",
       description:
         "Neurodiversity-affirming therapy designed to build executive functioning skills, self-compassion, and personalized coping strategies.",
-      therapists: [
-        {
-          name: "Jessica Bateman, RP",
-          title: "Registered Psychotherapist",
-          focus: "Affirming care for adults and teens with ADHD and neurodivergent traits.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "art",
@@ -277,15 +118,6 @@ export const servicesPageData = {
       icon: "palette",
       description:
         "Creative and expressive modalities that allow individuals to explore emotions and experiences beyond traditional talk therapy.",
-      therapists: [
-        {
-          name: "Ingi ElAkary",
-          title: "Registered Psychotherapist (Qualifying)",
-          focus: "Uses expressive arts for emotional processing and self-exploration.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
     {
       id: "learning",
@@ -293,15 +125,6 @@ export const servicesPageData = {
       icon: "book",
       description:
         "Empowering support for individuals navigating academic or workplace challenges associated with learning differences.",
-      therapists: [
-        {
-          name: "Mahnoor Ahmed, RP",
-          title: "Registered Psychotherapist",
-          focus: "Fosters self-advocacy and coping skills for learning differences.",
-          photo: "/images/home/member-placeholder.png",
-          href: "/team",
-        },
-      ],
     },
   ] as ServiceCategory[],
 

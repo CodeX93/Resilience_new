@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { servicesPageData as defaultServicesPageData } from "@/data/services";
@@ -9,9 +9,11 @@ import { SectionIdentifier } from "@/components/ui/SectionIdentifier";
 import { ButtonLink } from "@/components/ui/Button";
 import { useCms } from "@/components/cms/CmsProvider";
 import { EditableText } from "@/components/cms/EditableText";
-import { EditableImage } from "@/components/cms/EditableImage";
 import {
   ChevronRightIcon,
+  ChevronLeftIcon,
+  ChevronDownIcon,
+  CheckIcon,
   ArrowUpRightIcon,
   UserIcon,
   FamilyIcon,
@@ -39,20 +41,64 @@ function CategoryIcon({ icon, size = 18 }: { icon: string; size?: number }) {
 }
 
 export function ServicesHeroSection() {
-  const { getContentValue } = useCms();
+  const { getContentValue, teamMembers, loadTeamMembers } = useCms();
   const servicesPageData = getContentValue("services", "", defaultServicesPageData);
   const { hero, categories } = servicesPageData;
   const [selectedId, setSelectedId] = useState<string>(categories[0].id);
   const [therapistIndex, setTherapistIndex] = useState<number>(0);
+  const [mobileCategoryOpen, setMobileCategoryOpen] = useState<boolean>(false);
+  const [mobileTherapistIndex, setMobileTherapistIndex] = useState<number>(0);
+  const mobileScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    loadTeamMembers();
+  }, [loadTeamMembers]);
 
   const activeCategoryIndex = categories.findIndex((c: any) => c.id === selectedId);
   const activeIndex = activeCategoryIndex !== -1 ? activeCategoryIndex : 0;
   const activeCategory = categories[activeIndex];
 
-  const therapists = activeCategory.therapists;
+  const therapists = teamMembers;
+  const THERAPISTS_PER_PAGE = 3;
+  const totalTherapistPages = Math.max(1, Math.ceil(therapists.length / THERAPISTS_PER_PAGE));
+  const therapistPage = therapistIndex % totalTherapistPages;
+  const visibleTherapists = therapists.slice(
+    therapistPage * THERAPISTS_PER_PAGE,
+    therapistPage * THERAPISTS_PER_PAGE + THERAPISTS_PER_PAGE
+  );
 
   const handleNextTherapist = () => {
-    setTherapistIndex((prev) => (prev + 1) % therapists.length);
+    setTherapistIndex((prev) => (prev + 1) % totalTherapistPages);
+  };
+
+  const handlePrevTherapist = () => {
+    setTherapistIndex((prev) => (prev - 1 + totalTherapistPages) % totalTherapistPages);
+  };
+
+  const scrollToMobileTherapist = (idx: number) => {
+    const container = mobileScrollRef.current;
+    const clamped = Math.max(0, Math.min(therapists.length - 1, idx));
+    const card = container?.children[clamped] as HTMLElement | undefined;
+    if (container && card) {
+      container.scrollTo({ left: card.offsetLeft - container.offsetLeft, behavior: "smooth" });
+    }
+    setMobileTherapistIndex(clamped);
+  };
+
+  const handleMobileTherapistScroll = () => {
+    const container = mobileScrollRef.current;
+    if (!container) return;
+    let closestIdx = 0;
+    let closestDist = Infinity;
+    Array.from(container.children).forEach((child, idx) => {
+      const el = child as HTMLElement;
+      const dist = Math.abs(el.offsetLeft - container.offsetLeft - container.scrollLeft);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closestIdx = idx;
+      }
+    });
+    setMobileTherapistIndex(closestIdx);
   };
 
   return (
@@ -106,46 +152,105 @@ export function ServicesHeroSection() {
             className="pointer-events-none absolute right-[-100px] top-[120px] z-0 hidden w-[1080px] max-w-none lg:block"
           />
 
-          {/* Left: Category Selector List — full list, distributed to match the detail card height */}
-          <div className="relative z-10 flex flex-col gap-1.5 rounded-3xl p-2 lg:justify-between">
-            {categories.map((cat: any, i: number) => {
-              const isActive = cat.id === activeCategory.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => {
-                    setSelectedId(cat.id);
-                    setTherapistIndex(0);
-                  }}
-                  className={`group flex items-center justify-between rounded-2xl px-6 py-[22px] text-left text-green-950 transition-all duration-200 ${
-                    isActive
-                      ? "bg-white shadow-ds2"
-                      : "bg-transparent hover:bg-white/50"
+          {/* Left: Category Selector — collapsible dropdown on mobile, full list on desktop */}
+          <div className="relative z-10">
+            {/* Mobile: dropdown trigger + collapsible options */}
+            <div className="lg:hidden">
+              <button
+                type="button"
+                onClick={() => setMobileCategoryOpen((v) => !v)}
+                className="flex w-full items-center justify-between rounded-2xl bg-white px-6 py-[18px] text-left text-green-950 shadow-ds2"
+              >
+                <div className="flex items-center gap-3.5">
+                  <span className="flex size-9 items-center justify-center rounded-full bg-camel-200 text-green-700">
+                    <CategoryIcon icon={activeCategory.icon} size={16} />
+                  </span>
+                  <span className="text-body-sm font-semibold leading-snug">
+                    {activeCategory.title}
+                  </span>
+                </div>
+                <ChevronDownIcon
+                  size={18}
+                  className={`shrink-0 text-green-700/70 transition-transform duration-200 ${
+                    mobileCategoryOpen ? "rotate-180" : ""
                   }`}
-                >
-                  <div className="flex items-center gap-3.5">
-                    <span
-                      className={`flex size-9 items-center justify-center rounded-full text-green-700 transition-colors ${
-                        isActive ? "bg-camel-200" : "bg-camel-200/70 group-hover:bg-camel-300"
-                      }`}
-                    >
-                      <CategoryIcon icon={cat.icon} size={16} />
-                    </span>
-                    <span className="text-body-sm font-semibold leading-snug">
-                      <EditableText pageId="services" path={`categories[${i}].title`} value={cat.title} />
-                    </span>
-                  </div>
-                  {isActive ? (
-                    <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-green-700 text-white">
-                      <ChevronRightIcon size={14} />
-                    </span>
-                  ) : (
-                    <ChevronRightIcon size={18} className="shrink-0 text-green-700/50" />
-                  )}
-                </button>
-              );
-            })}
+                />
+              </button>
+
+              {mobileCategoryOpen && (
+                <div className="mt-2 flex max-h-[60vh] flex-col gap-1 overflow-y-auto rounded-2xl bg-white p-2 shadow-ds2">
+                  {categories.map((cat: any) => {
+                    const isActive = cat.id === activeCategory.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedId(cat.id);
+                          setTherapistIndex(0);
+                          setMobileTherapistIndex(0);
+                          setMobileCategoryOpen(false);
+                        }}
+                        className={`flex items-center justify-between rounded-xl px-4 py-3 text-left text-green-950 transition-colors ${
+                          isActive ? "bg-camel-100" : "hover:bg-camel-50"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="flex size-8 items-center justify-center rounded-full bg-camel-200/70 text-green-700">
+                            <CategoryIcon icon={cat.icon} size={14} />
+                          </span>
+                          <span className="text-body-sm font-semibold leading-snug">{cat.title}</span>
+                        </div>
+                        {isActive && <CheckIcon size={16} className="shrink-0 text-green-700" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Desktop: full list, distributed to match the detail card height */}
+            <div className="hidden lg:flex lg:flex-col lg:justify-between lg:gap-1.5 lg:rounded-3xl lg:p-2 lg:h-full">
+              {categories.map((cat: any, i: number) => {
+                const isActive = cat.id === activeCategory.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedId(cat.id);
+                      setTherapistIndex(0);
+                      setMobileTherapistIndex(0);
+                    }}
+                    className={`group flex items-center justify-between rounded-2xl px-6 py-[22px] text-left text-green-950 transition-all duration-200 ${
+                      isActive
+                        ? "bg-white shadow-ds2"
+                        : "bg-transparent hover:bg-white/50"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <span
+                        className={`flex size-9 items-center justify-center rounded-full text-green-700 transition-colors ${
+                          isActive ? "bg-camel-200" : "bg-camel-200/70 group-hover:bg-camel-300"
+                        }`}
+                      >
+                        <CategoryIcon icon={cat.icon} size={16} />
+                      </span>
+                      <span className="text-body-sm font-semibold leading-snug">
+                        <EditableText pageId="services" path={`categories[${i}].title`} value={cat.title} />
+                      </span>
+                    </div>
+                    {isActive ? (
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-green-700 text-white">
+                        <ChevronRightIcon size={14} />
+                      </span>
+                    ) : (
+                      <ChevronRightIcon size={18} className="shrink-0 text-green-700/50" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Right: Active Service Detail Box — matching height with outer vertical padding around content */}
@@ -170,96 +275,190 @@ export function ServicesHeroSection() {
             </div>
 
             {/* Therapists Subsection — added vertical margins to expand Right container height */}
-            <div className="my-16 pt-12 border-t border-camel-300/60 w-full">
+            <div className="my-10 pt-8 lg:my-16 lg:pt-12 border-t border-camel-300/60 w-full">
               <h3 className="font-heading text-h3 text-green-950 w-full mb-8">
                 Therapists Who Offer This Service
               </h3>
 
-              {/* Therapist Cards Row with edge next-arrow */}
-              <div className="relative mt-12 w-full">
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                  {therapists.map((therapist: any, idx: number) => (
-                    <article
-                      key={idx}
-                      className="flex flex-col items-center p-2 text-center"
-                    >
-                      <div className="relative size-[220px] overflow-hidden rounded-full bg-camel-200">
-                        <EditableImage
-                          pageId="services"
-                          path={`categories[${activeIndex}].therapists[${idx}].photo`}
-                          src={therapist.photo}
-                          alt={`Photo of ${therapist.name}`}
-                          fill
-                          sizes="220px"
-                          className="object-cover"
-                        />
-                      </div>
-
-                      <h4 className="mt-6 font-body text-body-base-bold text-green-950 w-full">
-                        <EditableText pageId="services" path={`categories[${activeIndex}].therapists[${idx}].name`} value={therapist.name} />
-                      </h4>
-                      <p className="mt-1 text-body-sm text-green-700/80 font-medium w-full">
-                        <EditableText pageId="services" path={`categories[${activeIndex}].therapists[${idx}].title`} value={therapist.title} />
-                      </p>
-                      <p className="mt-3 text-body-sm text-green-700/70 leading-normal line-clamp-3 w-full">
-                        <EditableText pageId="services" path={`categories[${activeIndex}].therapists[${idx}].focus`} value={therapist.focus} isTextArea />
-                      </p>
-
-                      <Link
-                        href={therapist.href}
-                        className="mt-6 inline-flex items-center gap-1.5 text-body-sm font-semibold text-green-800 transition hover:text-green-950"
+              {/* Desktop: 3-up grid, paginated by next-arrow/dots */}
+              <div className="hidden lg:block">
+                <div className="relative mt-12 w-full">
+                  <div className="grid gap-8 lg:grid-cols-3">
+                    {visibleTherapists.map((therapist: any) => (
+                      <article
+                        key={therapist.slug}
+                        className="flex flex-col items-center p-2 text-center"
                       >
-                        View Profile
-                        <ArrowUpRightIcon size={14} />
-                      </Link>
-                    </article>
-                  ))}
+                        <div className="relative size-[220px] overflow-hidden rounded-full bg-camel-200">
+                          {therapist.photo && (
+                            <Image
+                              src={therapist.photo}
+                              alt={therapist.photoAlt || `Photo of ${therapist.name}`}
+                              fill
+                              sizes="220px"
+                              className="object-cover"
+                            />
+                          )}
+                        </div>
+
+                        <h4 className="mt-6 font-body text-body-base-bold text-green-950 w-full">
+                          {therapist.name}
+                        </h4>
+                        <p className="mt-1 text-body-sm text-green-700/80 font-medium w-full">
+                          {therapist.title}
+                        </p>
+                        <p className="mt-3 text-body-sm text-green-700/70 leading-normal line-clamp-3 w-full">
+                          {therapist.focus}
+                        </p>
+
+                        <Link
+                          href={`/team/${therapist.slug}`}
+                          className="mt-6 inline-flex items-center gap-1.5 text-body-sm font-semibold text-green-800 transition hover:text-green-950"
+                        >
+                          View Profile
+                          <ArrowUpRightIcon size={14} />
+                        </Link>
+                      </article>
+                    ))}
+                  </div>
+
+                  {totalTherapistPages > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label="Previous therapists"
+                        onClick={handlePrevTherapist}
+                        className="absolute left-0 top-[110px] z-10 flex size-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-green-700 text-white shadow-ds2 transition hover:bg-green-800"
+                      >
+                        <ChevronLeftIcon size={20} />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="Next therapists"
+                        onClick={handleNextTherapist}
+                        className="absolute right-0 top-[110px] z-10 flex size-12 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-green-700 text-white shadow-ds2 transition hover:bg-green-800"
+                      >
+                        <ChevronRightIcon size={20} />
+                      </button>
+                    </>
+                  )}
                 </div>
 
-                {therapists.length > 1 && (
-                  <button
-                    type="button"
-                    aria-label="Next therapist"
-                    onClick={handleNextTherapist}
-                    className="absolute right-0 top-[110px] z-10 flex size-12 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-green-700 text-white shadow-ds2 transition hover:bg-green-800"
-                  >
-                    <ChevronRightIcon size={20} />
-                  </button>
+                {/* Pagination indicators */}
+                {totalTherapistPages > 1 && (
+                  <div className="mt-12 flex justify-center gap-2">
+                    {Array.from({ length: totalTherapistPages }).map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        aria-label={`Go to therapists page ${i + 1}`}
+                        onClick={() => setTherapistIndex(i)}
+                        className={`h-2 rounded-full transition-all ${
+                          i === therapistPage
+                            ? "w-6 bg-green-950"
+                            : "w-2 bg-green-300"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
 
-              {/* Pagination indicators */}
-              {therapists.length > 1 && (
-                <div className="mt-12 flex justify-center gap-2">
-                  {therapists.map((_: any, i: number) => (
-                    <span
-                      key={i}
-                      className={`h-2 rounded-full transition-all ${
-                        i === therapistIndex
-                          ? "w-6 bg-green-950"
-                          : "w-2 bg-green-300"
-                      }`}
-                    />
-                  ))}
+              {/* Mobile: peek carousel, one therapist centered with neighbors visible */}
+              <div className="lg:hidden">
+                <div className="relative">
+                  <div
+                    ref={mobileScrollRef}
+                    onScroll={handleMobileTherapistScroll}
+                    className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  >
+                    {therapists.map((therapist: any) => (
+                      <article
+                        key={therapist.slug}
+                        className="flex w-[72%] shrink-0 snap-center flex-col items-center p-2 text-center"
+                      >
+                        <div className="relative size-[140px] overflow-hidden rounded-full bg-camel-200">
+                          {therapist.photo && (
+                            <Image
+                              src={therapist.photo}
+                              alt={therapist.photoAlt || `Photo of ${therapist.name}`}
+                              fill
+                              sizes="140px"
+                              className="object-cover"
+                            />
+                          )}
+                        </div>
+
+                        <h4 className="mt-4 font-body text-body-base-bold text-green-950 w-full">
+                          {therapist.name}
+                        </h4>
+                        <p className="mt-1 text-body-sm text-green-700/80 font-medium w-full">
+                          {therapist.title}
+                        </p>
+
+                        <Link
+                          href={`/team/${therapist.slug}`}
+                          className="mt-4 inline-flex items-center gap-1.5 text-body-sm font-semibold text-green-800 transition hover:text-green-950"
+                        >
+                          View Profile
+                          <ArrowUpRightIcon size={14} />
+                        </Link>
+                      </article>
+                    ))}
+                  </div>
+
+                  {therapists.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label="Previous therapist"
+                        onClick={() => scrollToMobileTherapist(mobileTherapistIndex - 1)}
+                        className="absolute left-0 top-[70px] z-10 flex size-9 -translate-x-1/2 items-center justify-center rounded-full bg-green-700 text-white shadow-ds2 transition hover:bg-green-800"
+                      >
+                        <ChevronLeftIcon size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="Next therapist"
+                        onClick={() => scrollToMobileTherapist(mobileTherapistIndex + 1)}
+                        className="absolute right-0 top-[70px] z-10 flex size-9 translate-x-1/2 items-center justify-center rounded-full bg-green-700 text-white shadow-ds2 transition hover:bg-green-800"
+                      >
+                        <ChevronRightIcon size={16} />
+                      </button>
+                    </>
+                  )}
                 </div>
-              )}
+
+                {/* Scroll progress indicator */}
+                {therapists.length > 1 && (
+                  <div className="mx-auto mt-6 h-1.5 w-32 overflow-hidden rounded-full bg-camel-200">
+                    <div
+                      className="h-full rounded-full bg-green-800 transition-transform duration-300"
+                      style={{
+                        width: `${100 / therapists.length}%`,
+                        transform: `translateX(${mobileTherapistIndex * 100}%)`,
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Section 1 Quote (centered) with soft ellipse */}
-        <div className="relative mt-20 mx-auto max-w-[600px]">
+        <div className="relative mt-12 lg:mt-20 mx-auto max-w-[600px]">
           <Image
             src={quoteEllipseFreire}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 w-[120%] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-95"
+            className="pointer-events-none absolute left-1/2 top-1/2 w-[150%] sm:w-[130%] lg:w-[120%] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-95"
           />
-          <figure className="relative text-center px-6 py-4">
-            <blockquote className="font-quote text-[28px] leading-relaxed tracking-normal text-[#485b50]">
+          <figure className="relative text-center px-4 sm:px-6 py-4">
+            <blockquote className="font-quote text-quote text-[#485b50]">
               &ldquo;<EditableText pageId="services" path="hero.quote.text" value={hero.quote.text} isTextArea />&rdquo;
             </blockquote>
-            <figcaption className="mt-3 text-right font-quote text-[28px] leading-relaxed tracking-normal text-[#485b50]">
+            <figcaption className="mt-3 text-right font-quote text-quote text-[#485b50]">
               &ndash;&nbsp;<EditableText pageId="services" path="hero.quote.author" value={hero.quote.author} />
             </figcaption>
           </figure>
