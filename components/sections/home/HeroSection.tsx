@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import Image from "next/image";
-import { hero } from "@/data/home";
+import { hero as defaultHero } from "@/data/home";
 import { ButtonLink } from "@/components/ui/Button";
 import { SectionIdentifier } from "@/components/ui/SectionIdentifier";
 import { Quote } from "@/components/ui/Quote";
 import { ClockIcon } from "@/components/ui/icons";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
 import leaf from "@/public/images/icons/leaf.svg";
 import heroBranch from "@/public/images/decor/hero-branch.svg";
 import heroBgShape from "@/public/images/decor/hero-bg-shape.svg";
@@ -27,6 +32,9 @@ function LeafBullet() {
 }
 
 export function HeroSection() {
+  const { getContentValue } = useCms();
+  const hero = getContentValue("home", "hero", defaultHero);
+
   return (
     <section className="relative overflow-hidden bg-[#faf2ef]">
       {/* Right-side organic background shape (Figma Vector 34) */}
@@ -48,17 +56,21 @@ export function HeroSection() {
       <div className="relative z-10 mx-auto grid max-w-[1440px] items-start gap-12 px-6 py-16 sm:px-10 lg:grid-cols-[1fr_522px] lg:gap-16 lg:px-20 lg:py-20">
         {/* Left column */}
         <div className="flex flex-col items-start">
-          <SectionIdentifier>{hero.eyebrow}</SectionIdentifier>
+          <SectionIdentifier>
+            <EditableText pageId="home" path="hero.eyebrow" value={hero.eyebrow} />
+          </SectionIdentifier>
 
           <h1 className="mt-6 max-w-[736px] font-heading text-h1 text-green-950">
-            {hero.heading}
+            <EditableText pageId="home" path="hero.heading" value={hero.heading} isTextArea />
           </h1>
 
           <ul className="mt-8 flex max-w-[724px] flex-col gap-4">
-            {hero.bullets.map((bullet) => (
-              <li key={bullet} className="flex items-center gap-3">
+            {hero.bullets.map((bullet: string, index: number) => (
+              <li key={index} className="flex items-center gap-3">
                 <LeafBullet />
-                <span className="text-body-sm text-green-700">{bullet}</span>
+                <span className="text-body-sm text-green-700">
+                  <EditableText pageId="home" path={`hero.bullets[${index}]`} value={bullet} />
+                </span>
               </li>
             ))}
           </ul>
@@ -73,8 +85,12 @@ export function HeroSection() {
             />
             <Quote
               className="relative"
-              text={hero.quote.text}
-              author={hero.quote.author}
+              text={
+                <EditableText pageId="home" path="hero.quote.text" value={hero.quote.text} isTextArea />
+              }
+              author={
+                <EditableText pageId="home" path="hero.quote.author" value={hero.quote.author} />
+              }
             />
           </div>
         </div>
@@ -82,19 +98,21 @@ export function HeroSection() {
         {/* Consultation card */}
         <div className="w-full rounded-[20px] border border-green-200 bg-gradient-to-b from-[#fffcf7] to-[#e8e2d8] p-8 shadow-ds4">
           <p className="mx-auto max-w-[291px] text-center text-body-lg text-green-700">
-            {hero.card.heading}
+            <EditableText pageId="home" path="hero.card.heading" value={hero.card.heading} isTextArea />
           </p>
 
           <div className="mt-7 flex flex-col gap-6">
-            {hero.card.rows.map((row) => (
-              <div key={row.label} className="flex flex-col gap-6">
+            {hero.card.rows.map((row: any, index: number) => (
+              <div key={index} className="flex flex-col gap-6">
                 <span className="block h-px w-full bg-camel-600/40" />
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-3 text-body-base text-green-600">
                     {row.icon === "clock" ? <ClockIcon size={20} /> : <VideoIcon size={20} />}
-                    {row.label}
+                    <EditableText pageId="home" path={`hero.card.rows[${index}].label`} value={row.label} />
                   </span>
-                  <span className="text-body-base-bold text-green-700">{row.value}</span>
+                  <span className="text-body-base-bold text-green-700">
+                    <EditableText pageId="home" path={`hero.card.rows[${index}].value`} value={row.value} />
+                  </span>
                 </div>
               </div>
             ))}
@@ -102,9 +120,11 @@ export function HeroSection() {
 
           <div className="mt-10 flex flex-col items-center gap-4">
             <ButtonLink href={hero.card.ctaHref} size="lg" className="w-full">
-              {hero.card.ctaLabel}
+              <EditableText pageId="home" path="hero.card.ctaLabel" value={hero.card.ctaLabel} />
             </ButtonLink>
-            <p className="text-center text-body-sm text-green-600">{hero.card.note}</p>
+            <p className="text-center text-body-sm text-green-600">
+              <EditableText pageId="home" path="hero.card.note" value={hero.card.note} />
+            </p>
           </div>
         </div>
       </div>

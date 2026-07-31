@@ -1,23 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import Image from "next/image";
-import { team } from "@/data/home";
+import { team as defaultTeam } from "@/data/home";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
+import { EditableImage } from "@/components/cms/EditableImage";
 import type { TeamMember } from "@/data/home";
 
 /* ─── Team card ─────────────────────────────────────────────────────────── */
-function TeamCard({ member }: { member: TeamMember }) {
+function TeamCard({ member, index }: { member: TeamMember; index: number }) {
   return (
-    <a
-      href={member.href}
+    <div
       className="group flex w-[220px] shrink-0 flex-col items-center text-center"
     >
       {/* Circular photo */}
       <div className="relative size-[220px] overflow-hidden rounded-full bg-[#ede8df] shadow-ds3 transition-transform duration-300 group-hover:-translate-y-1.5">
-        <Image
+        <EditableImage
+          pageId="home"
+          path={`team.members[${index}].photo`}
           src={member.photo}
           alt={`Portrait of ${member.name}`}
           fill
@@ -27,10 +31,14 @@ function TeamCard({ member }: { member: TeamMember }) {
       </div>
 
       {/* Name */}
-      <p className="mt-5 text-body-base-bold text-green-950">{member.name}</p>
+      <p className="mt-5 text-body-base-bold text-green-950">
+        <EditableText pageId="home" path={`team.members[${index}].name`} value={member.name} />
+      </p>
       {/* Title */}
-      <p className="mt-1 text-body-sm text-green-700/80">{member.title}</p>
-    </a>
+      <p className="mt-1 text-body-sm text-green-700/80">
+        <EditableText pageId="home" path={`team.members[${index}].title`} value={member.title} />
+      </p>
+    </div>
   );
 }
 
@@ -71,6 +79,8 @@ function ArrowBtn({
 
 /* ─── Section ────────────────────────────────────────────────────────────── */
 export function MeetOurTeamSection() {
+  const { getContentValue } = useCms();
+  const team = getContentValue("home", "team", defaultTeam);
   const trackRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
@@ -111,7 +121,10 @@ export function MeetOurTeamSection() {
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
 
         {/* Heading — centered */}
-        <SectionHeading eyebrow={team.eyebrow} heading={team.heading} />
+        <SectionHeading
+          eyebrow={<EditableText pageId="home" path="team.eyebrow" value={team.eyebrow} />}
+          heading={<EditableText pageId="home" path="team.heading" value={team.heading} />}
+        />
 
         {/* Carousel track */}
         <div className="relative mt-14">
@@ -123,9 +136,9 @@ export function MeetOurTeamSection() {
             aria-label="Our team members"
             className="flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth px-2 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {team.members.map((member, i) => (
+            {team.members.map((member: any, i: number) => (
               <div key={i} className="snap-start">
-                <TeamCard member={member} />
+                <TeamCard member={member} index={i} />
               </div>
             ))}
           </div>
@@ -161,7 +174,7 @@ export function MeetOurTeamSection() {
 
           {/* CTA */}
           <ButtonLink href={team.ctaHref} variant="secondary" size="md">
-            {team.ctaLabel}
+            <EditableText pageId="home" path="team.ctaLabel" value={team.ctaLabel} />
           </ButtonLink>
         </div>
 

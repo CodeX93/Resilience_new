@@ -132,4 +132,6 @@ export const newsletter = {
   nameLabel: "First Name (Optional)",
   ctaLabel: "Subscribe",
   note: "You are member of our team. Your information is kept private and treated.",
+  facebookUrl: "https://facebook.com",
+  instagramUrl: "https://instagram.com",
 };

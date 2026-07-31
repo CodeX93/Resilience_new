@@ -60,6 +60,9 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", site: siteConfig.twitter },
 };
 
+import { CmsProvider } from "@/components/cms/CmsProvider";
+import { CmsActionBar } from "@/components/cms/CmsActionBar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -71,10 +74,13 @@ export default function RootLayout({
       className={`${lancelot.variable} ${inriaSerif.variable} ${josefinSlab.variable} ${instrumentSans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
-        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CmsProvider>
+          <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <CmsActionBar />
+        </CmsProvider>
       </body>
     </html>
   );

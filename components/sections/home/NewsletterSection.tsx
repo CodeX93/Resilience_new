@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { newsletter } from "@/data/home";
+import { newsletter as defaultNewsletter } from "@/data/home";
 import { Button } from "@/components/ui/Button";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
+import { EditableLink } from "@/components/cms/EditableLink";
 import { FacebookIcon, InstagramIcon } from "@/components/ui/icons";
 import stayConnected1 from "@/public/images/decor/stayConnected1.svg";
 import stayConnected2 from "@/public/images/decor/stayConnected2.svg";
 
 export function NewsletterSection() {
+  const { getContentValue } = useCms();
+  const newsletter = getContentValue("home", "newsletter", defaultNewsletter);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -57,12 +62,12 @@ export function NewsletterSection() {
           <div className="relative z-10 grid gap-10 p-10 lg:grid-cols-2 lg:items-start lg:gap-16 lg:p-14">
 
             {/* Left: heading + description starting from top */}
-            <div className="flex flex-col items-start gap-4">
-              <h2 className="font-heading text-h2 text-green-950">
-                {newsletter.heading}
+            <div className="flex flex-col items-start gap-4 w-full">
+              <h2 className="font-heading text-h2 text-green-950 w-full">
+                <EditableText pageId="home" path="newsletter.heading" value={newsletter.heading} />
               </h2>
-              <p className="max-w-[360px] text-body-base text-green-700/80 leading-relaxed">
-                {newsletter.description}
+              <p className="max-w-[360px] text-body-base text-green-700/80 leading-relaxed w-full">
+                <EditableText pageId="home" path="newsletter.description" value={newsletter.description} isTextArea />
               </p>
             </div>
 
@@ -75,10 +80,12 @@ export function NewsletterSection() {
                 Thank you for subscribing — we&apos;ll be in touch.
               </p>
             ) : (
-              <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
+              <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4 w-full">
                 {/* Email input */}
-                <label className="flex flex-col gap-1.5">
-                  <span className="sr-only">{newsletter.emailLabel}</span>
+                <label className="flex flex-col gap-1.5 w-full">
+                  <span className="sr-only">
+                    <EditableText pageId="home" path="newsletter.emailLabel" value={newsletter.emailLabel} />
+                  </span>
                   <input
                     type="email"
                     required
@@ -91,8 +98,10 @@ export function NewsletterSection() {
                 </label>
 
                 {/* Name input */}
-                <label className="flex flex-col gap-1.5">
-                  <span className="sr-only">{newsletter.nameLabel}</span>
+                <label className="flex flex-col gap-1.5 w-full">
+                  <span className="sr-only">
+                    <EditableText pageId="home" path="newsletter.nameLabel" value={newsletter.nameLabel} />
+                  </span>
                   <input
                     type="text"
                     value={name}
@@ -113,34 +122,38 @@ export function NewsletterSection() {
                   size="lg"
                   className="w-fit !bg-[#34483d] hover:!bg-green-950 text-white font-semibold rounded-xl px-7 py-3 mt-1"
                 >
-                  {newsletter.ctaLabel}
+                  <EditableText pageId="home" path="newsletter.ctaLabel" value={newsletter.ctaLabel} />
                 </Button>
 
                 {/* Privacy note */}
-                <p className="max-w-[360px] text-body-sm text-green-700/70 leading-normal mt-1">
-                  {newsletter.note}
+                <p className="max-w-[360px] text-body-sm text-green-700/70 leading-normal mt-1 w-full">
+                  <EditableText pageId="home" path="newsletter.note" value={newsletter.note} isTextArea />
                 </p>
 
                 {/* Social icons — ON RIGHT SECTION BELOW PRIVACY NOTE */}
                 <div className="mt-3 flex items-center gap-3">
-                  <a
-                    href="https://facebook.com"
+                  <EditableLink
+                    pageId="home"
+                    path="newsletter.facebookUrl"
+                    href={newsletter.facebookUrl || "https://facebook.com"}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"
                     className="flex size-7 items-center justify-center rounded-full bg-[#efe8de] text-green-950 transition-colors hover:bg-camel-300"
                   >
                     <FacebookIcon size={16} />
-                  </a>
-                  <a
-                    href="https://instagram.com"
+                  </EditableLink>
+                  <EditableLink
+                    pageId="home"
+                    path="newsletter.instagramUrl"
+                    href={newsletter.instagramUrl || "https://instagram.com"}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Instagram"
                     className="flex size-7 items-center justify-center rounded-full bg-[#efe8de] text-green-950 transition-colors hover:bg-camel-300"
                   >
                     <InstagramIcon size={16} />
-                  </a>
+                  </EditableLink>
                 </div>
               </form>
             )}

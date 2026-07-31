@@ -1,14 +1,21 @@
+"use client";
+
 import Image from "next/image";
-import { journal } from "@/data/home";
+import { journal as defaultJournal } from "@/data/home";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
+import { EditableImage } from "@/components/cms/EditableImage";
 import leaf from "@/public/images/icons/leaf.svg";
 import journalWave from "@/public/images/decor/journal-wave-top-right.svg";
 import journalBranch from "@/public/images/decor/journal-branch-left.svg";
 import journalLeafMask from "@/public/images/decor/journal-leaf-mask.svg";
 
 export function JournalSection() {
+  const { getContentValue } = useCms();
+  const journal = getContentValue("home", "journal", defaultJournal);
   const post = journal.featured;
 
   return (
@@ -48,28 +55,33 @@ export function JournalSection() {
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
 
         {/* Centered heading */}
-        <SectionHeading eyebrow={journal.eyebrow} heading={journal.heading} />
+        <SectionHeading
+          eyebrow={<EditableText pageId="home" path="journal.eyebrow" value={journal.eyebrow} />}
+          heading={<EditableText pageId="home" path="journal.heading" value={journal.heading} />}
+        />
 
         {/* Featured article card */}
         <article className="mt-12 grid overflow-hidden rounded-3xl border border-camel-500/40 shadow-ds3 lg:grid-cols-[1fr_1.45fr]" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
 
           {/* Left: text content */}
-          <div className="flex flex-col items-start justify-center gap-5 p-8 lg:p-12">
+          <div className="flex flex-col items-start justify-center gap-5 p-8 lg:p-12 w-full">
 
             {/* Tag pill */}
             {post.tag && (
               <span className="inline-flex items-center gap-2 rounded-full bg-mint-300/70 px-4 py-1.5 text-body-sm text-green-700">
                 <Image src={leaf} alt="" width={13} height={13} aria-hidden />
-                {post.tag}
+                <EditableText pageId="home" path="journal.featured.tag" value={post.tag} />
               </span>
             )}
 
             {/* Title */}
-            <h3 className="font-heading text-h3 text-green-950">{post.title}</h3>
+            <h3 className="font-heading text-h3 text-green-950 w-full">
+              <EditableText pageId="home" path="journal.featured.title" value={post.title} />
+            </h3>
 
             {/* Excerpt */}
-            <p className="text-body-sm leading-relaxed text-green-700/80">
-              {post.excerpt}
+            <p className="text-body-sm leading-relaxed text-green-700/80 w-full">
+              <EditableText pageId="home" path="journal.featured.excerpt" value={post.excerpt} isTextArea />
             </p>
 
             {/* CTA */}
@@ -84,11 +96,13 @@ export function JournalSection() {
             </ButtonLink>
           </div>
 
-          {/* Right: featured image — dark fallback while asset is pending */}
+          {/* Right: featured image ── */}
           <div className="relative min-h-[280px] w-full bg-[#2e2e2e] lg:min-h-[380px]">
-            <Image
+            <EditableImage
+              pageId="home"
+              path="journal.featured.image"
               src={post.image}
-              alt={post.imageAlt}
+              alt={post.imageAlt || "Featured Journal Image"}
               fill
               sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-cover"
@@ -99,7 +113,7 @@ export function JournalSection() {
         {/* View all — centered below card */}
         <div className="mt-10 flex justify-center">
           <ButtonLink href={journal.ctaHref} variant="secondary" size="md">
-            {journal.ctaLabel}
+            <EditableText pageId="home" path="journal.ctaLabel" value={journal.ctaLabel} />
           </ButtonLink>
         </div>
 

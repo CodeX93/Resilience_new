@@ -1,24 +1,21 @@
-/**
- * Decorative pull-quote used in Hero and between sections.
- */
+import React from "react";
+
 export function Quote({
   text,
   author,
   className,
 }: {
-  text?: string;
-  author?: string;
+  text?: React.ReactNode;
+  author?: React.ReactNode;
   className?: string;
 }) {
   return (
     <figure className={`flex flex-col items-center text-center ${className ?? ""}`}>
       <blockquote className="w-full max-w-lg font-quote text-[28px] text-[#485b50] tracking-normal leading-relaxed">
-        &ldquo;We don&apos;t have to do all of it alone.
-        <br />
-        We were never meant to.&rdquo;
+        {text ? <>&ldquo;{text}&rdquo;</> : "We don't have to do all of it alone. We were never meant to."}
       </blockquote>
       <figcaption className="w-full max-w-lg pt-4 font-quote text-[28px] text-[#485b50] tracking-normal leading-relaxed">
-        -Bren&eacute; Brown
+        {author ? <>-{author}</> : "-Brené Brown"}
       </figcaption>
     </figure>
   );

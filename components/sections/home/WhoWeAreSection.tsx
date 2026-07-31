@@ -1,12 +1,20 @@
+"use client";
+
 import Image from "next/image";
-import { whoWeAre } from "@/data/home";
+import { whoWeAre as defaultWhoWeAre } from "@/data/home";
 import { SectionIdentifier } from "@/components/ui/SectionIdentifier";
 import { ButtonLink } from "@/components/ui/Button";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
+import { EditableImage } from "@/components/cms/EditableImage";
 import decorLeft from "@/public/images/decor/who-we-are-decor-left.svg";
 import waveBottom from "@/public/images/decor/who-we-are-wave-top.svg";
 import quoteEllipseWide from "@/public/images/decor/quote-ellipse-wide.svg";
 
 export function WhoWeAreSection() {
+  const { getContentValue } = useCms();
+  const whoWeAre = getContentValue("home", "whoWeAre", defaultWhoWeAre);
+
   return (
     <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
 
@@ -43,16 +51,18 @@ export function WhoWeAreSection() {
 
           {/* Left: text content */}
           <div className="flex flex-col items-start">
-            <SectionIdentifier>{whoWeAre.eyebrow}</SectionIdentifier>
+            <SectionIdentifier>
+              <EditableText pageId="home" path="whoWeAre.eyebrow" value={whoWeAre.eyebrow} />
+            </SectionIdentifier>
 
             <h2 className="mt-6 font-heading text-h2 text-green-950">
-              {whoWeAre.heading}
+              <EditableText pageId="home" path="whoWeAre.heading" value={whoWeAre.heading} />
             </h2>
 
-            <div className="mt-6 flex flex-col gap-5">
-              {whoWeAre.paragraphs.map((p, i) => (
+            <div className="mt-6 flex flex-col gap-5 w-full">
+              {whoWeAre.paragraphs.map((p: string, i: number) => (
                 <p key={i} className="text-body-base text-green-700/90">
-                  {p}
+                  <EditableText pageId="home" path={`whoWeAre.paragraphs[${i}]`} value={p} isTextArea />
                 </p>
               ))}
             </div>
@@ -63,15 +73,17 @@ export function WhoWeAreSection() {
               size="lg"
               className="mt-8"
             >
-              {whoWeAre.ctaLabel}
+              <EditableText pageId="home" path="whoWeAre.ctaLabel" value={whoWeAre.ctaLabel} />
             </ButtonLink>
           </div>
 
           {/* Right: forest photo */}
           <div className="relative aspect-[635/413] w-full overflow-hidden rounded-3xl shadow-ds4">
-            <Image
+            <EditableImage
+              pageId="home"
+              path="whoWeAre.image"
               src={whoWeAre.image}
-              alt={whoWeAre.imageAlt}
+              alt={whoWeAre.imageAlt || whoWeAre.imageAltText || "Who We Are"}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
@@ -90,10 +102,10 @@ export function WhoWeAreSection() {
             />
             <figure className="relative text-center">
               <blockquote className="text-quote text-green-700">
-                &ldquo;{whoWeAre.quote.text}&rdquo;
+                &ldquo;<EditableText pageId="home" path="whoWeAre.quote.text" value={whoWeAre.quote.text} isTextArea />&rdquo;
               </blockquote>
               <figcaption className="mt-3 text-body-base text-green-600">
-                &mdash; {whoWeAre.quote.author}
+                &mdash; <EditableText pageId="home" path="whoWeAre.quote.author" value={whoWeAre.quote.author} />
               </figcaption>
             </figure>
           </div>

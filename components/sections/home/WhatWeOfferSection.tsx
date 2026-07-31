@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { whatWeOffer } from "@/data/home";
+import { whatWeOffer as defaultWhatWeOffer } from "@/data/home";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Carousel } from "@/components/ui/Carousel";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
 import {
   ArrowUpRightIcon,
   UsersIcon,
@@ -23,10 +28,12 @@ function OfferCard({
   title,
   icon,
   href,
+  index,
 }: {
   title: string;
   icon: keyof typeof cardIcon;
   href: string;
+  index: number;
 }) {
   const Icon = cardIcon[icon];
   return (
@@ -43,12 +50,17 @@ function OfferCard({
           <ArrowUpRightIcon size={15} />
         </Link>
       </div>
-      <h3 className="max-w-[75%] text-body-xl text-green-950">{title}</h3>
+      <h3 className="max-w-[75%] text-body-xl text-green-950">
+        <EditableText pageId="home" path={`whatWeOffer.cards[${index}].title`} value={title} />
+      </h3>
     </article>
   );
 }
 
 export function WhatWeOfferSection() {
+  const { getContentValue } = useCms();
+  const whatWeOffer = getContentValue("home", "whatWeOffer", defaultWhatWeOffer);
+
   return (
     <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
       {/* Decorative leaves */}
@@ -66,11 +78,14 @@ export function WhatWeOfferSection() {
       />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
-        <SectionHeading eyebrow={whatWeOffer.eyebrow} heading={whatWeOffer.heading} />
+        <SectionHeading
+          eyebrow={<EditableText pageId="home" path="whatWeOffer.eyebrow" value={whatWeOffer.eyebrow} />}
+          heading={<EditableText pageId="home" path="whatWeOffer.heading" value={whatWeOffer.heading} />}
+        />
 
         <Carousel ariaLabel="Services we offer" className="mt-12">
-          {whatWeOffer.cards.map((card) => (
-            <OfferCard key={card.title} {...card} />
+          {whatWeOffer.cards.map((card: any, index: number) => (
+            <OfferCard key={index} {...card} index={index} />
           ))}
         </Carousel>
 
@@ -84,10 +99,10 @@ export function WhatWeOfferSection() {
           />
           <figure className="relative py-8 pl-2 pr-4">
             <blockquote className="font-quote max-w-[520px] text-[28px] leading-relaxed tracking-normal text-[#485b50]">
-              &ldquo;{whatWeOffer.quote.text}&rdquo;
+              &ldquo;<EditableText pageId="home" path="whatWeOffer.quote.text" value={whatWeOffer.quote.text} isTextArea />&rdquo;
             </blockquote>
             <figcaption className="mt-3 text-right font-quote text-[28px] leading-relaxed tracking-normal text-[#485b50]">
-              &ndash;&nbsp;{whatWeOffer.quote.author}
+              &ndash;&nbsp;<EditableText pageId="home" path="whatWeOffer.quote.author" value={whatWeOffer.quote.author} />
             </figcaption>
           </figure>
         </div>
