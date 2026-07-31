@@ -3,9 +3,7 @@ import { featuredPost } from "@/data/journal";
 import { buildMetadata, webPageJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { JournalDetailHeroSection } from "@/components/sections/journal/JournalDetailHeroSection";
-import { JournalDetailContentSection } from "@/components/sections/journal/JournalDetailContentSection";
-import { ExploreMorePostsSection } from "@/components/sections/journal/ExploreMorePostsSection";
+
 
 export async function generateMetadata({
   params,
@@ -25,13 +23,15 @@ export async function generateMetadata({
   });
 }
 
+import { JournalDetailPageClient } from "@/components/sections/journal/JournalDetailPageClient";
+
 export default async function BlogDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = featuredPost; // Default fallback to featured post content
+  const post = featuredPost; // Default fallback for JSON-LD
 
   return (
     <>
@@ -43,16 +43,7 @@ export default async function BlogDetailPage({
           }),
         ]}
       />
-      <JournalDetailHeroSection
-        title={post.title}
-        tag={post.tag}
-        date={post.date}
-        readTime="5 Min Read"
-        image={post.image}
-        imageAlt={post.imageAlt}
-      />
-      <JournalDetailContentSection />
-      <ExploreMorePostsSection />
+      <JournalDetailPageClient slug={slug} />
     </>
   );
 }

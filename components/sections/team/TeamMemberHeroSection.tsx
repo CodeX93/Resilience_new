@@ -1,9 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
 import { SolidMailIcon, SolidPhoneIcon, SolidMapPinIcon } from "@/components/ui/icons";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableImage } from "@/components/cms/EditableImage";
 import stayConnected1 from "@/public/images/decor/stayConnected1.svg";
 import stayConnected2 from "@/public/images/decor/stayConnected2.svg";
-import type { TeamMemberDetail } from "@/data/team";
+import type { TeamMember } from "@/lib/models/team-member";
 
 function SparklesIcon({ size = 20 }: { size?: number }) {
   return (
@@ -23,7 +27,14 @@ function SparklesIcon({ size = 20 }: { size?: number }) {
   );
 }
 
-export function TeamMemberHeroSection({ member }: { member: TeamMemberDetail }) {
+interface TeamMemberHeroProps {
+  member: TeamMember;
+  setMember: (val: TeamMember) => void;
+}
+
+export function TeamMemberHeroSection({ member, setMember }: TeamMemberHeroProps) {
+  const { isEditMode, updateTeamMember } = useCms();
+
   return (
     <section className="relative overflow-hidden bg-[#faf2ef] pt-12 pb-16 lg:pt-16 lg:pb-20">
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
@@ -127,15 +138,33 @@ export function TeamMemberHeroSection({ member }: { member: TeamMemberDetail }) 
             />
 
             {/* Photo card — fills full height of left column, no inner padding */}
-            <div className="relative h-full min-h-[420px] overflow-hidden rounded-[28px] border border-camel-400/80 shadow-ds3 bg-transparent">
-              <Image
-                src={member.photo}
-                alt={`Portrait of ${member.name}`}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 500px"
-                className="object-cover object-top"
-              />
+            <div className="relative h-full min-h-[420px] overflow-hidden rounded-[28px] border border-camel-400/80 shadow-ds3 bg-[#ede8df]">
+              {isEditMode ? (
+                <EditableImage
+                  pageId={`team-${member.slug}`}
+                  path="photo"
+                  src={member.photo}
+                  alt={member.photoAlt || `Portrait of ${member.name}`}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  className="object-cover object-top"
+                  onSave={async (src, alt) => {
+                    const updated = { ...member, photo: src, photoAlt: alt };
+                    setMember(updated);
+                    await updateTeamMember(member.slug, { photo: src, photoAlt: alt });
+                  }}
+                />
+              ) : member.photo ? (
+                <Image
+                  src={member.photo}
+                  alt={member.photoAlt || `Portrait of ${member.name}`}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  className="object-cover object-top"
+                />
+              ) : null}
             </div>
           </div>
 

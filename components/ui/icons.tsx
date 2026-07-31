@@ -67,6 +67,13 @@ export const ArrowUpRightIcon = (p: IconProps) => (
   </Svg>
 );
 
+export const PlusIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 5v14" />
+    <path d="M5 12h14" />
+  </Svg>
+);
+
 export const ChevronLeftIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="m15 6-6 6 6 6" />

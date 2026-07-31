@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
-import type { TeamMemberDetail } from "@/data/team";
+import type { TeamMember } from "@/lib/models/team-member";
 
-export function TeamCard({ member }: { member: TeamMemberDetail }) {
+export function TeamCard({ member }: { member: TeamMember }) {
   return (
     <article className="group flex flex-col items-center text-center">
       {/* Circular Photo with Soft Drop Shadow & Border */}
@@ -11,13 +11,15 @@ export function TeamCard({ member }: { member: TeamMemberDetail }) {
         href={`/team/${member.slug}`}
         className="relative size-[230px] overflow-hidden rounded-full border border-[#e8dfce]/90 bg-[#f4eee6] shadow-[0_8px_24px_rgba(160,135,100,0.18)] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-[0_12px_32px_rgba(160,135,100,0.25)]"
       >
-        <Image
-          src={member.photo}
-          alt={`Portrait of ${member.name}`}
-          fill
-          sizes="230px"
-          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-        />
+        {member.photo && (
+          <Image
+            src={member.photo}
+            alt={member.photoAlt || `Portrait of ${member.name}`}
+            fill
+            sizes="230px"
+            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          />
+        )}
       </Link>
 
       {/* Name — Extra Bold */}

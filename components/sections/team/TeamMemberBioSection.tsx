@@ -1,8 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import quoteEllipseWide from "@/public/images/decor/quote-ellipse-wide.svg";
-import type { TeamMemberDetail } from "@/data/team";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableImage } from "@/components/cms/EditableImage";
+import type { TeamMember } from "@/lib/models/team-member";
 
-export function TeamMemberBioSection({ member }: { member: TeamMemberDetail }) {
+interface TeamMemberBioProps {
+  member: TeamMember;
+  setMember: (val: TeamMember) => void;
+}
+
+export function TeamMemberBioSection({ member, setMember }: TeamMemberBioProps) {
+  const { isEditMode, updateTeamMember } = useCms();
+
   return (
     <section className="relative overflow-hidden bg-[#faf2ef] py-16 lg:py-24">
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
@@ -23,15 +34,32 @@ export function TeamMemberBioSection({ member }: { member: TeamMemberDetail }) {
 
           {/* ── Right Column: Tree Illustration + Quote ── */}
           <div className="flex flex-col items-stretch gap-6">
-            {/* Tree image card — rounded, bordered, cream background */}
-            <div className="relative w-full overflow-hidden rounded-2xl border border-camel-300/80 bg-[#EDE5DC] shadow-ds2" style={{ aspectRatio: "4/3" }}>
-              <Image
-                src={member.treeArtwork || "/images/about/our-approach.jpg"}
-                alt="Tree illustration representing strength and growth"
-                fill
-                sizes="(max-width: 1024px) 100vw, 500px"
-                className="object-cover object-center"
-              />
+            {/* Tree illustration — no decorative card, just the image */}
+            <div className="relative w-full" style={{ aspectRatio: "4/3" }}>
+              {isEditMode ? (
+                <EditableImage
+                  pageId={`team-${member.slug}`}
+                  path="treeArtwork"
+                  src={member.treeArtwork}
+                  alt={member.treeArtworkAlt || "Tree illustration representing strength and growth"}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  className="object-cover object-center"
+                  onSave={async (src, alt) => {
+                    const updated = { ...member, treeArtwork: src, treeArtworkAlt: alt };
+                    setMember(updated);
+                    await updateTeamMember(member.slug, { treeArtwork: src, treeArtworkAlt: alt });
+                  }}
+                />
+              ) : member.treeArtwork ? (
+                <Image
+                  src={member.treeArtwork}
+                  alt={member.treeArtworkAlt || "Tree illustration representing strength and growth"}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  className="object-cover object-center"
+                />
+              ) : null}
             </div>
 
             {/* Quote — large italic serif with ellipse background illustration */}

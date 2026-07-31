@@ -1,4 +1,4 @@
-import type { TeamMemberDetail } from "@/data/team";
+import type { TeamMember } from "@/lib/models/team-member";
 
 function MapleLeafIcon({ size = 54 }: { size?: number }) {
   return (
@@ -19,7 +19,7 @@ function MapleLeafIcon({ size = 54 }: { size?: number }) {
   );
 }
 
-export function WhyMapleTreeSection({ member }: { member: TeamMemberDetail }) {
+export function WhyMapleTreeSection({ member }: { member: TeamMember }) {
   if (!member.whyTreeTitle || !member.whyTreeText) return null;
 
   return (

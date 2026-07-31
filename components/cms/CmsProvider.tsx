@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 
 interface CmsContextType {
   isAdmin: boolean;
@@ -16,6 +16,14 @@ interface CmsContextType {
   getContentValue: (pageId: string, path: string, fallbackValue: any) => any;
   login: (password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
+  journalPosts: any[];
+  loadJournalPosts: () => Promise<void>;
+  createJournalPost: (post: any) => Promise<any>;
+  updateJournalPost: (slug: string, post: any) => Promise<boolean>;
+  deleteJournalPost: (slug: string) => Promise<boolean>;
+  teamMembers: any[];
+  loadTeamMembers: () => Promise<void>;
+  updateTeamMember: (slug: string, member: any) => Promise<boolean>;
 }
 
 const CmsContext = createContext<CmsContextType | undefined>(undefined);
@@ -84,6 +92,118 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
   const [originalContents, setOriginalContents] = useState<Record<string, any>>({});
   const [drafts, setDrafts] = useState<Record<string, any>>({});
   const [hasChanges, setHasChanges] = useState<Record<string, boolean>>({});
+  const [journalPosts, setJournalPosts] = useState<any[]>([]);
+  const [teamMembers, setTeamMembers] = useState<any[]>([]);
+
+  const loadJournalPosts = useCallback(async () => {
+    try {
+      const res = await fetch("/api/cms/journal");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.posts) {
+          setJournalPosts(data.posts);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load journal posts:", err);
+    }
+  }, []);
+
+  const createJournalPost = useCallback(async (post: any) => {
+    try {
+      const res = await fetch("/api/cms/journal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(post),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.post) {
+          setJournalPosts((prev) => [...prev, data.post]);
+          return data.post;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to create journal post:", err);
+    }
+    return null;
+  }, []);
+
+  const updateJournalPost = useCallback(async (slug: string, updatedFields: any) => {
+    try {
+      const res = await fetch("/api/cms/journal", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug, ...updatedFields }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setJournalPosts((prev) =>
+            prev.map((p) => (p.slug === slug ? { ...p, ...updatedFields } : p))
+          );
+          return true;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to update journal post:", err);
+    }
+    return false;
+  }, []);
+
+  const deleteJournalPost = useCallback(async (slug: string) => {
+    try {
+      const res = await fetch(`/api/cms/journal?slug=${slug}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setJournalPosts((prev) => prev.filter((p) => p.slug !== slug));
+          return true;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to delete journal post:", err);
+    }
+    return false;
+  }, []);
+
+  const loadTeamMembers = useCallback(async () => {
+    try {
+      const res = await fetch("/api/cms/team");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.members) {
+          setTeamMembers(data.members);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load team members:", err);
+    }
+  }, []);
+
+  const updateTeamMember = useCallback(async (slug: string, updatedFields: any) => {
+    try {
+      const res = await fetch("/api/cms/team", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug, ...updatedFields }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setTeamMembers((prev) =>
+            prev.map((m) => (m.slug === slug ? { ...m, ...updatedFields } : m))
+          );
+          return true;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to update team member:", err);
+    }
+    return false;
+  }, []);
 
   // Check auth on mount
   useEffect(() => {
@@ -218,6 +338,14 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
         getContentValue,
         login,
         logout,
+        journalPosts,
+        loadJournalPosts,
+        createJournalPost,
+        updateJournalPost,
+        deleteJournalPost,
+        teamMembers,
+        loadTeamMembers,
+        updateTeamMember,
       }}
     >
       {children}

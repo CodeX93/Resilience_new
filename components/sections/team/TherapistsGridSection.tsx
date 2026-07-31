@@ -1,22 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { teamRoleCategories, teamMembersList } from "@/data/team";
+import { teamRoleCategories } from "@/data/team";
 import { TeamCard } from "@/components/ui/TeamCard";
+import { useCms } from "@/components/cms/CmsProvider";
 import offerLeaves from "@/public/images/decor/offer-leaves.svg";
 import offerLeafLeft from "@/public/images/decor/offer-leaf-left.svg";
 import heroBranch from "@/public/images/decor/hero-branch.svg";
 
 export function TherapistsGridSection() {
+  const { teamMembers, loadTeamMembers } = useCms();
   const [selectedRole, setSelectedRole] = useState<string>("All");
+
+  useEffect(() => {
+    loadTeamMembers();
+  }, [loadTeamMembers]);
 
   // Filter members by role
   const filteredMembers =
     selectedRole === "All"
-      ? teamMembersList
-      : teamMembersList.filter((m) =>
-          m.roleCategory.toLowerCase().includes(selectedRole.toLowerCase())
+      ? teamMembers
+      : teamMembers.filter((m) =>
+          m.roleCategory?.toLowerCase().includes(selectedRole.toLowerCase())
         );
 
   return (
@@ -73,11 +79,23 @@ export function TherapistsGridSection() {
         </div>
 
         {/* Grid of Therapists */}
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredMembers.map((member) => (
-            <TeamCard key={member.slug} member={member} />
-          ))}
-        </div>
+        {filteredMembers.length === 0 ? (
+          <div className="flex flex-col items-center justify-center text-center p-8 rounded-3xl border border-camel-300 bg-white/60 shadow-ds3 max-w-2xl mx-auto py-16">
+            <div className="relative w-28 h-28 bg-camel-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
+              <span className="text-5xl" role="img" aria-label="Leaves">🌿</span>
+            </div>
+            <h3 className="font-heading text-h3 text-green-950 mb-2">No Therapists Found</h3>
+            <p className="text-body-base text-green-700/80 max-w-md leading-relaxed">
+              We couldn&apos;t find any therapists matching this category yet.
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredMembers.map((member) => (
+              <TeamCard key={member.slug} member={member} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

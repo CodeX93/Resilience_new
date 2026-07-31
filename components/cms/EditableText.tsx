@@ -10,6 +10,7 @@ interface EditableTextProps {
   as?: "span" | "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p";
   isTextArea?: boolean;
   className?: string;
+  onChange?: (value: string) => void;
 }
 
 export function EditableText({
@@ -19,6 +20,7 @@ export function EditableText({
   as: Component = "span",
   isTextArea = false,
   className = "",
+  onChange,
 }: EditableTextProps) {
   const { isEditMode, updateField } = useCms();
   const [isEditing, setIsEditing] = useState(false);
@@ -46,7 +48,11 @@ export function EditableText({
   const handleBlur = () => {
     setIsEditing(false);
     if (localValue !== value) {
-      updateField(pageId, path, localValue);
+      if (onChange) {
+        onChange(localValue);
+      } else {
+        updateField(pageId, path, localValue);
+      }
     }
   };
 

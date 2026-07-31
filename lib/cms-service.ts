@@ -2,7 +2,7 @@ import clientPromise from "./mongodb";
 import * as home from "@/data/home";
 import { aboutPageData as about } from "@/data/about";
 import { servicesPageData as services } from "@/data/services";
-import { teamRoleCategories, teamMembersList } from "@/data/team";
+import { teamRoleCategories } from "@/data/team";
 import { contactPageData as contact } from "@/data/contact";
 import * as journal from "@/data/journal";
 import * as navigation from "@/data/navigation";
@@ -21,7 +21,6 @@ const defaultDataMap: Record<string, any> = {
   services: services,
   team: {
     roleCategories: teamRoleCategories,
-    membersList: teamMembersList,
   },
   contact: contact,
   journal: {
