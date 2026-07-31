@@ -8,7 +8,7 @@ import quoteEllipseWide from "@/public/images/decor/quote-ellipse-wide.svg";
 
 export function WhoWeAreSection() {
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
 
       {/* ── Decor Left: Frame 1948757454 (189×457px organic blob)
               Sits flush with the left edge of the viewport, spanning the full

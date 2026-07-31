@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/icons";
 import servicesHeroLeaves from "@/public/images/decor/services-hero-leaves.svg";
 import quoteEllipseFreire from "@/public/images/decor/quote-ellipse-freire.svg";
+import servicesBgShape from "@/public/images/decor/services-bg-shape.svg";
+import servicesCardGlow from "@/public/images/decor/services-card-glow.svg";
+import servicesQuoteSprig from "@/public/images/decor/services-quote-sprig.svg";
 
 // Helper icon picker for categories
 function CategoryIcon({ icon, size = 18 }: { icon: string; size?: number }) {
@@ -46,13 +49,29 @@ export function ServicesHeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] pt-12 pb-20 lg:pt-16 lg:pb-24">
-      {/* Top right decorative leaf cluster (Group.svg) */}
+    <section className="relative overflow-hidden bg-[#faf2ef] pt-12 pb-20 lg:pt-16 lg:pb-24">
+      {/* Top right decorative leaf cluster (Group.svg) — tucks behind the detail card */}
       <Image
         src={servicesHeroLeaves}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[380px] lg:block"
+        className="pointer-events-none absolute right-[calc(50%-960px)] top-[24px] z-0 hidden w-[500px] lg:block"
+      />
+
+      {/* Wide soft gradient sweep across the bottom of the section (Vector 32) */}
+      <Image
+        src={servicesBgShape}
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-1/2 z-0 hidden w-[2000px] max-w-none -translate-x-1/2 lg:block"
+      />
+
+      {/* Leaf sprig coming in from the right edge, level with the Paulo Freire quote (Group 1597881388) */}
+      <Image
+        src={servicesQuoteSprig}
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute bottom-[48px] right-0 z-0 hidden w-[170px] lg:block"
       />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
@@ -68,10 +87,18 @@ export function ServicesHeroSection() {
         </div>
 
         {/* Main 2-Column Content: Left Category List | Right Category Details Card */}
-        <div className="mt-12 grid gap-8 lg:grid-cols-[380px_1fr] lg:gap-12 lg:items-start">
-          
-          {/* Left: Category Selector List — container matches section, active tab is white */}
-          <div className="flex flex-col gap-1.5 rounded-3xl p-2 max-h-[780px] overflow-y-auto [scrollbar-width:thin]">
+        <div className="relative mt-12 grid gap-8 lg:grid-cols-[420px_1fr] lg:gap-12 lg:items-stretch">
+
+          {/* Soft gradient glow behind the detail card, arcing across its upper area (Vector 34) */}
+          <Image
+            src={servicesCardGlow}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute right-[-100px] top-[120px] z-0 hidden w-[1080px] max-w-none lg:block"
+          />
+
+          {/* Left: Category Selector List — full list, distributed to match the detail card height */}
+          <div className="relative z-10 flex flex-col gap-1.5 rounded-3xl p-2 lg:justify-between">
             {categories.map((cat) => {
               const isActive = cat.id === activeCategory.id;
               return (
@@ -82,7 +109,7 @@ export function ServicesHeroSection() {
                     setSelectedId(cat.id);
                     setTherapistIndex(0);
                   }}
-                  className={`group flex items-center justify-between rounded-2xl px-4 py-3.5 text-left text-green-950 transition-all duration-200 ${
+                  className={`group flex items-center justify-between rounded-2xl px-6 py-[22px] text-left text-green-950 transition-all duration-200 ${
                     isActive
                       ? "bg-white shadow-ds2"
                       : "bg-transparent hover:bg-white/50"
@@ -112,8 +139,8 @@ export function ServicesHeroSection() {
             })}
           </div>
 
-          {/* Right: Active Service Detail Box */}
-          <div className="flex flex-col rounded-3xl border border-camel-400/70 bg-gradient-to-br from-[#ffffff] to-[#faf6f0] p-8 sm:p-12 shadow-ds3">
+          {/* Right: Active Service Detail Box — matching height with outer vertical padding around content */}
+          <div className="relative z-10 flex flex-col justify-between rounded-3xl border border-camel-400/70 bg-gradient-to-br from-[#ffffff] to-[#faf6f0] p-8 sm:p-12 shadow-ds3">
             {/* Header of Detail Card */}
             <div className="flex flex-col items-center text-center">
               <span className="flex size-14 items-center justify-center rounded-full bg-camel-200 text-green-700 shadow-ds1 mb-4">
@@ -133,8 +160,8 @@ export function ServicesHeroSection() {
               </ButtonLink>
             </div>
 
-            {/* Therapists Subsection */}
-            <div className="mt-16 pt-12 border-t border-camel-300/60">
+            {/* Therapists Subsection — added vertical margins to expand Right container height */}
+            <div className="my-16 pt-12 border-t border-camel-300/60">
               <h3 className="font-heading text-h3 text-green-950">
                 Therapists Who Offer This Service
               </h3>
@@ -147,12 +174,12 @@ export function ServicesHeroSection() {
                       key={therapist.name + idx}
                       className="flex flex-col items-center p-2 text-center"
                     >
-                      <div className="relative size-44 overflow-hidden rounded-full bg-camel-200">
+                      <div className="relative size-[220px] overflow-hidden rounded-full bg-camel-200">
                         <Image
                           src={therapist.photo}
                           alt={`Photo of ${therapist.name}`}
                           fill
-                          sizes="176px"
+                          sizes="220px"
                           className="object-cover"
                         />
                       </div>
@@ -183,7 +210,7 @@ export function ServicesHeroSection() {
                     type="button"
                     aria-label="Next therapist"
                     onClick={handleNextTherapist}
-                    className="absolute right-0 top-[96px] z-10 flex size-12 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-green-700 text-white shadow-ds2 transition hover:bg-green-800"
+                    className="absolute right-0 top-[110px] z-10 flex size-12 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-green-700 text-white shadow-ds2 transition hover:bg-green-800"
                   >
                     <ChevronRightIcon size={20} />
                   </button>
@@ -209,24 +236,22 @@ export function ServicesHeroSection() {
           </div>
         </div>
 
-        {/* Section 1 Quote (centered) with soft ellipse (Ellipse 7273) */}
-        <div className="relative mt-20 flex justify-center">
-          <div className="relative w-full max-w-[640px]">
-            <Image
-              src={quoteEllipseFreire}
-              alt=""
-              aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 w-[640px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2"
-            />
-            <figure className="relative text-center">
-              <blockquote className="font-quote text-quote text-green-950 italic">
-                &ldquo;{hero.quote.text}&rdquo;
-              </blockquote>
-              <figcaption className="mt-3 text-body-base font-body text-green-700">
-                {hero.quote.author}
-              </figcaption>
-            </figure>
-          </div>
+        {/* Section 1 Quote (centered) with soft ellipse */}
+        <div className="relative mt-20 mx-auto max-w-[600px]">
+          <Image
+            src={quoteEllipseFreire}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 w-[120%] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-95"
+          />
+          <figure className="relative text-center px-6 py-4">
+            <blockquote className="font-quote text-[28px] leading-relaxed tracking-normal text-[#485b50]">
+              &ldquo;{hero.quote.text}&rdquo;
+            </blockquote>
+            <figcaption className="mt-3 text-right font-quote text-[28px] leading-relaxed tracking-normal text-[#485b50]">
+              &ndash;&nbsp;{hero.quote.author}
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>

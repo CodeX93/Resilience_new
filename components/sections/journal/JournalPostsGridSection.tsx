@@ -19,7 +19,7 @@ export function JournalPostsGridSection() {
       : journalPosts.filter((p) => p.tag.toLowerCase() === selectedCategory.toLowerCase());
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-12 lg:py-20">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-12 lg:py-20">
       {/* Decorative sprig left (Group (1).svg) */}
       <Image
         src={journalSprigA}
@@ -54,10 +54,10 @@ export function JournalPostsGridSection() {
                   setSelectedCategory(cat);
                   setCurrentPage(1);
                 }}
-                className={`rounded-full px-5 py-2 text-body-sm font-semibold transition-all duration-200 ${
+                className={`px-5 py-2 text-body-sm font-semibold transition-all duration-200 ${
                   isActive
-                    ? "bg-green-950 text-white shadow-ds2"
-                    : "border border-camel-400/60 bg-white/80 text-green-950 hover:bg-camel-200/80"
+                    ? "rounded-full bg-[#314C43] text-white shadow-ds2"
+                    : "rounded-lg border border-camel-400/40 bg-white/80 text-green-950 hover:bg-camel-200/80"
                 }`}
               >
                 {cat}

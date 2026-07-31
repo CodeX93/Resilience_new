@@ -8,15 +8,14 @@ export function SectionHeading({
   className,
 }: {
   eyebrow: string;
-  heading: string;
+  heading: React.ReactNode;
   align?: "center" | "left";
   className?: string;
 }) {
   return (
     <div
-      className={`flex flex-col gap-4 ${
-        align === "center" ? "items-center text-center" : "items-start text-left"
-      } ${className ?? ""}`}
+      className={`flex flex-col gap-4 ${align === "center" ? "items-center text-center" : "items-start text-left"
+        } ${className ?? ""}`}
     >
       <SectionIdentifier>{eyebrow}</SectionIdentifier>
       <h2 className="font-heading text-h2 text-green-950">{heading}</h2>

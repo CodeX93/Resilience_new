@@ -26,7 +26,7 @@ export function NewsletterSection() {
 
   return (
     /* ── Outer section: cream bg ── */
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
 
       {/* stayConnected1 — botanical leaves, top-right OUTSIDE the card */}
       <Image
@@ -41,7 +41,7 @@ export function NewsletterSection() {
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
 
         {/* ── Inner card ── */}
-        <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#ffffff] via-[#faf6f0] to-[#f4efe6] border border-camel-400/60 shadow-ds3">
+        <div className="relative overflow-hidden rounded-[28px] border border-camel-400/60 shadow-ds3 mx-4 sm:mx-8 lg:mx-20" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
 
           {/* stayConnected2 — botanical branch, bottom-left INSIDE the card */}
           <Image

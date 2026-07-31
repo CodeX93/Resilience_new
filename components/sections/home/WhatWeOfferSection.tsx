@@ -30,7 +30,7 @@ function OfferCard({
 }) {
   const Icon = cardIcon[icon];
   return (
-    <article className="flex h-[188px] w-[413px] max-w-[82vw] flex-col justify-between rounded-2xl border border-camel-400/70 bg-gradient-to-br from-[#fdfaf4] to-[#ece1d2] p-6">
+    <article className="flex h-[188px] w-[413px] max-w-[82vw] flex-col justify-between rounded-2xl border border-camel-400/70 p-6" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
       <div className="flex items-start justify-between">
         <span className="flex size-10 items-center justify-center rounded-xl bg-white/70 text-green-700 shadow-[0px_3px_3.5px_#f6e8da]">
           <Icon size={20} />
@@ -50,7 +50,7 @@ function OfferCard({
 
 export function WhatWeOfferSection() {
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
       {/* Decorative leaves */}
       <Image
         src={offerLeaves}
@@ -74,20 +74,20 @@ export function WhatWeOfferSection() {
           ))}
         </Carousel>
 
-        {/* Quote (left-aligned) with soft ellipse behind it */}
+        {/* Quote with soft ellipse illustration */}
         <div className="relative mt-16 w-fit max-w-full">
           <Image
             src={quoteEllipseWide}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute left-0 top-1/2 w-[574px] max-w-full -translate-y-1/2"
+            className="pointer-events-none absolute inset-0 h-full w-full scale-[1.15] object-fill opacity-100"
           />
-          <figure className="relative">
-            <blockquote className="max-w-[560px] text-quote text-green-700">
+          <figure className="relative py-8 pl-2 pr-4">
+            <blockquote className="font-quote max-w-[520px] text-[28px] leading-relaxed tracking-normal text-[#485b50]">
               &ldquo;{whatWeOffer.quote.text}&rdquo;
             </blockquote>
-            <figcaption className="mt-3 pl-10 text-body-base text-green-600">
-              &mdash; {whatWeOffer.quote.author}
+            <figcaption className="mt-3 text-right font-quote text-[28px] leading-relaxed tracking-normal text-[#485b50]">
+              &ndash;&nbsp;{whatWeOffer.quote.author}
             </figcaption>
           </figure>
         </div>

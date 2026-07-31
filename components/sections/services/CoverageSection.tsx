@@ -13,7 +13,7 @@ export function CoverageSection() {
   const { coverage } = servicesPageData;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
       {/* Large background organic sweep (Vector 32) */}
       <Image
         src={servicesBgShape}
@@ -33,12 +33,14 @@ export function CoverageSection() {
         {/* Section Heading */}
         <SectionHeading
           eyebrow={coverage.eyebrow}
-          heading={coverage.heading}
+          heading={<>Our services may be fully or partially covered by<br />workplace benefits or health insurance.</>}
         />
 
         {/* Small Leaf Accent Divider */}
-        <div className="mt-6 flex justify-center">
-          <Image src={leaf} alt="" width={18} height={18} aria-hidden />
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <span className="h-px w-16 bg-green-700/30" />
+          <Image src={leaf} alt="" width={16} height={16} aria-hidden style={{ mixBlendMode: "multiply" }} />
+          <span className="h-px w-16 bg-green-700/30" />
         </div>
 
         {/* Provider Pills Grid */}
@@ -46,9 +48,10 @@ export function CoverageSection() {
           {coverage.providers.map((provider) => (
             <div
               key={provider}
-              className="flex items-center gap-2.5 rounded-full bg-white/70 px-5 py-2.5 shadow-ds1 transition-transform hover:-translate-y-0.5"
+              className="flex items-center gap-2.5 rounded-full border border-camel-300 px-5 py-2.5 shadow-ds1 transition-transform hover:-translate-y-0.5"
+              style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}
             >
-              <span className="flex size-6 items-center justify-center rounded-full bg-green-700 text-white">
+              <span className="flex size-6 items-center justify-center rounded-full bg-[#2F4631] text-white">
                 <CheckIcon size={13} />
               </span>
               <span className="text-body-base-bold text-green-950">
@@ -59,13 +62,14 @@ export function CoverageSection() {
         </div>
 
         {/* Subtext */}
-        <div className="mt-8 flex items-center justify-center gap-2 text-body-base text-green-700/90 font-medium">
-          <Image src={leaf} alt="" width={16} height={16} aria-hidden />
-          <span>{coverage.subtext}</span>
+        <div className="mt-8 flex items-center justify-center gap-2">
+
+          <Image src={leaf} alt="" width={14} height={14} aria-hidden className="opacity-80" style={{ mixBlendMode: "multiply" }} />
+          <span className="font-heading text-h3 text-green-700">{coverage.subtext}</span>
         </div>
 
         {/* Bottom CTA Card: "Not sure which service is right for you?" */}
-        <div className="relative mt-20 overflow-hidden rounded-[28px] border border-camel-400/80 bg-gradient-to-br from-[#ffffff] via-[#faf6f0] to-[#f3ebd9] p-10 sm:p-14 shadow-ds3 text-center">
+        <div className="relative mt-20 overflow-hidden rounded-[28px] border border-camel-400/80 p-10 sm:p-14 shadow-ds3 text-center" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
           {/* Inner decor bottom-left (Group (2).svg) */}
           <Image
             src={servicesBranchC}
@@ -90,7 +94,7 @@ export function CoverageSection() {
               {coverage.ctaBox.heading}
             </h3>
             <p className="mt-3 text-body-base text-green-700/90 max-w-md">
-              {coverage.ctaBox.subheading}
+              We&apos;re here to help you find the <br />best fit for your needs.
             </p>
             <div className="mt-8">
               <ButtonLink href={coverage.ctaBox.ctaHref} variant="primary" size="lg">

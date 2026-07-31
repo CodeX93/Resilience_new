@@ -6,7 +6,7 @@ export function ExploreMorePostsSection() {
   const relatedPosts = journalPosts.slice(0, 3);
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-16 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-16 lg:py-24">
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
         <h2 className="font-heading text-h2 text-green-950 mb-10">
           Explore more

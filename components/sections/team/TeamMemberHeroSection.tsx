@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
-import { MailIcon, PhoneIcon, MapPinIcon } from "@/components/ui/icons";
+import { SolidMailIcon, SolidPhoneIcon, SolidMapPinIcon } from "@/components/ui/icons";
 import stayConnected1 from "@/public/images/decor/stayConnected1.svg";
 import stayConnected2 from "@/public/images/decor/stayConnected2.svg";
 import type { TeamMemberDetail } from "@/data/team";
@@ -25,9 +25,9 @@ function SparklesIcon({ size = 20 }: { size?: number }) {
 
 export function TeamMemberHeroSection({ member }: { member: TeamMemberDetail }) {
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] pt-12 pb-16 lg:pt-16 lg:pb-20">
+    <section className="relative overflow-hidden bg-[#faf2ef] pt-12 pb-16 lg:pt-16 lg:pb-20">
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:items-center">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:items-stretch">
           
           {/* ── Left Column: Member Meta & Details ── */}
           <div className="flex flex-col items-start">
@@ -38,14 +38,14 @@ export function TeamMemberHeroSection({ member }: { member: TeamMemberDetail }) 
               {member.title}
             </p>
 
-            <div className="mt-8 flex flex-col gap-5 border-t border-camel-300/50 pt-6 w-full">
+            <div className="mt-8 flex flex-col gap-0 border-t border-camel-300/50 pt-6 w-full">
               {/* Email */}
-              <div className="flex items-start gap-4">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-camel-200 text-green-800 shadow-ds1">
-                  <MailIcon size={18} />
+              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6 mb-6">
+                <span className="flex size-14 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffffff] via-[#FAF5EE] to-[#F1E8DC] border border-[#E8DFC5] shadow-[0_4px_14px_rgba(180,160,130,0.18)] text-[#7D5C3F]">
+                  <SolidMailIcon size={22} />
                 </span>
                 <div>
-                  <p className="text-body-sm font-medium text-green-700/70">Email</p>
+                  <p className="text-body-sm font-medium text-[#8f7b66]">Email</p>
                   <a
                     href={`mailto:${member.email}`}
                     className="mt-0.5 block text-body-base font-semibold text-green-950 hover:text-green-700 transition"
@@ -56,12 +56,12 @@ export function TeamMemberHeroSection({ member }: { member: TeamMemberDetail }) 
               </div>
 
               {/* Phone */}
-              <div className="flex items-start gap-4">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-camel-200 text-green-800 shadow-ds1">
-                  <PhoneIcon size={18} />
+              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6 mb-6">
+                <span className="flex size-14 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffffff] via-[#FAF5EE] to-[#F1E8DC] border border-[#E8DFC5] shadow-[0_4px_14px_rgba(180,160,130,0.18)] text-[#7D5C3F]">
+                  <SolidPhoneIcon size={22} />
                 </span>
                 <div>
-                  <p className="text-body-sm font-medium text-green-700/70">Phone</p>
+                  <p className="text-body-sm font-medium text-[#8f7b66]">Phone</p>
                   <a
                     href={`tel:${member.phone.replace(/[^0-9+]/g, "")}`}
                     className="mt-0.5 block text-body-base font-semibold text-green-950 hover:text-green-700 transition"
@@ -72,12 +72,12 @@ export function TeamMemberHeroSection({ member }: { member: TeamMemberDetail }) 
               </div>
 
               {/* Location */}
-              <div className="flex items-start gap-4">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-camel-200 text-green-800 shadow-ds1">
-                  <MapPinIcon size={18} />
+              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6 mb-6">
+                <span className="flex size-14 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffffff] via-[#FAF5EE] to-[#F1E8DC] border border-[#E8DFC5] shadow-[0_4px_14px_rgba(180,160,130,0.18)] text-[#7D5C3F]">
+                  <SolidMapPinIcon size={22} />
                 </span>
                 <div>
-                  <p className="text-body-sm font-medium text-green-700/70">Location</p>
+                  <p className="text-body-sm font-medium text-[#8f7b66]">Location</p>
                   <p className="mt-0.5 text-body-base font-semibold text-green-950">
                     {member.location}
                   </p>
@@ -86,11 +86,11 @@ export function TeamMemberHeroSection({ member }: { member: TeamMemberDetail }) 
 
               {/* Core Skills */}
               <div className="flex items-start gap-4">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-camel-200 text-green-800 shadow-ds1">
-                  <SparklesIcon size={18} />
+                <span className="flex size-14 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffffff] via-[#FAF5EE] to-[#F1E8DC] border border-[#E8DFC5] shadow-[0_4px_14px_rgba(180,160,130,0.18)] text-[#7D5C3F]">
+                  <SparklesIcon size={22} />
                 </span>
                 <div>
-                  <p className="text-body-sm font-medium text-green-700/70">Core skills</p>
+                  <p className="text-body-sm font-medium text-[#8f7b66]">Core skills</p>
                   <p className="mt-0.5 text-body-base font-semibold text-green-950">
                     {member.coreSkills}
                   </p>
@@ -106,27 +106,28 @@ export function TeamMemberHeroSection({ member }: { member: TeamMemberDetail }) 
           </div>
 
           {/* ── Right Column: Photo with Botanical Frame ── */}
-          <div className="relative mx-auto w-full max-w-lg overflow-hidden rounded-[28px] border border-camel-400/80 bg-gradient-to-br from-[#ffffff] to-[#faf6f0] p-6 shadow-ds3">
-            {/* Top right inner leaf decor */}
+          <div className="relative h-full">
+            {/* Top-right leaf decor — outside card so it overflows the corner */}
             <Image
               src={stayConnected1}
               alt=""
               aria-hidden
-              width={160}
-              height={150}
-              className="pointer-events-none absolute -top-4 -right-4 z-10 hidden opacity-60 lg:block"
+              width={170}
+              height={160}
+              className="pointer-events-none absolute -top-6 -right-6 z-10 hidden opacity-80 lg:block"
             />
-            {/* Bottom left inner leaf decor */}
+            {/* Bottom-left leaf decor — outside card so it overflows the corner */}
             <Image
               src={stayConnected2}
               alt=""
               aria-hidden
-              width={160}
-              height={200}
-              className="pointer-events-none absolute -bottom-6 -left-6 z-10 hidden opacity-60 lg:block"
+              width={170}
+              height={210}
+              className="pointer-events-none absolute -bottom-8 -left-8 z-10 hidden opacity-80 lg:block"
             />
 
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-camel-200">
+            {/* Photo card — fills full height of left column, no inner padding */}
+            <div className="relative h-full min-h-[420px] overflow-hidden rounded-[28px] border border-camel-400/80 shadow-ds3 bg-transparent">
               <Image
                 src={member.photo}
                 alt={`Portrait of ${member.name}`}

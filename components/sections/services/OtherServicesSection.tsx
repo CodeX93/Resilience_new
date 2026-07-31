@@ -22,7 +22,7 @@ export function OtherServicesSection() {
   const { otherServices } = servicesPageData;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
       {/* Decorative leaf branch top-left (Group (1).svg) */}
       <Image
         src={servicesBranchB}
@@ -41,7 +41,8 @@ export function OtherServicesSection() {
           {otherServices.cards.map((card) => (
             <article
               key={card.title}
-              className="flex flex-col justify-between rounded-3xl border border-camel-400/70 bg-gradient-to-b from-[#ffffff] to-[#faf6f0] p-8 shadow-ds2 transition-transform duration-300 hover:-translate-y-1"
+              className="flex flex-col justify-between rounded-3xl border border-camel-400/70 p-8 shadow-ds2 transition-transform duration-300 hover:-translate-y-1"
+              style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}
             >
               <div>
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-camel-200/80 text-green-700 shadow-ds1 mb-6">

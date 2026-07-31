@@ -15,7 +15,7 @@ function ColumnHeading({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2.5">
       <span className="block h-4 w-[2px] rounded-full bg-white" aria-hidden />
-      <h2 className="font-heading text-body-base font-bold text-white tracking-wide">
+      <h2 className="font-heading text-body-sm font-bold text-white uppercase tracking-wider">
         {children}
       </h2>
     </div>
@@ -36,10 +36,10 @@ export function Footer() {
       />
 
       <div className="relative z-10 mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-16">
-        
+
         {/* Main Footer Grid */}
         <div className="grid gap-10 lg:grid-cols-[260px_1fr_1.3fr] lg:gap-14 lg:items-start">
-          
+
           {/* Column 1: Rounded Card Container with Brand Logo & Social Badges */}
           <div className="flex flex-col justify-between rounded-[20px] bg-[#385042] border border-white/10 p-6 h-[210px] shadow-sm">
             {/* Logo */}
@@ -96,19 +96,19 @@ export function Footer() {
 
           {/* Column 2: Location & Timing */}
           <div className="flex flex-col pt-1">
-            <ColumnHeading>Location &amp; TIMing</ColumnHeading>
+            <ColumnHeading>Location &amp; Timing</ColumnHeading>
 
             <dl className="mt-6 flex flex-col gap-5 font-heading text-body-sm">
               <div>
                 <dt className="font-bold text-white">Office Hours:</dt>
-                <dd className="mt-1 text-white/75 leading-relaxed">
+                <dd className="mt-1 text-white/60 leading-relaxed">
                   Monday to Friday, 10:00 AM to 6:00 PM
                 </dd>
               </div>
 
               <div>
                 <dt className="font-bold text-white">Address:</dt>
-                <dd className="mt-1 text-white/75 leading-relaxed max-w-[280px]">
+                <dd className="mt-1 text-white/60 leading-relaxed max-w-[280px]">
                   111 Waterloo St Unit 406 London, Ontario, Canada N6B 2M4
                 </dd>
               </div>
@@ -123,7 +123,7 @@ export function Footer() {
               <div>
                 <dt className="font-bold text-white">Email:</dt>
                 <dd className="mt-1">
-                  <a href={footerContact.emailHref} className="text-white/75 hover:text-white transition-colors">
+                  <a href={footerContact.emailHref} className="text-white/60 hover:text-white transition-colors">
                     mail@resiliencec.com
                   </a>
                 </dd>
@@ -132,7 +132,7 @@ export function Footer() {
               <div>
                 <dt className="font-bold text-white">Phone:</dt>
                 <dd className="mt-1">
-                  <a href={footerContact.phoneHref} className="text-white/75 hover:text-white transition-colors">
+                  <a href={footerContact.phoneHref} className="text-white/60 hover:text-white transition-colors">
                     +1 (548) 866-0366
                   </a>
                 </dd>
@@ -141,7 +141,7 @@ export function Footer() {
               <div>
                 <dt className="font-bold text-white">Cell:</dt>
                 <dd className="mt-1">
-                  <a href={footerContact.cellHref} className="text-white/75 hover:text-white transition-colors">
+                  <a href={footerContact.cellHref} className="text-white/60 hover:text-white transition-colors">
                     +1 (226) 210-4170
                   </a>
                 </dd>
@@ -149,7 +149,7 @@ export function Footer() {
 
               <div>
                 <dt className="font-bold text-white">Fax:</dt>
-                <dd className="mt-1 text-white/75">
+                <dd className="mt-1 text-white/60">
                   +1 (226) 916-0283
                 </dd>
               </div>

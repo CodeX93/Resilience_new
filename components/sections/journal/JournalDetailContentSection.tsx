@@ -4,7 +4,7 @@ import heroBranch from "@/public/images/decor/hero-branch.svg";
 
 export function JournalDetailContentSection() {
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-12 lg:py-20">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-12 lg:py-20">
       {/* Decorative leaf branch left */}
       <Image
         src={offerLeafLeft}

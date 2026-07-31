@@ -1,10 +1,3 @@
-import Image from "next/image";
-import leaf from "@/public/images/icons/leaf.svg";
-
-/**
- * The small pill/eyebrow shown above each section heading in the design
- * (e.g. "Therapies, Workshops, and Holistic Services").
- */
 export function SectionIdentifier({
   children,
   className,
@@ -14,11 +7,10 @@ export function SectionIdentifier({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full border border-green-300/50 bg-green-200 px-4 py-1.5 text-body-sm text-green-700 ${
+      className={`inline-flex items-center rounded-full px-4 py-1.5 text-body-sm font-semibold text-[#131F1C] bg-[#DBDCCE] ${
         className ?? ""
       }`}
     >
-      <Image src={leaf} alt="" width={14} height={14} aria-hidden />
       {children}
     </span>
   );

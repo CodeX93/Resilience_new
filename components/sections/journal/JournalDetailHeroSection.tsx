@@ -22,7 +22,7 @@ export function JournalDetailHeroSection({
   imageAlt,
 }: DetailHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] pt-8 pb-12 lg:pt-12 lg:pb-16">
+    <section className="relative overflow-hidden bg-[#faf2ef] pt-8 pb-12 lg:pt-12 lg:pb-16">
       {/* ── Vector 34: large cream wave top-right ── */}
       <Image
         src={journalWave}

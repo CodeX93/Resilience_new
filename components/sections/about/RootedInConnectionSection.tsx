@@ -7,9 +7,9 @@ export function RootedInConnectionSection() {
   const { banner } = aboutPageData;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
-        <div className="relative overflow-hidden rounded-[28px] border border-camel-400/80 bg-gradient-to-br from-[#ffffff] via-[#faf6f0] to-[#f3ebd9] p-10 sm:p-14 text-center shadow-ds3">
+        <div className="relative overflow-hidden rounded-[28px] border border-camel-400/80 p-10 sm:p-14 text-center shadow-ds3 mx-4 sm:mx-8 lg:mx-20" style={{ background: "linear-gradient(0deg, #E8E2D8 0%, #FFFCF7 100%)" }}>
           {/* Inner decor illustration left */}
           <Image
             src={heroBranch}

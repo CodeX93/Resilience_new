@@ -12,7 +12,7 @@ export function JournalSection() {
   const post = journal.featured;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
 
       {/* ── Vector 34: large cream wave — top-right background sweep ── */}
       <Image
@@ -51,7 +51,7 @@ export function JournalSection() {
         <SectionHeading eyebrow={journal.eyebrow} heading={journal.heading} />
 
         {/* Featured article card */}
-        <article className="mt-12 grid overflow-hidden rounded-3xl border border-camel-500/40 bg-camel-100 shadow-ds3 lg:grid-cols-[1fr_1.45fr]">
+        <article className="mt-12 grid overflow-hidden rounded-3xl border border-camel-500/40 shadow-ds3 lg:grid-cols-[1fr_1.45fr]" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
 
           {/* Left: text content */}
           <div className="flex flex-col items-start justify-center gap-5 p-8 lg:p-12">

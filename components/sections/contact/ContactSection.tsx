@@ -49,7 +49,7 @@ function CustomSelect({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between rounded-xl border border-[#e2d7c5] bg-[#faf6f0]/80 px-4 py-3.5 text-left text-body-base text-green-950 outline-none transition-all focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15"
+        className="flex w-full items-center justify-between rounded-xl border border-[#e2d7c5] bg-[#faf6f0] px-4 py-3.5 text-left text-body-base text-green-950 outline-none transition-all focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15"
       >
         <span className={value ? "text-green-950 font-medium" : "text-[#a0907d]"}>
           {value || placeholder}
@@ -119,7 +119,7 @@ export function ContactSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-12 lg:py-20">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-12 lg:py-20">
       {/* Top Right Decorative SVG */}
       <Image
         src={stayConnected1}
@@ -239,7 +239,7 @@ export function ContactSection() {
           </div>
 
           {/* ── Right Column: Send Us a Message Form ── */}
-          <div className="rounded-[28px] border border-[#e5dccf] bg-gradient-to-br from-[#ffffff] via-[#faf6f0] to-[#f4efe4] p-8 sm:p-10 lg:p-12 shadow-ds3">
+          <div className="rounded-[28px] border border-[#e5dccf] p-8 sm:p-10 lg:p-12 shadow-ds3" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
             <h2 className="font-heading text-h2 text-green-950">
               {form.heading}
             </h2>
@@ -266,7 +266,7 @@ export function ContactSection() {
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       placeholder="First Name *"
-                      className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0]/80 px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
+                      className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0] px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
                     />
                   </label>
                   <label className="flex flex-col gap-1">
@@ -276,7 +276,7 @@ export function ContactSection() {
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       placeholder="Last Name *"
-                      className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0]/80 px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
+                      className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0] px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
                     />
                   </label>
                 </div>
@@ -291,7 +291,7 @@ export function ContactSection() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Email *"
-                      className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0]/80 px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
+                      className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0] px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
                     />
                   </label>
                   <label className="flex flex-col gap-1">
@@ -301,7 +301,7 @@ export function ContactSection() {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="Phone Number"
-                      className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0]/80 px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
+                      className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0] px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
                     />
                   </label>
                 </div>
@@ -386,7 +386,7 @@ export function ContactSection() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Message"
-                    className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0]/70 p-4 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all resize-y min-h-[140px]"
+                    className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0] p-4 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all resize-y min-h-[140px]"
                   />
                 </label>
 

@@ -8,13 +8,13 @@ export function OurVisionSection() {
   const { vision } = aboutPageData;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
       {/* Decorative green sprig, left edge (Group (2)) */}
       <Image
         src={sprigLeft}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute -left-10 top-1/2 z-0 hidden w-[240px] max-w-[18vw] -translate-y-1/2 lg:block"
+        className="pointer-events-none absolute -left-10 top-0 z-0 hidden w-[240px] max-w-[18vw] lg:block"
       />
 
       {/* Decorative green sprig, right edge (Group (1)) */}
@@ -22,7 +22,7 @@ export function OurVisionSection() {
         src={sprigRight}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute -right-8 top-1/2 z-0 hidden w-[210px] max-w-[16vw] -translate-y-1/2 lg:block"
+        className="pointer-events-none absolute -right-8 bottom-0 z-0 hidden w-[210px] max-w-[16vw] lg:block"
       />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">

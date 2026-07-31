@@ -28,7 +28,7 @@ function LeafBullet() {
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7]">
+    <section className="relative overflow-hidden bg-[#faf2ef]">
       {/* Right-side organic background shape (Figma Vector 34) */}
       <Image
         src={heroBgShape}

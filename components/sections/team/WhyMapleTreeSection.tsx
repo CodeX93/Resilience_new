@@ -23,7 +23,7 @@ export function WhyMapleTreeSection({ member }: { member: TeamMemberDetail }) {
   if (!member.whyTreeTitle || !member.whyTreeText) return null;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] pb-20 lg:pb-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] pb-20 lg:pb-24">
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
         <div className="relative overflow-hidden rounded-[28px] border border-camel-400/80 bg-gradient-to-br from-[#ffffff] via-[#faf6f0] to-[#f3ebd9] p-8 sm:p-12 shadow-ds3 flex flex-col md:flex-row items-center gap-8 max-w-4xl mx-auto">
           

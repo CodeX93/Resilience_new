@@ -6,7 +6,7 @@ import type { PostItem } from "@/data/journal";
 
 export function BlogCard({ post }: { post: PostItem }) {
   return (
-    <article className="group flex flex-col justify-between rounded-[28px] border border-camel-400/60 bg-white p-6 shadow-ds2 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(52,26,16,0.14)] hover:border-camel-500/80">
+    <article className="group flex flex-col justify-between rounded-2xl border border-camel-400/60 bg-white p-6 shadow-ds2 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(52,26,16,0.14)] hover:border-camel-500/80">
       <div>
         {/* Top Image */}
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-camel-200">
@@ -28,12 +28,12 @@ export function BlogCard({ post }: { post: PostItem }) {
           </span>
 
           {/* Title */}
-          <h3 className="font-heading text-h3 text-green-950 leading-snug line-clamp-2 transition-colors group-hover:text-green-800">
+          <h3 className="font-heading text-h3 text-green-950 leading-snug line-clamp-1 transition-colors group-hover:text-green-800">
             {post.title}
           </h3>
 
           {/* Excerpt */}
-          <p className="text-body-sm text-green-700/80 leading-relaxed line-clamp-3">
+          <p className="text-body-sm text-green-700/80 leading-relaxed line-clamp-1">
             {post.excerpt}
           </p>
         </div>

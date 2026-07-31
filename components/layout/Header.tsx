@@ -13,7 +13,7 @@ import { MobileNav } from "./MobileNav";
  */
 export function Header() {
   return (
-    <header className="relative z-40 w-full bg-[#f7f0e7]">
+    <header className="relative z-40 w-full bg-[#faf2ef]">
       {/* Utility bar */}
       <div className="hidden bg-camel-300 text-green-700 lg:block">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-6 px-20 py-2">
@@ -50,7 +50,7 @@ export function Header() {
 
       {/* Main nav */}
       <div className="mx-auto max-w-[1440px] px-4 py-3 sm:px-6 lg:px-20 lg:py-4">
-        <div className="flex h-[70px] items-center justify-between gap-6 rounded-[20px] border border-camel-400 bg-camel-100 px-5 shadow-ds1">
+        <div className="flex h-[70px] items-center justify-between gap-6 rounded-[20px] border border-camel-400 bg-[#FEFDFC] px-5 shadow-ds1">
           <Logo variant="mark" height={44} priority />
 
           <nav className="hidden items-center gap-8 xl:flex" aria-label="Primary">
@@ -58,21 +58,21 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-body-sm text-green-950 transition-colors hover:text-green-700"
+                className="font-body font-bold text-[12px] leading-[18px] text-[#131F1C] transition-colors hover:text-green-700"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="hidden items-center gap-4 xl:flex">
+          <div className="hidden items-center gap-6 xl:flex">
             <Link
               href={authLink.href}
-              className="text-body-base-bold text-green-700 transition-colors hover:text-green-900"
+              className="font-body font-bold text-[14px] leading-[22px] text-[#314C43] transition-colors hover:text-green-900"
             >
               {authLink.label}
             </Link>
-            <ButtonLink href={primaryCta.href} size="lg">
+            <ButtonLink href={primaryCta.href} className="!bg-[#314C43] hover:!bg-green-800 !text-white font-body font-bold !text-[14px] !leading-[22px] px-5 py-2.5">
               {primaryCta.label}
             </ButtonLink>
           </div>

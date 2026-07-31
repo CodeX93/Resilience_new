@@ -7,7 +7,7 @@ export function OurApproachSection() {
   const { approach } = aboutPageData;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
       {/* Decorative tall green fern, right edge (Group) */}
       <Image
         src={fernTall}
@@ -35,7 +35,7 @@ export function OurApproachSection() {
               {approach.heading}
             </h2>
 
-            <div className="mt-6 flex flex-col gap-5 text-body-base text-green-700/90 leading-relaxed">
+            <div className="mt-6 flex flex-col gap-5 text-body-base text-green-700/90 leading-relaxed text-justify">
               {approach.paragraphs.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}

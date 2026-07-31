@@ -12,7 +12,7 @@ export function WhoWeAreAboutSection() {
   const { whoWeAre } = aboutPageData;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
       {/* ── Decor Left: Frame 1948757454 (189×457px organic blob) ── */}
       <Image
         src={decorLeft}
@@ -71,7 +71,7 @@ export function WhoWeAreAboutSection() {
               href={whoWeAre.ctaHref}
               variant="secondary"
               size="lg"
-              className="mt-8"
+              className="mt-8 font-extrabold"
             >
               {whoWeAre.ctaLabel}
             </ButtonLink>
@@ -98,11 +98,11 @@ export function WhoWeAreAboutSection() {
               aria-hidden
               className="pointer-events-none absolute left-1/2 top-1/2 w-[460px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2"
             />
-            <figure className="relative text-center">
-              <blockquote className="font-quote text-quote text-green-950 italic">
+            <figure className="relative text">
+              <blockquote className=" relative text-centerfont-quote text-quote text-green-950 italic tracking-[0.5px]">
                 &ldquo;{whoWeAre.quote.text}&rdquo;
               </blockquote>
-              <figcaption className="mt-3 text-body-base font-body text-green-700">
+              <figcaption className="pl-4relative text-center mt-3 text-quote text-green-950 italic tracking-[1px]">
                 &mdash; {whoWeAre.quote.author}
               </figcaption>
             </figure>

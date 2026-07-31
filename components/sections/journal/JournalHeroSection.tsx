@@ -10,7 +10,7 @@ export function JournalHeroSection() {
   const post = featuredPost;
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f0e7] pt-12 pb-16 lg:pt-16 lg:pb-20">
+    <section className="relative overflow-hidden bg-[#faf2ef] pt-12 pb-16 lg:pt-16 lg:pb-20">
       {/* ── Vector 34: large cream wave background sweep (lowest layer) ── */}
       <Image
         src={journalBgWave}

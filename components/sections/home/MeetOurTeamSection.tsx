@@ -54,10 +54,9 @@ function ArrowBtn({
         absolute top-[110px] z-10 flex size-12 items-center justify-center
         rounded-full shadow-ds2 transition-colors duration-200
         ${dir === "left" ? "-left-6" : "-right-6"}
-        ${
-          disabled
-            ? "cursor-default bg-white text-green-700 opacity-60"
-            : "bg-green-950 text-white hover:bg-green-800"
+        ${disabled
+          ? "cursor-default bg-white text-green-700 opacity-60"
+          : "bg-green-950 text-white hover:bg-green-800"
         }
       `}
     >
@@ -152,11 +151,10 @@ export function MeetOurTeamSection() {
                     behavior: "smooth",
                   });
                 }}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === active
+                className={`h-2 rounded-full transition-all duration-300 ${i === active
                     ? "w-7 bg-green-950"
                     : "w-2 bg-green-300"
-                }`}
+                  }`}
               />
             ))}
           </div>
