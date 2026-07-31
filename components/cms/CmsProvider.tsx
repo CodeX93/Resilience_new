@@ -23,6 +23,7 @@ const CmsContext = createContext<CmsContextType | undefined>(undefined);
 // Helper to get nested value from object by dot-notation path
 function getNestedValue(obj: any, path: string): any {
   if (!obj) return undefined;
+  if (!path) return obj;
   const parts = path.split(".");
   let current = obj;
   for (const part of parts) {

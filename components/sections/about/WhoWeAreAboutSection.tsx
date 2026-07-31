@@ -1,7 +1,12 @@
+"use client";
+
 import Image from "next/image";
-import { aboutPageData } from "@/data/about";
+import { aboutPageData as defaultAboutPageData } from "@/data/about";
 import { SectionIdentifier } from "@/components/ui/SectionIdentifier";
 import { ButtonLink } from "@/components/ui/Button";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
+import { EditableImage } from "@/components/cms/EditableImage";
 import decorLeft from "@/public/images/decor/who-we-are-decor-left.svg";
 import waveBottom from "@/public/images/decor/who-we-are-wave-top.svg";
 import quoteEllipseWide from "@/public/images/decor/quote-ellipse-wide.svg";
@@ -9,6 +14,8 @@ import branchLg from "@/public/images/decor/about-branch-lg.svg";
 import branchSm from "@/public/images/decor/about-branch-sm.svg";
 
 export function WhoWeAreAboutSection() {
+  const { getContentValue } = useCms();
+  const aboutPageData = getContentValue("about", "", defaultAboutPageData);
   const { whoWeAre } = aboutPageData;
 
   return (
@@ -52,17 +59,19 @@ export function WhoWeAreAboutSection() {
         {/* Two-column grid: text left | image right */}
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left: text content */}
-          <div className="flex flex-col items-start">
-            <SectionIdentifier>{whoWeAre.eyebrow}</SectionIdentifier>
+          <div className="flex flex-col items-start w-full">
+            <SectionIdentifier>
+              <EditableText pageId="about" path="whoWeAre.eyebrow" value={whoWeAre.eyebrow} />
+            </SectionIdentifier>
 
-            <h1 className="mt-6 font-heading text-h2 text-green-950">
-              {whoWeAre.heading}
+            <h1 className="mt-6 font-heading text-h2 text-green-950 w-full">
+              <EditableText pageId="about" path="whoWeAre.heading" value={whoWeAre.heading} />
             </h1>
 
-            <div className="mt-6 flex flex-col gap-5">
-              {whoWeAre.paragraphs.map((p, i) => (
+            <div className="mt-6 flex flex-col gap-5 w-full">
+              {whoWeAre.paragraphs.map((p: string, i: number) => (
                 <p key={i} className="text-body-base text-green-700/90 leading-relaxed">
-                  {p}
+                  <EditableText pageId="about" path={`whoWeAre.paragraphs[${i}]`} value={p} isTextArea />
                 </p>
               ))}
             </div>
@@ -73,15 +82,17 @@ export function WhoWeAreAboutSection() {
               size="lg"
               className="mt-8 font-extrabold"
             >
-              {whoWeAre.ctaLabel}
+              <EditableText pageId="about" path="whoWeAre.ctaLabel" value={whoWeAre.ctaLabel} />
             </ButtonLink>
           </div>
 
           {/* Right: forest photo */}
           <div className="relative aspect-[635/413] w-full overflow-hidden rounded-3xl shadow-ds4">
-            <Image
+            <EditableImage
+              pageId="about"
+              path="whoWeAre.image"
               src={whoWeAre.image}
-              alt={whoWeAre.imageAlt}
+              alt={whoWeAre.imageAlt || "Who We Are"}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
@@ -99,11 +110,11 @@ export function WhoWeAreAboutSection() {
               className="pointer-events-none absolute left-1/2 top-1/2 w-[460px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2"
             />
             <figure className="relative text">
-              <blockquote className=" relative text-centerfont-quote text-quote text-green-950 italic tracking-[0.5px]">
-                &ldquo;{whoWeAre.quote.text}&rdquo;
+              <blockquote className=" relative text-center font-quote text-quote text-green-950 italic tracking-[0.5px] w-full">
+                &ldquo;<EditableText pageId="about" path="whoWeAre.quote.text" value={whoWeAre.quote.text} isTextArea />&rdquo;
               </blockquote>
-              <figcaption className="pl-4relative text-center mt-3 text-quote text-green-950 italic tracking-[1px]">
-                &mdash; {whoWeAre.quote.author}
+              <figcaption className="pl-4 relative text-center mt-3 text-quote text-green-950 italic tracking-[1px] w-full">
+                &mdash; <EditableText pageId="about" path="whoWeAre.quote.author" value={whoWeAre.quote.author} />
               </figcaption>
             </figure>
           </div>

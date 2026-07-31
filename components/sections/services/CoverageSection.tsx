@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { servicesPageData } from "@/data/services";
+import { servicesPageData as defaultServicesPageData } from "@/data/services";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
 import { CheckIcon } from "@/components/ui/icons";
 import leaf from "@/public/images/icons/leaf.svg";
 import servicesBgShape from "@/public/images/decor/services-bg-shape.svg";
@@ -10,6 +14,8 @@ import servicesBranchC from "@/public/images/decor/services-branch-c.svg";
 import servicesSprig from "@/public/images/decor/services-sprig.svg";
 
 export function CoverageSection() {
+  const { getContentValue } = useCms();
+  const servicesPageData = getContentValue("services", "", defaultServicesPageData);
   const { coverage } = servicesPageData;
 
   return (
@@ -32,8 +38,8 @@ export function CoverageSection() {
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
         {/* Section Heading */}
         <SectionHeading
-          eyebrow={coverage.eyebrow}
-          heading={<>Our services may be fully or partially covered by<br />workplace benefits or health insurance.</>}
+          eyebrow={<EditableText pageId="services" path="coverage.eyebrow" value={coverage.eyebrow} />}
+          heading={<EditableText pageId="services" path="coverage.heading" value={coverage.heading} isTextArea />}
         />
 
         {/* Small Leaf Accent Divider */}
@@ -45,9 +51,9 @@ export function CoverageSection() {
 
         {/* Provider Pills Grid */}
         <div className="mt-10 flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl mx-auto">
-          {coverage.providers.map((provider) => (
+          {coverage.providers.map((provider: string, i: number) => (
             <div
-              key={provider}
+              key={i}
               className="flex items-center gap-2.5 rounded-full border border-camel-300 px-5 py-2.5 shadow-ds1 transition-transform hover:-translate-y-0.5"
               style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}
             >
@@ -55,7 +61,7 @@ export function CoverageSection() {
                 <CheckIcon size={13} />
               </span>
               <span className="text-body-base-bold text-green-950">
-                {provider}
+                <EditableText pageId="services" path={`coverage.providers[${i}]`} value={provider} />
               </span>
             </div>
           ))}
@@ -63,9 +69,10 @@ export function CoverageSection() {
 
         {/* Subtext */}
         <div className="mt-8 flex items-center justify-center gap-2">
-
           <Image src={leaf} alt="" width={14} height={14} aria-hidden className="opacity-80" style={{ mixBlendMode: "multiply" }} />
-          <span className="font-heading text-h3 text-green-700">{coverage.subtext}</span>
+          <span className="font-heading text-h3 text-green-700">
+            <EditableText pageId="services" path="coverage.subtext" value={coverage.subtext} />
+          </span>
         </div>
 
         {/* Bottom CTA Card: "Not sure which service is right for you?" */}
@@ -90,15 +97,15 @@ export function CoverageSection() {
           />
 
           <div className="relative z-10 flex flex-col items-center">
-            <h3 className="font-heading text-h2 text-green-950 max-w-xl">
-              {coverage.ctaBox.heading}
+            <h3 className="font-heading text-h2 text-green-950 max-w-xl w-full">
+              <EditableText pageId="services" path="coverage.ctaBox.heading" value={coverage.ctaBox.heading} />
             </h3>
-            <p className="mt-3 text-body-base text-green-700/90 max-w-md">
-              We&apos;re here to help you find the <br />best fit for your needs.
+            <p className="mt-3 text-body-base text-green-700/90 max-w-md w-full">
+              <EditableText pageId="services" path="coverage.ctaBox.subheading" value={coverage.ctaBox.subheading} isTextArea />
             </p>
             <div className="mt-8">
               <ButtonLink href={coverage.ctaBox.ctaHref} variant="primary" size="lg">
-                {coverage.ctaBox.ctaLabel}
+                <EditableText pageId="services" path="coverage.ctaBox.ctaLabel" value={coverage.ctaBox.ctaLabel} />
               </ButtonLink>
             </div>
           </div>

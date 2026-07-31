@@ -2,8 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { contactPageData } from "@/data/contact";
+import { contactPageData as defaultContactPageData } from "@/data/contact";
 import { Button } from "@/components/ui/Button";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
 import {
   SolidMapPinIcon,
   SolidPhoneIcon,
@@ -92,6 +94,8 @@ function CustomSelect({
 }
 
 export function ContactSection() {
+  const { getContentValue, isEditMode, updateField } = useCms();
+  const contactPageData = getContentValue("contact", "", defaultContactPageData);
   const { title, info, form } = contactPageData;
 
   const [firstName, setFirstName] = useState("");
@@ -144,86 +148,83 @@ export function ContactSection() {
         <div className="grid gap-12 lg:grid-cols-[1fr_1.25fr] lg:gap-16 lg:items-start">
           
           {/* ── Left Column: Contact Details + Google Map Embed ── */}
-          <div className="flex flex-col">
-            <h1 className="font-heading text-h2 sm:text-[40px] text-green-950 mb-8">
-              {title}
+          <div className="flex flex-col w-full">
+            <h1 className="font-heading text-h2 sm:text-[40px] text-green-950 mb-8 w-full">
+              <EditableText pageId="contact" path="title" value={title} />
             </h1>
 
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 w-full">
               {/* Row 1: Clinic Location (Solid MapPin Icon in Camel 900) */}
-              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6">
+              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6 w-full">
                 <span className="flex size-14 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffffff] via-[#FAF5EE] to-[#F1E8DC] border border-[#E8DFC5] shadow-[0_4px_14px_rgba(180,160,130,0.18)] text-[#7D5C3F]">
                   <SolidMapPinIcon size={24} />
                 </span>
-                <div>
-                  <p className="text-body-sm font-medium text-[#8f7b66]">
-                    {info.location.label}
+                <div className="w-full">
+                  <p className="text-body-sm font-medium text-[#8f7b66] w-full">
+                    <EditableText pageId="contact" path="info.location.label" value={info.location.label} />
                   </p>
-                  <p className="mt-1 font-heading text-body-base text-green-950 leading-snug">
-                    {info.location.address}
+                  <p className="mt-1 font-heading text-body-base text-green-950 leading-snug w-full">
+                    <EditableText pageId="contact" path="info.location.address" value={info.location.address} isTextArea />
                   </p>
                 </div>
               </div>
 
               {/* Row 2: Phone and WhatsApp (Solid Phone Icon in Camel 900) */}
-              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6">
+              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6 w-full">
                 <span className="flex size-14 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffffff] via-[#FAF5EE] to-[#F1E8DC] border border-[#E8DFC5] shadow-[0_4px_14px_rgba(180,160,130,0.18)] text-[#7D5C3F]">
                   <SolidPhoneIcon size={22} />
                 </span>
-                <div>
-                  <p className="text-body-sm font-medium text-[#8f7b66]">
-                    {info.phone.label}
+                <div className="w-full">
+                  <p className="text-body-sm font-medium text-[#8f7b66] w-full">
+                    <EditableText pageId="contact" path="info.phone.label" value={info.phone.label} />
                   </p>
-                  <div className="mt-1 flex flex-col gap-0.5 font-heading text-body-base text-green-950">
-                    <a href={info.phone.mainHref} className="hover:text-green-700 transition">
-                      Main: {info.phone.main}
-                    </a>
-                    <a href={info.phone.faxHref} className="hover:text-green-700 transition">
-                      Fax: {info.phone.fax}
-                    </a>
+                  <div className="mt-1 flex flex-col gap-0.5 font-heading text-body-base text-green-950 w-full">
+                    <span className="hover:text-green-700 transition w-full">
+                      Main: <EditableText pageId="contact" path="info.phone.main" value={info.phone.main} />
+                    </span>
+                    <span className="hover:text-green-700 transition w-full">
+                      Fax: <EditableText pageId="contact" path="info.phone.fax" value={info.phone.fax} />
+                    </span>
                   </div>
                 </div>
               </div>
 
               {/* Row 3: Email (Solid Mail Icon in Camel 900) */}
-              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6">
+              <div className="flex items-start gap-4 border-b border-dashed border-[#e6dccf] pb-6 w-full">
                 <span className="flex size-14 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffffff] via-[#FAF5EE] to-[#F1E8DC] border border-[#E8DFC5] shadow-[0_4px_14px_rgba(180,160,130,0.18)] text-[#7D5C3F]">
                   <SolidMailIcon size={22} />
                 </span>
-                <div>
-                  <p className="text-body-sm font-medium text-[#8f7b66]">
-                    {info.email.label}
+                <div className="w-full">
+                  <p className="text-body-sm font-medium text-[#8f7b66] w-full">
+                    <EditableText pageId="contact" path="info.email.label" value={info.email.label} />
                   </p>
-                  <a
-                    href={info.email.href}
-                    className="mt-1 block font-heading text-body-base text-green-950 hover:text-green-700 transition"
-                  >
-                    {info.email.value}
-                  </a>
+                  <span className="mt-1 block font-heading text-body-base text-green-950 hover:text-green-700 transition w-full">
+                    <EditableText pageId="contact" path="info.email.value" value={info.email.value} />
+                  </span>
                 </div>
               </div>
 
               {/* Row 4: Office Hours (Solid Clock Icon in Camel 900) */}
-              <div className="flex items-start gap-4 pb-2">
+              <div className="flex items-start gap-4 pb-2 w-full">
                 <span className="flex size-14 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffffff] via-[#FAF5EE] to-[#F1E8DC] border border-[#E8DFC5] shadow-[0_4px_14px_rgba(180,160,130,0.18)] text-[#7D5C3F]">
                   <SolidClockIcon size={22} />
                 </span>
-                <div>
-                  <p className="text-body-sm font-medium text-[#8f7b66]">
-                    {info.hours.label}
+                <div className="w-full">
+                  <p className="text-body-sm font-medium text-[#8f7b66] w-full">
+                    <EditableText pageId="contact" path="info.hours.label" value={info.hours.label} />
                   </p>
-                  <p className="mt-1 font-heading text-body-base text-green-950 leading-snug">
-                    {info.hours.weekday}
+                  <p className="mt-1 font-heading text-body-base text-green-950 leading-snug w-full">
+                    <EditableText pageId="contact" path="info.hours.weekday" value={info.hours.weekday} />
                   </p>
-                  <p className="font-heading text-body-sm text-green-700/80">
-                    {info.hours.weekend}
+                  <p className="font-heading text-body-sm text-green-700/80 w-full">
+                    <EditableText pageId="contact" path="info.hours.weekend" value={info.hours.weekend} />
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Google Map Box */}
-            <div className="mt-8 h-[260px] w-full overflow-hidden rounded-3xl border border-camel-400/80 bg-white shadow-ds2">
+            <div className="relative mt-8 h-[260px] w-full overflow-hidden rounded-3xl border border-camel-400/80 bg-white shadow-ds2 group">
               <iframe
                 title="Resilience Counseling Clinic Location Map"
                 src={info.location.embedMapUrl}
@@ -235,16 +236,47 @@ export function ContactSection() {
                 referrerPolicy="no-referrer-when-downgrade"
                 className="size-full"
               />
+              {isEditMode && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-30">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newUrl = prompt(
+                        "Paste the Google Maps 'Embed a map' iframe code or src URL.\n\nTo get this:\n1. Go to Google Maps\n2. Search your location\n3. Click Share -> 'Embed a map'\n4. Copy the URL (starts with https://www.google.com/maps/embed) or the whole HTML code.",
+                        info.location.embedMapUrl
+                      );
+                      if (newUrl) {
+                        let cleanUrl = newUrl.trim();
+                        // Regex to extract src from an iframe tag
+                        const srcMatch = cleanUrl.match(/src=["'](https:\/\/www\.google\.com\/maps\/embed[^"']+)["']/i);
+                        if (srcMatch) {
+                          cleanUrl = srcMatch[1];
+                        }
+                        
+                        if (!cleanUrl.startsWith("https://www.google.com/maps/embed")) {
+                          alert("Invalid URL. Standard Google Maps links (e.g. maps.app.goo.gl or google.com/maps/place) cannot be embedded directly in an iframe.\n\nPlease follow the 'Embed a map' instructions on Google Maps to get the correct URL starting with 'https://www.google.com/maps/embed'.");
+                          return;
+                        }
+                        
+                        updateField("contact", "info.location.embedMapUrl", cleanUrl);
+                      }
+                    }}
+                    className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-green-950 shadow hover:bg-green-50 transition cursor-pointer"
+                  >
+                    Change Map Location URL
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
           {/* ── Right Column: Send Us a Message Form ── */}
-          <div className="rounded-[28px] border border-[#e5dccf] p-8 sm:p-10 lg:p-12 shadow-ds3" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
-            <h2 className="font-heading text-h2 text-green-950">
-              {form.heading}
+          <div className="rounded-[28px] border border-[#e5dccf] p-8 sm:p-10 lg:p-12 shadow-ds3 w-full" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
+            <h2 className="font-heading text-h2 text-green-950 w-full">
+              <EditableText pageId="contact" path="form.heading" value={form.heading} />
             </h2>
-            <p className="mt-2 text-body-sm text-[#837260] mb-6 leading-relaxed">
-              {form.description}
+            <p className="mt-2 text-body-sm text-[#837260] mb-6 leading-relaxed w-full">
+              <EditableText pageId="contact" path="form.description" value={form.description} isTextArea />
             </p>
 
             {submitted ? (
@@ -255,10 +287,10 @@ export function ContactSection() {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+              <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5 w-full">
                 {/* First Name & Last Name */}
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="flex flex-col gap-1">
+                <div className="grid gap-4 sm:grid-cols-2 w-full">
+                  <label className="flex flex-col gap-1 w-full">
                     <span className="sr-only">First Name</span>
                     <input
                       type="text"
@@ -269,7 +301,7 @@ export function ContactSection() {
                       className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0] px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
                     />
                   </label>
-                  <label className="flex flex-col gap-1">
+                  <label className="flex flex-col gap-1 w-full">
                     <span className="sr-only">Last Name</span>
                     <input
                       type="text"
@@ -282,8 +314,8 @@ export function ContactSection() {
                 </div>
 
                 {/* Email & Phone Number */}
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="flex flex-col gap-1">
+                <div className="grid gap-4 sm:grid-cols-2 w-full">
+                  <label className="flex flex-col gap-1 w-full">
                     <span className="sr-only">Email</span>
                     <input
                       type="email"
@@ -294,7 +326,7 @@ export function ContactSection() {
                       className="w-full rounded-xl border border-[#e2d7c5] bg-[#faf6f0] px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-[#a0907d] focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/15 transition-all"
                     />
                   </label>
-                  <label className="flex flex-col gap-1">
+                  <label className="flex flex-col gap-1 w-full">
                     <span className="sr-only">Phone Number</span>
                     <input
                       type="tel"
@@ -307,11 +339,11 @@ export function ContactSection() {
                 </div>
 
                 {/* Custom Styled Radio Buttons: Are you a new or existing client? */}
-                <div className="flex flex-col gap-2 pt-1">
-                  <span className="text-body-sm font-medium text-[#7a6a57]">
+                <div className="flex flex-col gap-2 pt-1 w-full">
+                  <span className="text-body-sm font-medium text-[#7a6a57] w-full">
                     Are you a new or existing client?
                   </span>
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-6 w-full">
                     {/* New Client Option */}
                     <button
                       type="button"
@@ -379,7 +411,7 @@ export function ContactSection() {
                 />
 
                 {/* Message Textarea */}
-                <label className="flex flex-col gap-1">
+                <label className="flex flex-col gap-1 w-full">
                   <span className="sr-only">Message</span>
                   <textarea
                     rows={4}
@@ -405,8 +437,8 @@ export function ContactSection() {
                 </div>
 
                 {/* Privacy Note */}
-                <p className="text-body-sm text-[#7a6a57] leading-relaxed mt-1">
-                  {form.privacyNote}
+                <p className="text-body-sm text-[#7a6a57] leading-relaxed mt-1 w-full">
+                  <EditableText pageId="contact" path="form.privacyNote" value={form.privacyNote} isTextArea />
                 </p>
               </form>
             )}

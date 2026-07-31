@@ -1,9 +1,16 @@
+"use client";
+
 import Image from "next/image";
-import { aboutPageData } from "@/data/about";
+import { aboutPageData as defaultAboutPageData } from "@/data/about";
 import { ButtonLink } from "@/components/ui/Button";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
+import { EditableImage } from "@/components/cms/EditableImage";
 import fernTall from "@/public/images/decor/about-fern-tall.svg";
 
 export function OurApproachSection() {
+  const { getContentValue } = useCms();
+  const aboutPageData = getContentValue("about", "", defaultAboutPageData);
   const { approach } = aboutPageData;
 
   return (
@@ -20,9 +27,11 @@ export function OurApproachSection() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left: Canopy/Forest photo */}
           <div className="relative aspect-[635/413] w-full overflow-hidden rounded-3xl shadow-ds4">
-            <Image
+            <EditableImage
+              pageId="about"
+              path="approach.image"
               src={approach.image}
-              alt={approach.imageAlt}
+              alt={approach.imageAlt || "Our Approach"}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
@@ -30,14 +39,16 @@ export function OurApproachSection() {
           </div>
 
           {/* Right: text content */}
-          <div className="flex flex-col items-start">
-            <h2 className="font-heading text-h2 text-green-950">
-              {approach.heading}
+          <div className="flex flex-col items-start w-full">
+            <h2 className="font-heading text-h2 text-green-950 w-full">
+              <EditableText pageId="about" path="approach.heading" value={approach.heading} />
             </h2>
 
-            <div className="mt-6 flex flex-col gap-5 text-body-base text-green-700/90 leading-relaxed text-justify">
-              {approach.paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
+            <div className="mt-6 flex flex-col gap-5 text-body-base text-green-700/90 leading-relaxed text-justify w-full">
+              {approach.paragraphs.map((p: string, i: number) => (
+                <p key={i}>
+                  <EditableText pageId="about" path={`approach.paragraphs[${i}]`} value={p} isTextArea />
+                </p>
               ))}
             </div>
 
@@ -47,7 +58,7 @@ export function OurApproachSection() {
               size="lg"
               className="mt-8"
             >
-              {approach.ctaLabel}
+              <EditableText pageId="about" path="approach.ctaLabel" value={approach.ctaLabel} />
             </ButtonLink>
           </div>
         </div>

@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { servicesPageData, type ServiceCategory } from "@/data/services";
+import { servicesPageData as defaultServicesPageData } from "@/data/services";
 import { SectionIdentifier } from "@/components/ui/SectionIdentifier";
 import { ButtonLink } from "@/components/ui/Button";
+import { useCms } from "@/components/cms/CmsProvider";
+import { EditableText } from "@/components/cms/EditableText";
+import { EditableImage } from "@/components/cms/EditableImage";
 import {
   ChevronRightIcon,
   ArrowUpRightIcon,
@@ -35,12 +39,15 @@ function CategoryIcon({ icon, size = 18 }: { icon: string; size?: number }) {
 }
 
 export function ServicesHeroSection() {
+  const { getContentValue } = useCms();
+  const servicesPageData = getContentValue("services", "", defaultServicesPageData);
   const { hero, categories } = servicesPageData;
   const [selectedId, setSelectedId] = useState<string>(categories[0].id);
   const [therapistIndex, setTherapistIndex] = useState<number>(0);
 
-  const activeCategory: ServiceCategory =
-    categories.find((c) => c.id === selectedId) || categories[0];
+  const activeCategoryIndex = categories.findIndex((c: any) => c.id === selectedId);
+  const activeIndex = activeCategoryIndex !== -1 ? activeCategoryIndex : 0;
+  const activeCategory = categories[activeIndex];
 
   const therapists = activeCategory.therapists;
 
@@ -76,13 +83,15 @@ export function ServicesHeroSection() {
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
         {/* Header / Intro */}
-        <div className="flex flex-col items-start max-w-3xl">
-          <SectionIdentifier>{hero.eyebrow}</SectionIdentifier>
-          <h1 className="mt-6 font-heading text-h1 text-green-950">
-            {hero.heading}
+        <div className="flex flex-col items-start max-w-3xl w-full">
+          <SectionIdentifier>
+            <EditableText pageId="services" path="hero.eyebrow" value={hero.eyebrow} />
+          </SectionIdentifier>
+          <h1 className="mt-6 font-heading text-h1 text-green-950 w-full">
+            <EditableText pageId="services" path="hero.heading" value={hero.heading} />
           </h1>
-          <p className="mt-4 text-body-base text-green-700/90 leading-relaxed">
-            {hero.subheading}
+          <p className="mt-4 text-body-base text-green-700/90 leading-relaxed w-full">
+            <EditableText pageId="services" path="hero.subheading" value={hero.subheading} isTextArea />
           </p>
         </div>
 
@@ -99,7 +108,7 @@ export function ServicesHeroSection() {
 
           {/* Left: Category Selector List — full list, distributed to match the detail card height */}
           <div className="relative z-10 flex flex-col gap-1.5 rounded-3xl p-2 lg:justify-between">
-            {categories.map((cat) => {
+            {categories.map((cat: any, i: number) => {
               const isActive = cat.id === activeCategory.id;
               return (
                 <button
@@ -124,7 +133,7 @@ export function ServicesHeroSection() {
                       <CategoryIcon icon={cat.icon} size={16} />
                     </span>
                     <span className="text-body-sm font-semibold leading-snug">
-                      {cat.title}
+                      <EditableText pageId="services" path={`categories[${i}].title`} value={cat.title} />
                     </span>
                   </div>
                   {isActive ? (
@@ -142,15 +151,15 @@ export function ServicesHeroSection() {
           {/* Right: Active Service Detail Box — matching height with outer vertical padding around content */}
           <div className="relative z-10 flex flex-col justify-between rounded-3xl border border-camel-400/70 bg-gradient-to-br from-[#ffffff] to-[#faf6f0] p-8 sm:p-12 shadow-ds3">
             {/* Header of Detail Card */}
-            <div className="flex flex-col items-center text-center">
+            <div className="flex flex-col items-center text-center w-full">
               <span className="flex size-14 items-center justify-center rounded-full bg-camel-200 text-green-700 shadow-ds1 mb-4">
                 <CategoryIcon icon={activeCategory.icon} size={24} />
               </span>
-              <h2 className="font-heading text-h2 text-green-950">
-                {activeCategory.title}
+              <h2 className="font-heading text-h2 text-green-950 w-full">
+                <EditableText pageId="services" path={`categories[${activeIndex}].title`} value={activeCategory.title} />
               </h2>
-              <p className="mt-4 max-w-xl text-body-base text-green-700/90 leading-relaxed">
-                {activeCategory.description}
+              <p className="mt-4 max-w-xl text-body-base text-green-700/90 leading-relaxed w-full">
+                <EditableText pageId="services" path={`categories[${activeIndex}].description`} value={activeCategory.description} isTextArea />
               </p>
 
               <div className="my-8 w-full max-w-lg h-px bg-camel-400/50" />
@@ -161,21 +170,23 @@ export function ServicesHeroSection() {
             </div>
 
             {/* Therapists Subsection — added vertical margins to expand Right container height */}
-            <div className="my-16 pt-12 border-t border-camel-300/60">
-              <h3 className="font-heading text-h3 text-green-950">
+            <div className="my-16 pt-12 border-t border-camel-300/60 w-full">
+              <h3 className="font-heading text-h3 text-green-950 w-full mb-8">
                 Therapists Who Offer This Service
               </h3>
 
               {/* Therapist Cards Row with edge next-arrow */}
-              <div className="relative mt-12">
+              <div className="relative mt-12 w-full">
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                  {therapists.map((therapist, idx) => (
+                  {therapists.map((therapist: any, idx: number) => (
                     <article
-                      key={therapist.name + idx}
+                      key={idx}
                       className="flex flex-col items-center p-2 text-center"
                     >
                       <div className="relative size-[220px] overflow-hidden rounded-full bg-camel-200">
-                        <Image
+                        <EditableImage
+                          pageId="services"
+                          path={`categories[${activeIndex}].therapists[${idx}].photo`}
                           src={therapist.photo}
                           alt={`Photo of ${therapist.name}`}
                           fill
@@ -184,14 +195,14 @@ export function ServicesHeroSection() {
                         />
                       </div>
 
-                      <h4 className="mt-6 font-body text-body-base-bold text-green-950">
-                        {therapist.name}
+                      <h4 className="mt-6 font-body text-body-base-bold text-green-950 w-full">
+                        <EditableText pageId="services" path={`categories[${activeIndex}].therapists[${idx}].name`} value={therapist.name} />
                       </h4>
-                      <p className="mt-1 text-body-sm text-green-700/80 font-medium">
-                        {therapist.title}
+                      <p className="mt-1 text-body-sm text-green-700/80 font-medium w-full">
+                        <EditableText pageId="services" path={`categories[${activeIndex}].therapists[${idx}].title`} value={therapist.title} />
                       </p>
-                      <p className="mt-3 text-body-sm text-green-700/70 leading-normal line-clamp-3">
-                        {therapist.focus}
+                      <p className="mt-3 text-body-sm text-green-700/70 leading-normal line-clamp-3 w-full">
+                        <EditableText pageId="services" path={`categories[${activeIndex}].therapists[${idx}].focus`} value={therapist.focus} isTextArea />
                       </p>
 
                       <Link
@@ -220,7 +231,7 @@ export function ServicesHeroSection() {
               {/* Pagination indicators */}
               {therapists.length > 1 && (
                 <div className="mt-12 flex justify-center gap-2">
-                  {therapists.map((_, i) => (
+                  {therapists.map((_: any, i: number) => (
                     <span
                       key={i}
                       className={`h-2 rounded-full transition-all ${
@@ -246,10 +257,10 @@ export function ServicesHeroSection() {
           />
           <figure className="relative text-center px-6 py-4">
             <blockquote className="font-quote text-[28px] leading-relaxed tracking-normal text-[#485b50]">
-              &ldquo;{hero.quote.text}&rdquo;
+              &ldquo;<EditableText pageId="services" path="hero.quote.text" value={hero.quote.text} isTextArea />&rdquo;
             </blockquote>
             <figcaption className="mt-3 text-right font-quote text-[28px] leading-relaxed tracking-normal text-[#485b50]">
-              &ndash;&nbsp;{hero.quote.author}
+              &ndash;&nbsp;<EditableText pageId="services" path="hero.quote.author" value={hero.quote.author} />
             </figcaption>
           </figure>
         </div>
