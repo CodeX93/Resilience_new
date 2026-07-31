@@ -54,6 +54,16 @@ export function ServicesHeroSection() {
     loadTeamMembers();
   }, [loadTeamMembers]);
 
+  // Center the first mobile carousel card once therapists load — scroll-snap
+  // alignment otherwise only kicks in after the user actually scrolls.
+  useEffect(() => {
+    const container = mobileScrollRef.current;
+    const firstCard = container?.children[0] as HTMLElement | undefined;
+    if (container && firstCard) {
+      firstCard.scrollIntoView({ inline: "center", block: "nearest" });
+    }
+  }, [teamMembers.length]);
+
   const activeCategoryIndex = categories.findIndex((c: any) => c.id === selectedId);
   const activeIndex = activeCategoryIndex !== -1 ? activeCategoryIndex : 0;
   const activeCategory = categories[activeIndex];
@@ -153,7 +163,7 @@ export function ServicesHeroSection() {
           />
 
           {/* Left: Category Selector — collapsible dropdown on mobile, full list on desktop */}
-          <div className="relative z-10">
+          <div className="relative z-10 min-w-0">
             {/* Mobile: dropdown trigger + collapsible options */}
             <div className="lg:hidden">
               <button
@@ -254,7 +264,7 @@ export function ServicesHeroSection() {
           </div>
 
           {/* Right: Active Service Detail Box — matching height with outer vertical padding around content */}
-          <div className="relative z-10 flex flex-col justify-between rounded-3xl border border-camel-400/70 bg-gradient-to-br from-[#ffffff] to-[#faf6f0] p-8 sm:p-12 shadow-ds3">
+          <div className="relative z-10 min-w-0 flex flex-col justify-between rounded-3xl border border-camel-400/70 bg-gradient-to-br from-[#ffffff] to-[#faf6f0] p-8 sm:p-12 shadow-ds3">
             {/* Header of Detail Card */}
             <div className="flex flex-col items-center text-center w-full">
               <span className="flex size-14 items-center justify-center rounded-full bg-camel-200 text-green-700 shadow-ds1 mb-4">
@@ -275,7 +285,7 @@ export function ServicesHeroSection() {
             </div>
 
             {/* Therapists Subsection — added vertical margins to expand Right container height */}
-            <div className="my-10 pt-8 lg:my-16 lg:pt-12 border-t border-camel-300/60 w-full">
+            <div className="my-10 pt-8 lg:my-16 lg:pt-12 border-t border-camel-300/60 w-full min-w-0">
               <h3 className="font-heading text-h3 text-green-950 w-full mb-8">
                 Therapists Who Offer This Service
               </h3>
@@ -370,12 +380,12 @@ export function ServicesHeroSection() {
                   <div
                     ref={mobileScrollRef}
                     onScroll={handleMobileTherapistScroll}
-                    className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="flex w-full min-w-0 gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-[14%] pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   >
                     {therapists.map((therapist: any) => (
                       <article
                         key={therapist.slug}
-                        className="flex w-[72%] shrink-0 snap-center flex-col items-center p-2 text-center"
+                        className="flex w-[72%] max-w-[260px] shrink-0 snap-center flex-col items-center p-2 text-center"
                       >
                         <div className="relative size-[140px] overflow-hidden rounded-full bg-camel-200">
                           {therapist.photo && (

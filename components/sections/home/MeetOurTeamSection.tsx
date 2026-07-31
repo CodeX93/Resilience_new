@@ -2,6 +2,8 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { team as defaultTeam } from "@/data/home";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
@@ -9,35 +11,53 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 import { useCms } from "@/components/cms/CmsProvider";
 import { EditableText } from "@/components/cms/EditableText";
 import { EditableImage } from "@/components/cms/EditableImage";
-import type { TeamMember } from "@/data/home";
+import type { TeamMember } from "@/lib/models/team-member";
 
 /* ─── Team card ─────────────────────────────────────────────────────────── */
-function TeamCard({ member, index }: { member: TeamMember; index: number }) {
-  return (
-    <div
-      className="group flex w-[220px] shrink-0 flex-col items-center text-center"
-    >
-      {/* Circular photo */}
-      <div className="relative size-[220px] overflow-hidden rounded-full bg-[#ede8df] shadow-ds3 transition-transform duration-300 group-hover:-translate-y-1.5">
+function TeamCard({ member }: { member: TeamMember }) {
+  const { isEditMode, updateTeamMember } = useCms();
+
+  const photo = (
+    <div className="relative size-[220px] overflow-hidden rounded-full bg-[#ede8df] shadow-ds3 transition-transform duration-300 group-hover:-translate-y-1.5">
+      {isEditMode ? (
         <EditableImage
-          pageId="home"
-          path={`team.members[${index}].photo`}
+          pageId={`team-${member.slug}`}
+          path="photo"
           src={member.photo}
-          alt={`Portrait of ${member.name}`}
+          alt={member.photoAlt || `Portrait of ${member.name}`}
           fill
           sizes="220px"
           className="object-cover object-top"
+          onSave={async (src, alt) => {
+            await updateTeamMember(member.slug, { photo: src, photoAlt: alt });
+          }}
         />
-      </div>
+      ) : (
+        member.photo && (
+          <Image
+            src={member.photo}
+            alt={member.photoAlt || `Portrait of ${member.name}`}
+            fill
+            sizes="220px"
+            className="object-cover object-top"
+          />
+        )
+      )}
+    </div>
+  );
 
-      {/* Name */}
+  return (
+    <div className="group flex w-[220px] shrink-0 flex-col items-center text-center">
+      {isEditMode ? (
+        photo
+      ) : (
+        <Link href={`/team/${member.slug}`}>{photo}</Link>
+      )}
+
       <p className="mt-5 text-body-base-bold text-green-950">
-        <EditableText pageId="home" path={`team.members[${index}].name`} value={member.name} />
+        {isEditMode ? member.name : <Link href={`/team/${member.slug}`}>{member.name}</Link>}
       </p>
-      {/* Title */}
-      <p className="mt-1 text-body-sm text-green-700/80">
-        <EditableText pageId="home" path={`team.members[${index}].title`} value={member.title} />
-      </p>
+      <p className="mt-1 text-body-sm text-green-700/80">{member.title}</p>
     </div>
   );
 }
@@ -79,13 +99,17 @@ function ArrowBtn({
 
 /* ─── Section ────────────────────────────────────────────────────────────── */
 export function MeetOurTeamSection() {
-  const { getContentValue } = useCms();
+  const { getContentValue, teamMembers, loadTeamMembers } = useCms();
   const team = getContentValue("home", "team", defaultTeam);
   const trackRef = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
   const [active, setActive] = useState(0);
-  const count = team.members.length;
+  const count = teamMembers.length;
+
+  useEffect(() => {
+    loadTeamMembers();
+  }, [loadTeamMembers]);
 
   const update = () => {
     const el = trackRef.current;
@@ -136,9 +160,9 @@ export function MeetOurTeamSection() {
             aria-label="Our team members"
             className="flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth px-2 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {team.members.map((member: any, i: number) => (
-              <div key={i} className="snap-start">
-                <TeamCard member={member} index={i} />
+            {teamMembers.map((member: any) => (
+              <div key={member.slug} className="snap-start">
+                <TeamCard member={member} />
               </div>
             ))}
           </div>

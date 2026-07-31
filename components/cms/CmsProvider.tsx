@@ -248,6 +248,10 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
   };
 
   const loadPageContent = async (pageId: string) => {
+    // Client-only: the server has no origin to resolve this relative URL
+    // against (Node's fetch, unlike the browser's, requires an absolute URL),
+    // and there's nothing to preview server-side anyway.
+    if (typeof window === "undefined") return;
     if (originalContents[pageId]) return; // Already loaded
 
     try {
@@ -315,8 +319,14 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
   const getContentValue = (pageId: string, path: string, fallbackValue: any) => {
     const draft = drafts[pageId];
     if (!draft) {
-      // If content hasn't been loaded from API yet, start loading it asynchronously
-      loadPageContent(pageId);
+      // Defer to a microtask so this escapes the current render phase — calling
+      // loadPageContent (which eventually setState()s) synchronously here
+      // triggers React's "state update on a component that hasn't mounted
+      // yet" warning, since it's invoked as a side effect of another
+      // component's render rather than from an effect.
+      if (typeof window !== "undefined") {
+        queueMicrotask(() => loadPageContent(pageId));
+      }
       return fallbackValue;
     }
     const val = getNestedValue(draft, path);

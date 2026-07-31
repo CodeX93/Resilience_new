@@ -20,7 +20,7 @@ function ColumnHeading({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2.5">
       <span className="block h-4 w-[2px] rounded-full bg-white" aria-hidden />
-      <h2 className="font-heading text-body-sm font-bold text-white uppercase tracking-wider">
+      <h2 className="text-body-sm-bold text-white">
         {children}
       </h2>
     </div>
