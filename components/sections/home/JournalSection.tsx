@@ -1,54 +1,76 @@
 "use client";
 
 import Image from "next/image";
-import { journal as defaultJournal } from "@/data/home";
+import { journal as defaultJournal, type JournalPost } from "@/data/home";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
 import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { useCms } from "@/components/cms/CmsProvider";
 import { EditableText } from "@/components/cms/EditableText";
 import { EditableImage } from "@/components/cms/EditableImage";
-import leaf from "@/public/images/icons/leaf.svg";
-import journalWave from "@/public/images/decor/journal-wave-top-right.svg";
-import journalBranch from "@/public/images/decor/journal-branch-left.svg";
 import journalLeafMask from "@/public/images/decor/journal-leaf-mask.svg";
+
+function JournalCard({ post, index }: { post: JournalPost; index: number }) {
+  return (
+    <article className="flex flex-col items-start gap-4 rounded-[20px] border border-black/5 bg-white/80 p-4 shadow-[0px_4px_10.1px_rgba(176,125,73,0.3)]">
+      <div className="relative h-[247px] w-full overflow-hidden rounded-2xl bg-camel-200">
+        <EditableImage
+          pageId="home"
+          path={`journal.posts[${index}].image`}
+          src={post.image}
+          alt={post.imageAlt || post.title}
+          fill
+          sizes="(max-width: 1024px) 100vw, 33vw"
+          className="object-cover"
+        />
+      </div>
+
+      {post.tags && post.tags.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2">
+          {post.tags.map((tag, tagIndex) => (
+            <span
+              key={tagIndex}
+              className="rounded-[4px] bg-mint-200 px-3 py-1.5 text-body-sm text-green-700"
+            >
+              <EditableText pageId="home" path={`journal.posts[${index}].tags[${tagIndex}]`} value={tag} />
+            </span>
+          ))}
+        </div>
+      )}
+
+      <h3 className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-body-xl text-green-700">
+        <EditableText pageId="home" path={`journal.posts[${index}].title`} value={post.title} />
+      </h3>
+
+      <ButtonLink
+        href={post.href}
+        variant="tertiary"
+        size="sm"
+        className="!px-0 font-bold"
+        trailingIcon={<ArrowUpRightIcon size={14} />}
+      >
+        Read More
+      </ButtonLink>
+    </article>
+  );
+}
 
 export function JournalSection() {
   const { getContentValue } = useCms();
   const journal = getContentValue("home", "journal", defaultJournal);
-  const post = journal.featured;
+  const posts: JournalPost[] = journal.posts ?? [];
 
   return (
     <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
 
-      {/* ── Vector 34: large cream wave — top-right background sweep ── */}
-      <Image
-        src={journalWave}
-        alt=""
-        aria-hidden
-        width={1103}
-        height={539}
-        className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[65%] max-w-[860px] lg:block"
-      />
-
-      {/* ── Group.svg: muted-green botanical branch — top-right, in front of wave ── */}
-      <Image
-        src={journalBranch}
-        alt=""
-        aria-hidden
-        width={354}
-        height={622}
-        className="pointer-events-none absolute right-0 top-0 z-0 hidden w-[240px] opacity-80 lg:block"
-      />
-
-      {/* ── Mask group.svg: small textured leaf — bottom-left corner ── */}
+      {/* ── Mask group.svg: small textured leaf — top-left corner ── */}
       <Image
         src={journalLeafMask}
         alt=""
         aria-hidden
         width={85}
         height={168}
-        className="pointer-events-none absolute bottom-0 left-0 z-0 hidden opacity-70 lg:block"
+        className="pointer-events-none absolute left-0 top-0 z-0 hidden opacity-70 lg:block"
       />
 
       {/* ── Main content ── */}
@@ -60,57 +82,14 @@ export function JournalSection() {
           heading={<EditableText pageId="home" path="journal.heading" value={journal.heading} />}
         />
 
-        {/* Featured article card */}
-        <article className="mt-12 grid overflow-hidden rounded-3xl border border-camel-500/40 shadow-ds3 lg:grid-cols-[1fr_1.45fr]" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
+        {/* Post cards */}
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post, index) => (
+            <JournalCard key={index} post={post} index={index} />
+          ))}
+        </div>
 
-          {/* Left: text content */}
-          <div className="flex flex-col items-start justify-center gap-5 p-8 lg:p-12 w-full">
-
-            {/* Tag pill */}
-            {post.tag && (
-              <span className="inline-flex items-center gap-2 rounded-full bg-mint-300/70 px-4 py-1.5 text-body-sm text-green-700">
-                <Image src={leaf} alt="" width={13} height={13} aria-hidden />
-                <EditableText pageId="home" path="journal.featured.tag" value={post.tag} />
-              </span>
-            )}
-
-            {/* Title */}
-            <h3 className="font-heading text-h3 text-green-950 w-full">
-              <EditableText pageId="home" path="journal.featured.title" value={post.title} />
-            </h3>
-
-            {/* Excerpt */}
-            <p className="text-body-sm leading-relaxed text-green-700/80 w-full">
-              <EditableText pageId="home" path="journal.featured.excerpt" value={post.excerpt} isTextArea />
-            </p>
-
-            {/* CTA */}
-            <ButtonLink
-              href={post.href}
-              variant="secondary"
-              size="md"
-              className="mt-3"
-              trailingIcon={<ArrowUpRightIcon size={16} />}
-            >
-              Learn more
-            </ButtonLink>
-          </div>
-
-          {/* Right: featured image ── */}
-          <div className="relative min-h-[280px] w-full bg-[#2e2e2e] lg:min-h-[380px]">
-            <EditableImage
-              pageId="home"
-              path="journal.featured.image"
-              src={post.image}
-              alt={post.imageAlt || "Featured Journal Image"}
-              fill
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="object-cover"
-            />
-          </div>
-        </article>
-
-        {/* View all — centered below card */}
+        {/* View all — centered below cards */}
         <div className="mt-10 flex justify-center">
           <ButtonLink href={journal.ctaHref} variant="secondary" size="md">
             <EditableText pageId="home" path="journal.ctaLabel" value={journal.ctaLabel} />

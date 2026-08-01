@@ -95,31 +95,43 @@ export const team = {
   ] satisfies TeamMember[],
 };
 
-/* ---- The Resilience Journal (Blog) ------------------------------------- */
+/* ---- Blogs (Journal preview) --------------------------------------------- */
 
 export type JournalPost = {
   title: string;
-  excerpt: string;
-  image: string; // TODO asset
+  image: string;
   imageAlt: string;
   href: string;
-  tag?: string;
+  tags?: string[];
 };
 
 export const journal = {
   eyebrow: "Reflections, Insights, and Updates",
-  heading: "The Resilience Journal",
+  heading: "Blogs",
   ctaLabel: "View all",
   ctaHref: "/journal",
-  featured: {
-    title: "Injectable Steroids: A Complete Guide",
-    excerpt:
-      "Injectable steroids are compounds commonly used in the world of sports and bodybuilding to increase muscle mass, improve performance, and accelerate recovery. These products are available in a range of forms and are administered via intramuscular injection.",
-    image: "/images/home/journal-featured.jpg", // TODO asset
-    imageAlt: "Hand holding a small injectable vial",
-    href: "/journal/injectable-steroids-a-complete-guide",
-    tag: "Self care",
-  } satisfies JournalPost,
+  posts: [
+    {
+      title: "Psychotherapy plays a vital role in helping refugee youth heal.",
+      image: "/images/home/blog-refugee-youth.jpg",
+      imageAlt: "Therapist reading with a client during a counseling session",
+      href: "/journal",
+      tags: ["Anxiety and Stress", "Bullying"],
+    },
+    {
+      title: "Unlocking the Key to Resilience",
+      image: "/images/home/blog-resilience-key.jpg",
+      imageAlt: "Therapist speaking with a couple in a counseling session",
+      href: "/journal",
+      tags: ["Anxiety and Stress", "Bullying"],
+    },
+    {
+      title: "Psychotherapy plays a vital role",
+      image: "/images/home/blog-vital-role.jpg",
+      imageAlt: "Therapist taking notes during a client session",
+      href: "/journal",
+    },
+  ] satisfies JournalPost[],
 };
 
 /* ---- Newsletter --------------------------------------------------------- */

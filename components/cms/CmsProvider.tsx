@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 
 interface CmsContextType {
   isAdmin: boolean;
@@ -94,6 +94,11 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
   const [hasChanges, setHasChanges] = useState<Record<string, boolean>>({});
   const [journalPosts, setJournalPosts] = useState<any[]>([]);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
+
+  // Pages requested by getContentValue during render, flushed from an effect
+  // below so the resulting fetch + setState never lands mid-render.
+  const pendingPageLoadsRef = useRef<Set<string>>(new Set());
+  const loadingPagesRef = useRef<Set<string>>(new Set());
 
   const loadJournalPosts = useCallback(async () => {
     try {
@@ -247,7 +252,7 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
     setHasChanges({});
   };
 
-  const loadPageContent = async (pageId: string) => {
+  const loadPageContent = useCallback(async (pageId: string) => {
     // Client-only: the server has no origin to resolve this relative URL
     // against (Node's fetch, unlike the browser's, requires an absolute URL),
     // and there's nothing to preview server-side anyway.
@@ -266,7 +271,23 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       console.error(`Failed to load page content for ${pageId}:`, err);
     }
-  };
+  }, [originalContents]);
+
+  // Flushes pages queued by getContentValue during render. Running this from
+  // an effect (rather than a microtask fired mid-render) means the fetch's
+  // eventual setState always lands after the component has mounted.
+  useEffect(() => {
+    if (pendingPageLoadsRef.current.size === 0) return;
+    const toLoad = Array.from(pendingPageLoadsRef.current);
+    pendingPageLoadsRef.current.clear();
+    toLoad.forEach((pageId) => {
+      if (loadingPagesRef.current.has(pageId)) return;
+      loadingPagesRef.current.add(pageId);
+      loadPageContent(pageId).finally(() => {
+        loadingPagesRef.current.delete(pageId);
+      });
+    });
+  });
 
   const updateField = (pageId: string, path: string, value: any) => {
     setDrafts((prev) => {
@@ -319,13 +340,12 @@ export function CmsProvider({ children }: { children: React.ReactNode }) {
   const getContentValue = (pageId: string, path: string, fallbackValue: any) => {
     const draft = drafts[pageId];
     if (!draft) {
-      // Defer to a microtask so this escapes the current render phase — calling
-      // loadPageContent (which eventually setState()s) synchronously here
-      // triggers React's "state update on a component that hasn't mounted
-      // yet" warning, since it's invoked as a side effect of another
-      // component's render rather than from an effect.
-      if (typeof window !== "undefined") {
-        queueMicrotask(() => loadPageContent(pageId));
+      // Queue the page (a ref mutation, not a state update — safe during
+      // render) and let the effect above flush it. Loading from an effect
+      // instead of synchronously/via microtask means the fetch's eventual
+      // setState always lands after the component has mounted.
+      if (typeof window !== "undefined" && !loadingPagesRef.current.has(pageId)) {
+        pendingPageLoadsRef.current.add(pageId);
       }
       return fallbackValue;
     }

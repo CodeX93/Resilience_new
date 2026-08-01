@@ -19,15 +19,15 @@ export function WhoWeAreSection() {
     <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
 
       {/* ── Decor Left: Frame 1948757454 (189×457px organic blob)
-              Sits flush with the left edge of the viewport, spanning the full
-              height of the section. The SVG's own clip-path keeps it tidy.    ── */}
+              Bleeds off the left edge, vertically centered — natural size,
+              not stretched to the section height.                           ── */}
       <Image
         src={decorLeft}
         alt=""
         aria-hidden
         width={189}
         height={457}
-        className="pointer-events-none absolute left-0 top-0 z-0 hidden h-full w-auto object-left-top object-cover lg:block"
+        className="pointer-events-none absolute left-0 top-1/2 z-0 hidden w-[130px] max-w-[18%] -translate-y-1/2 lg:block"
       />
 
       {/* ── Wave Bottom-Right: Vector 32 (1132×459px sweeping cream wave)

@@ -8,8 +8,8 @@ import { useCms } from "@/components/cms/CmsProvider";
 import { EditableText } from "@/components/cms/EditableText";
 import { EditableLink } from "@/components/cms/EditableLink";
 import { FacebookIcon, InstagramIcon } from "@/components/ui/icons";
-import stayConnected1 from "@/public/images/decor/stayConnected1.svg";
-import stayConnected2 from "@/public/images/decor/stayConnected2.svg";
+import newsletterBranchTopRight from "@/public/images/decor/newsletter-branch-top-right.svg";
+import newsletterBranchBottomLeft from "@/public/images/decor/newsletter-branch-bottom-left.svg";
 
 export function NewsletterSection() {
   const { getContentValue } = useCms();
@@ -33,40 +33,48 @@ export function NewsletterSection() {
     /* ── Outer section: cream bg ── */
     <section className="relative overflow-hidden bg-[#faf2ef] py-20 lg:py-24">
 
-      {/* stayConnected1 — botanical leaves, top-right OUTSIDE the card */}
+      {/* Figma Group 1597881383 — botanical branch, top-right OUTSIDE the card (exact asset, natural aspect) */}
       <Image
-        src={stayConnected1}
+        src={newsletterBranchTopRight}
         alt=""
         aria-hidden
-        width={215}
-        height={200}
-        className="pointer-events-none absolute right-0 top-0 z-10 hidden opacity-80 lg:block"
+        width={321}
+        height={323}
+        className="pointer-events-none absolute -right-6 -top-6 z-10 hidden w-[260px] lg:block"
       />
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-20">
 
         {/* ── Inner card ── */}
-        <div className="relative overflow-hidden rounded-[28px] border border-camel-400/60 shadow-ds3 mx-4 sm:mx-8 lg:mx-20" style={{ background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)" }}>
+        <div
+          className="relative overflow-hidden rounded-[20px] mx-4 sm:mx-8 lg:mx-20"
+          style={{
+            background: "linear-gradient(180deg, #FFFCF7 0%, #E8E2D8 100%)",
+            boxShadow: "0px 14px 17px rgba(0,0,0,0.2)",
+          }}
+        >
 
-          {/* stayConnected2 — botanical branch, bottom-left INSIDE the card */}
-          <Image
-            src={stayConnected2}
-            alt=""
-            aria-hidden
-            width={212}
-            height={323}
-            className="pointer-events-none absolute bottom-0 left-0 z-0 hidden opacity-70 lg:block"
-          />
+          {/* Figma Group 1597881382 — botanical branch, bottom-left INSIDE the card.
+              Figma positions this via inset(47.92% 79.73% -13.27% -2.17%) of the card,
+              then rotates the natural-size (154×199) artwork 33.23deg inside that box. */}
+          <div
+            className="pointer-events-none absolute z-0 hidden items-center justify-center lg:flex"
+            style={{ top: "47.92%", right: "79.73%", bottom: "-13.27%", left: "-2.17%" }}
+          >
+            <div className="relative h-[199px] w-[154px] rotate-[33.23deg]">
+              <Image src={newsletterBranchBottomLeft} alt="" aria-hidden fill className="object-contain" />
+            </div>
+          </div>
 
           {/* Card content — aligned to top (lg:items-start) */}
           <div className="relative z-10 grid gap-10 p-10 lg:grid-cols-2 lg:items-start lg:gap-16 lg:p-14">
 
             {/* Left: heading + description starting from top */}
             <div className="flex flex-col items-start gap-4 w-full">
-              <h2 className="font-heading text-h2 text-green-950 w-full">
+              <h2 className="font-heading text-h2 text-green-700 w-full">
                 <EditableText pageId="home" path="newsletter.heading" value={newsletter.heading} />
               </h2>
-              <p className="max-w-[360px] text-body-base text-green-700/80 leading-relaxed w-full">
+              <p className="max-w-[413px] text-body-base text-green-700 leading-relaxed w-full">
                 <EditableText pageId="home" path="newsletter.description" value={newsletter.description} isTextArea />
               </p>
             </div>
@@ -93,7 +101,7 @@ export function NewsletterSection() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={newsletter.emailLabel}
                     aria-invalid={!!error}
-                    className="w-full rounded-xl border border-camel-500/30 bg-[#faf6f0]/70 px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-green-700/40 focus:border-green-400 focus:ring-2 focus:ring-green-400/20"
+                    className="w-full rounded-[10px] border border-green-700/10 bg-transparent px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-green-700/60 focus:border-green-400 focus:ring-2 focus:ring-green-400/20"
                   />
                 </label>
 
@@ -107,7 +115,7 @@ export function NewsletterSection() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={newsletter.nameLabel}
-                    className="w-full rounded-xl border border-camel-500/30 bg-[#faf6f0]/70 px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-green-700/40 focus:border-green-400 focus:ring-2 focus:ring-green-400/20"
+                    className="w-full rounded-[10px] border border-green-700/10 bg-transparent px-4 py-3.5 text-body-base text-green-950 outline-none placeholder:text-green-700/60 focus:border-green-400 focus:ring-2 focus:ring-green-400/20"
                   />
                 </label>
 
@@ -120,13 +128,13 @@ export function NewsletterSection() {
                   type="submit"
                   variant="primary"
                   size="lg"
-                  className="w-fit !bg-[#34483d] hover:!bg-green-950 text-white font-semibold rounded-xl px-7 py-3 mt-1"
+                  className="w-fit !bg-green-700 hover:!bg-green-800 text-white font-semibold rounded-xl px-7 py-3 mt-1"
                 >
                   <EditableText pageId="home" path="newsletter.ctaLabel" value={newsletter.ctaLabel} />
                 </Button>
 
                 {/* Privacy note */}
-                <p className="max-w-[360px] text-body-sm text-green-700/70 leading-normal mt-1 w-full">
+                <p className="max-w-[360px] text-body-sm text-green-700 leading-normal mt-1 w-full">
                   <EditableText pageId="home" path="newsletter.note" value={newsletter.note} isTextArea />
                 </p>
 
@@ -139,7 +147,7 @@ export function NewsletterSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"
-                    className="flex size-7 items-center justify-center rounded-full bg-[#efe8de] text-green-950 transition-colors hover:bg-camel-300"
+                    className="flex size-7 items-center justify-center rounded-full border border-green-700/10 bg-green-700/20 text-green-700 transition-colors hover:bg-green-700/30"
                   >
                     <FacebookIcon size={16} />
                   </EditableLink>
@@ -150,7 +158,7 @@ export function NewsletterSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Instagram"
-                    className="flex size-7 items-center justify-center rounded-full bg-[#efe8de] text-green-950 transition-colors hover:bg-camel-300"
+                    className="flex size-7 items-center justify-center rounded-full border border-green-700/10 bg-green-700/20 text-green-700 transition-colors hover:bg-green-700/30"
                   >
                     <InstagramIcon size={16} />
                   </EditableLink>

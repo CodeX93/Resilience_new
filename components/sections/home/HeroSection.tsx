@@ -10,7 +10,6 @@ import { ClockIcon } from "@/components/ui/icons";
 import { useCms } from "@/components/cms/CmsProvider";
 import { EditableText } from "@/components/cms/EditableText";
 import leaf from "@/public/images/icons/leaf.svg";
-import heroBranch from "@/public/images/decor/hero-branch.svg";
 import heroBgShape from "@/public/images/decor/hero-bg-shape.svg";
 import quoteEllipse from "@/public/images/decor/quote-ellipse.svg";
 
@@ -44,13 +43,6 @@ export function HeroSection() {
         aria-hidden
         priority
         className="pointer-events-none absolute bottom-0 right-0 z-0 hidden h-auto w-[62%] max-w-[1086px] lg:block"
-      />
-      {/* Bottom-left leaf branch illustration (Figma Group 1597881384) */}
-      <Image
-        src={heroBranch}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 z-0 hidden h-[300px] w-auto lg:block"
       />
 
       <div className="relative z-10 mx-auto grid max-w-[1440px] items-start gap-12 px-6 py-16 sm:px-10 lg:grid-cols-[1fr_522px] lg:gap-16 lg:px-20 lg:py-20">
